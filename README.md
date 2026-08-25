@@ -1,17 +1,18 @@
-# ZEKÂ MEYDANI V8.3 — WORD CONNECT
+# ZEKÂ MEYDANI V8.4
 
-Bu paket V8.3'tür.
-
-## Önemli
-- `index.html` ana oyundur.
-- Harfler tek tek basma yerine **basılı tut + sürükle + bırak** mantığıyla çalışır.
-- Parmağın harfler arasında hareket ederken bağlantı çizgisi görünür.
-- Üstteki kutular bulunan kelimeyi doldurur.
-- Tema görseli kelime kategorisine göre değişir.
-- `manifest.json` ve `service-worker.js` PWA içindir.
-- GitHub Pages: `main` + `/(root)`.
+V8.4, çalışan V8.3 Word Connect mekaniğinin üzerine 30 temalı bölüm, bölüm ilerlemesi, XP, elmas, puan ve bölüm ödülü ekler.
 
 ## Kurulum
-ZIP içindeki 5 ana dosyayı repo köküne yükle. İkonları da yükle.
-Sonra Pages > main > /(root) > Save.
-Siteyi GitHub'ın `Visit site` düğmesinden aç.
+ZIP'i aç. İçindeki 6 dosyayı GitHub repository `main` dalının köküne yükle ve eski dosyaların üzerine yaz:
+- index.html
+- manifest.json
+- service-worker.js
+- icon-192.svg
+- icon-512.svg
+- README.md
+
+GitHub Pages: `main` + `/(root)`.
+
+## Oyun
+Harf üzerinde basılı tut → diğer harflerin üzerinden sürükle → son harfte bırak.
+Kelime bulununca üst kutular dolar.
