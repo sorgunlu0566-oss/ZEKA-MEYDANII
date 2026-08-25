@@ -1,14 +1,11 @@
-# ZEKÂ MEYDANI V8.4
+# ZEKÂ MEYDANI V8.5
 
-Bu sürüm Kelime Meydanı'nın gerçek Word Connect çekirdeğidir.
+Word Connect çekirdeği: dairesel harfler, basılı tutup sürükleme, bağlantı çizgisi, üst kelime kutuları ve temalı bölüm alanı.
 
-- Üstte kelime kutucukları
-- Altta dairesel harfler
-- Basılı tut + sürükle + bırak
-- Bağlantı çizgisi
-- Tema/görsel sahne
-- XP, puan, elmas, harf açma
-- PWA ve çevrimdışı önbellek
-- Harici kütüphane yok
+İlk test bölümü: DOĞA • KEŞİF
+Harfler: G Ö Ü L
+Hedef kelimeler: GÖL, GÜL
 
-Kurulum: 5 ana dosyayı GitHub `main` dalının köküne yükleyin. README isteğe bağlıdır.
+Kurulum: ZIP'i açın ve içindeki 6 dosyayı GitHub repository main/root içine yükleyip eskilerin üzerine yazın. GitHub Pages: main → /(root).
+
+V8.5, eski service-worker cache'lerini silip yeni cache sürümünü kullanır.

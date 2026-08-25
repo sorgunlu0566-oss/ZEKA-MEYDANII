@@ -56,12 +56,12 @@ button:active{transform:scale(.98)}.clear{grid-column:1/-1}
 <div class="message" id="message"></div>
 <div class="progress"><div class="bar" id="bar"></div></div>
 <div class="controls"><button id="shuffle">🔀 KARIŞTIR</button><button id="reveal">💎 HARF AÇ • 20</button><button class="clear" id="clear">↩ TEMİZLE</button></div>
-<div class="footer">V8.4 • Çevrimdışı oyun çekirdeği • Harici kütüphane yok</div>
+<div class="footer">V8.5 • Çevrimdışı oyun çekirdeği • Harici kütüphane yok</div>
 </section>
 </main></div>
 <script>
 const LEVELS=[
-{cat:"DOĞA",title:"KEŞİF",words:["GÖL","GÜL","GÖLG","DOĞA"],main:["GÖL","GÜL"],letters:["G","Ö","L","Ü"],theme:"nature"},
+{cat:"DOĞA",title:"KEŞİF",words:["GÖL","GÜL"],main:["GÖL","GÜL"],letters:["G","Ö","Ü","L"],theme:"nature"},
 {cat:"TARİH",title:"ANADOLU",words:["TAŞ","TARİH","HAN","TAHT"],main:["TARİH","HAN"],letters:["T","A","R","İ","H","N"],theme:"history"},
 {cat:"SANAT",title:"RENKLER",words:["RENK","KAR","NAR","SANAT"],main:["RENK","SANAT"],letters:["S","A","N","R","E","K"],theme:"art"},
 {cat:"UZAY",title:"YILDIZLAR",words:["AY","YILDIZ","YIL","UZAY"],main:["AY","YIL"],letters:["A","Y","I","L"],theme:"space"},
@@ -104,7 +104,7 @@ function next(){if(level<LEVELS.length-1){level++;xp=xp%100;render()}else{$("mes
 $("clear").onclick=()=>{selected.forEach(x=>x.classList.remove("selected"));selected=[];dragging=false;drawLines();$("message").textContent=""};
 $("shuffle").onclick=()=>{let L=LEVELS[level];L.letters.sort(()=>Math.random()-.5);render();$("message").textContent="🔀 Harfler karıştırıldı."};
 $("reveal").onclick=()=>{if(gems<20){$("message").textContent="💎 Yeterli elmas yok.";return}let L=LEVELS[level];let target=L.main.find(w=>!found.has(norm(w)));if(!target)return;gems-=20;found.add(norm(target));score+=100;xp+=25;$("gems").textContent=gems;$("score").textContent=score;$("xp").textContent=xp;fillBoards(target);$("message").textContent="💎 "+target+" açıldı!";$("bar").style.width=Math.min(100,found.size/L.main.length*100)+"%";if(L.main.every(w=>found.has(norm(w))))setTimeout(next,700)};
-if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js?v=84"));
+if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js?v=85"));
 render();
 </script>
 </body></html>
