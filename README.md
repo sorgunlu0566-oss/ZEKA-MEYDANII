@@ -1,16 +1,14 @@
-# ZEKÂ MEYDANI V8.2 PWA
+# ZEKÂ MEYDANI V8.4
 
-Bu sürüm Word Connect görünümüne geçirilmiştir.
+Bu sürüm Kelime Meydanı'nın gerçek Word Connect çekirdeğidir.
 
-- Üstte boş kelime kutucukları bulunur.
-- Altta harfler daire şeklinde dizilir.
-- Harfe basılı tutup diğer harflerin üzerinden sürükleyerek kelime oluşturulur.
-- Sürükleme sırasında bağlantı çizgisi görünür.
-- Harfler bırakılınca üst kutucuklara dolar ve kelime kontrol edilir.
-- PWA dosyaları dahildir; harici kütüphane yoktur.
+- Üstte kelime kutucukları
+- Altta dairesel harfler
+- Basılı tut + sürükle + bırak
+- Bağlantı çizgisi
+- Tema/görsel sahne
+- XP, puan, elmas, harf açma
+- PWA ve çevrimdışı önbellek
+- Harici kütüphane yok
 
-## Kurulum
-1. ZIP'i aç.
-2. İçindeki 6 dosyayı GitHub `main` dalının köküne yükle ve eski dosyaların üzerine yaz.
-3. GitHub Pages: `main` + `/(root)` seçili olsun.
-4. Yayınlanan siteyi yenile.
+Kurulum: 5 ana dosyayı GitHub `main` dalının köküne yükleyin. README isteğe bağlıdır.

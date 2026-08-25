@@ -2,86 +2,109 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#0b1020">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ZEKÂ MEYDANI">
-<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#10172d">
 <link rel="manifest" href="manifest.json">
-<title>ZEKÂ MEYDANI V8.2</title>
+<title>ZEKÂ MEYDANI</title>
 <style>
+:root{--bg:#0b1020;--panel:#182343;--line:#5572b8;--text:#fff;--muted:#aeb8d2;--accent:#76a7ff;--gold:#ffd86b}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;background:#080d1b;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
-body{padding:10px}
-.app{max-width:520px;margin:auto;min-height:calc(100vh - 20px);padding:14px 12px 24px;background:linear-gradient(180deg,#19233f,#0b1020);border:1px solid #33476f;border-radius:28px}
-.top{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:900}.brand{font-size:21px}.stats{white-space:nowrap;font-size:17px}
-.card{margin-top:14px;background:#1b2643;border:1px solid #3b4d79;border-radius:25px;padding:17px 13px 20px;text-align:center}.sub{opacity:.72;font-size:18px}.title{font-size:34px;font-weight:900;margin:6px 0}.hint{opacity:.72;font-size:18px}
-.slots{height:72px;margin:17px 2px 14px;display:flex;justify-content:center;align-items:center;gap:7px;min-width:0}.slot{width:43px;height:56px;border-radius:11px;border:2px solid #4b6191;background:#070c19;display:grid;place-items:center;font-size:29px;font-weight:900;color:#fff;box-shadow:inset 0 0 0 1px #182541}.slot.empty{color:transparent}.slot.filled{background:#273a66;border-color:#8aa7e9;box-shadow:0 0 14px #6b86c444}
-.letter-area{position:relative;width:100%;height:300px;margin:3px auto 0;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
-.drag-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}.drag-line{fill:none;stroke:#9bb9ff;stroke-width:11;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 7px #6b86c4)}
-.key{position:absolute;z-index:2;width:82px;height:82px;border:2px solid #536da9;border-radius:50%;background:radial-gradient(circle at 35% 30%,#4a6299,#304777);color:#fff;font-size:31px;font-weight:900;display:grid;place-items:center;box-shadow:0 7px 18px #0005;touch-action:none;cursor:pointer;transition:transform .08s,background .08s,border-color .08s}.key.sel{background:radial-gradient(circle at 35% 30%,#7897e1,#4b67a2);border-color:#b8ceff;box-shadow:0 0 0 4px #8fb2ff44,0 0 25px #6b86c488;transform:scale(1.06)}.key.used{opacity:.32}
-.msg{min-height:36px;margin:5px 0 8px;font-weight:800;font-size:18px}.found{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;min-height:29px}.tag{padding:6px 9px;border-radius:9px;background:#26375f;border:1px solid #415b8a;font-weight:800}.progress{height:8px;background:#080d1b;border-radius:9px;overflow:hidden;margin-top:12px}.fill{height:100%;width:0;background:#6b86c4}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.act{height:55px;border:0;border-radius:15px;background:#2a3b67;color:#fff;font-weight:900;font-size:14px;touch-action:manipulation}.next{grid-column:1/-1;background:#4565a5}.wide{grid-column:1/-1}.note{font-size:12px;opacity:.48;margin-top:13px}
-@media(max-width:390px){.key{width:72px;height:72px;font-size:28px}.letter-area{height:270px}.slots{gap:5px}.slot{width:38px;height:52px;font-size:26px}.title{font-size:30px}}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);touch-action:none}
+body{overflow:hidden}
+#app{min-height:100vh;display:flex;justify-content:center}
+.game{width:min(100%,760px);min-height:100vh;padding:14px 14px 22px;position:relative;overflow:hidden}
+.top{display:flex;align-items:center;justify-content:space-between;padding:12px 8px 8px;font-weight:800}
+.brand{font-size:25px;letter-spacing:.3px}.stats{display:flex;gap:18px;font-size:18px}
+.card{background:linear-gradient(180deg,#1b2749,#17213d);border:2px solid #3c548c;border-radius:30px;padding:18px 16px 22px;box-shadow:0 16px 50px #0007}
+.meta{text-align:center;color:#c1c9db;font-size:19px;margin-bottom:8px}
+h1{text-align:center;font-size:39px;margin:8px 0 3px}.sub{text-align:center;color:#c0c8da;font-size:18px;margin-bottom:15px}
+.scene{height:205px;border-radius:22px;overflow:hidden;position:relative;border:2px solid #405a98;background:#1d3762}
+.scene .sky{position:absolute;inset:0;background:linear-gradient(#4b82d4 0 52%,#83b6e8 52% 55%,#6ca85c 55%);}.scene .sun{position:absolute;width:65px;height:65px;border-radius:50%;background:#ffe6a1;right:12%;top:16%;box-shadow:0 0 35px #ffe6a1aa}
+.scene .mount{position:absolute;bottom:30%;width:0;height:0;border-left:120px solid transparent;border-right:120px solid transparent;border-bottom:120px solid #436d67;left:8%}
+.scene .mount2{left:42%;border-left-width:150px;border-right-width:150px;border-bottom-width:145px;border-bottom-color:#335a5b}
+.scene .ground{position:absolute;bottom:0;left:0;right:0;height:31%;background:#42784a}
+.scene .water{position:absolute;bottom:0;right:0;width:55%;height:20%;background:#2b82ae;border-radius:50% 0 0 0;opacity:.85}
+.scene .caption{position:absolute;left:16px;bottom:12px;background:#091126bb;border-radius:14px;padding:7px 11px;font-weight:800;font-size:14px}
+.boards{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin:16px auto 18px;max-width:610px;min-height:58px}
+.word{display:flex;gap:5px;margin:0 8px 8px}
+.slot{width:42px;height:48px;border-radius:10px;border:2px solid #6b82bb;background:#0a1022;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:25px}
+.slot.filled{background:#344c82;border-color:#89a8ff}
+.hint{height:24px;text-align:center;color:#aeb8d2;font-weight:700;margin-bottom:8px}
+.letters{position:relative;width:300px;height:220px;margin:0 auto 6px}
+.letter{position:absolute;width:74px;height:74px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 30%,#5571b3,#2e447a);border:3px solid #91a9e7;box-shadow:0 8px 18px #0006;font-size:29px;font-weight:900;z-index:3;user-select:none}
+.letter.selected{background:radial-gradient(circle at 35% 30%,#8ab7ff,#4666a9);transform:scale(1.06);box-shadow:0 0 0 5px #78a5ff33,0 10px 25px #0008}
+#lines{position:absolute;inset:0;z-index:2;overflow:visible}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+button{border:0;border-radius:18px;padding:16px 10px;background:#304474;color:#fff;font-size:17px;font-weight:900}
+button:active{transform:scale(.98)}.clear{grid-column:1/-1}
+.message{text-align:center;height:36px;font-weight:900;font-size:18px;padding-top:4px}
+.progress{height:12px;background:#080d1b;border-radius:99px;overflow:hidden;margin:5px 0 12px}.bar{height:100%;width:0;background:#8aa8ff;border-radius:99px;transition:.25s}
+.footer{text-align:center;color:#8f9ab5;font-size:13px;margin-top:12px}
+@media(max-height:720px){.scene{height:150px}.letters{height:190px}.letter{width:65px;height:65px}.slot{width:35px;height:42px}.card{padding-top:12px}}
 </style>
 </head>
 <body>
-<main class="app">
-<header class="top"><div class="brand">🧠 ZEKÂ MEYDANI</div><div class="stats">💎 <span id="gems">50</span>　🏆 <span id="score">0</span></div></header>
+<div id="app"><main class="game">
+<div class="top"><div class="brand">🧠 ZEKÂ MEYDANI</div><div class="stats">💎 <span id="gems">50</span> &nbsp; 🏆 <span id="score">0</span></div></div>
 <section class="card">
-<div class="sub">BÖLÜM <span id="level">1</span> • XP <span id="xp">0</span>/100</div>
-<div class="title">Kelimeleri Bul</div>
-<div class="hint">Harfleri dairelerin üzerinden sürükle</div>
-<div class="slots" id="slots" aria-label="Kelime kutucukları"></div>
-<div class="letter-area" id="letterArea"></div>
-<div class="msg" id="msg">Bir harfe basılı tut ve sürükle.</div>
-<div class="found" id="found"></div>
-<div class="progress"><div class="fill" id="fill"></div></div>
-<div class="actions"><button class="act" id="shuffle">🔀 KARIŞTIR</button><button class="act" id="hint">💎 HARF AÇ · 20</button><button class="act wide" id="clear">↩️ TEMİZLE</button><button class="act next" id="next" style="display:none">🏆 SONRAKİ BÖLÜM</button></div>
-<div class="note">V8.2 PWA • Word Connect • İnternetsiz oynanabilir</div>
-</section></main>
+<div class="meta">BÖLÜM <span id="levelNo">1</span> • XP <span id="xp">0</span>/100</div>
+<h1>Kelime Meydanı</h1><div class="sub">Harfleri birleştir, kelimeleri keşfet</div>
+<div class="scene" id="scene"><div class="sky"></div><div class="sun"></div><div class="mount"></div><div class="mount2 mount"></div><div class="ground"></div><div class="water"></div><div class="caption" id="sceneCaption">DOĞA • KEŞİF</div></div>
+<div class="boards" id="boards"></div>
+<div class="hint" id="hint">Bir harfe basılı tut ve sürükle.</div>
+<div class="letters" id="letters"><svg id="lines"></svg></div>
+<div class="message" id="message"></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="controls"><button id="shuffle">🔀 KARIŞTIR</button><button id="reveal">💎 HARF AÇ • 20</button><button class="clear" id="clear">↩ TEMİZLE</button></div>
+<div class="footer">V8.4 • Çevrimdışı oyun çekirdeği • Harici kütüphane yok</div>
+</section>
+</main></div>
 <script>
-(()=>{"use strict";
 const LEVELS=[
-{letters:["K","A","L","E","M","İ"],words:["KALEM","ALEM","KEL","KİM","İLK"]},
-{letters:["B","A","L","I","K","Ç"],words:["BALIK","BALI","BAK","BAL","ÇAL","KIL"]},
-{letters:["K","A","R","P","U","Z"],words:["KARPUZ","KAR","KAP","KUR","KAZ","PAR"]},
-{letters:["Ç","İ","Ç","E","K"],words:["ÇİÇEK","ÇEK","İÇ","KEÇİ"]},
-{letters:["A","R","A","B","A"],words:["ARABA","ARA","BAR","ABA"]},
-{letters:["D","E","N","İ","Z"],words:["DENİZ","DİN","İZ","DİNE"]},
-{letters:["K","İ","T","A","P"],words:["KİTAP","KAT","KAP","KİT","AT"]},
-{letters:["O","Y","U","N"],words:["OYUN","OY","UY","ON"]},
-{letters:["G","Ü","N","E","Ş"],words:["GÜNEŞ","GÜN","NEŞE","ŞEN"]},
-{letters:["B","U","L","U","T"],words:["BULUT","BUL","BUT","ULU"]}
+{cat:"DOĞA",title:"KEŞİF",words:["GÖL","GÜL","GÖLG","DOĞA"],main:["GÖL","GÜL"],letters:["G","Ö","L","Ü"],theme:"nature"},
+{cat:"TARİH",title:"ANADOLU",words:["TAŞ","TARİH","HAN","TAHT"],main:["TARİH","HAN"],letters:["T","A","R","İ","H","N"],theme:"history"},
+{cat:"SANAT",title:"RENKLER",words:["RENK","KAR","NAR","SANAT"],main:["RENK","SANAT"],letters:["S","A","N","R","E","K"],theme:"art"},
+{cat:"UZAY",title:"YILDIZLAR",words:["AY","YILDIZ","YIL","UZAY"],main:["AY","YIL"],letters:["A","Y","I","L"],theme:"space"},
+{cat:"DENİZ",title:"MAVİ DÜNYA",words:["DENİZ","DİZ","İZ","AD"],main:["DENİZ","İZ"],letters:["D","E","N","İ","Z"],theme:"sea"},
+{cat:"BİLİM",title:"KEŞFET",words:["ATOM","MAT","MOT","ATOM"],main:["ATOM","MAT"],letters:["A","T","O","M"],theme:"science"}
 ];
-let levelIndex=0,current="",found=[],gems=50,score=0,xp=0,completed=false;
-const $=id=>document.getElementById(id); const lv=()=>LEVELS[levelIndex];
-function save(){try{localStorage.setItem("zeka_meydani_v82",JSON.stringify({levelIndex,gems,score,xp}));}catch(e){}}
-function load(){try{const s=JSON.parse(localStorage.getItem("zeka_meydani_v82")||"null");if(s){levelIndex=Math.max(0,Math.min(LEVELS.length-1,s.levelIndex|0));gems=Math.max(0,s.gems|0);score=Math.max(0,s.score|0);xp=Math.max(0,s.xp|0)}}catch(e){}}
-function message(t){$("msg").textContent=t}
-function counts(arr){const m=new Map();arr.forEach(x=>m.set(x,(m.get(x)||0)+1));return m}
-function canBuild(candidate){const have=counts(lv().letters),used=counts([...candidate]);for(const [ch,n] of used)if((have.get(ch)||0)<n)return false;return true}
-function renderSlots(){const box=$("slots");box.innerHTML="";const max=Math.min(lv().words.reduce((m,w)=>Math.max(m,w.length),0),7);const n=Math.max(4,Math.min(7,max));for(let i=0;i<n;i++){const s=document.createElement("div");s.className="slot"+(i<current.length?" filled":" empty");s.textContent=current[i]||"";box.appendChild(s)}}
-function posFor(i,n){const W=$("letterArea").clientWidth,H=$("letterArea").clientHeight;const cx=W/2,cy=H/2+3;const radius=Math.min(W,H)*.31;const angle=-Math.PI/2+(i/n)*Math.PI*2;return{x:cx+Math.cos(angle)*radius,y:cy+Math.sin(angle)*radius}}
-function renderLetters(){const area=$("letterArea");area.innerHTML="";const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.classList.add("drag-svg");const poly=document.createElementNS("http://www.w3.org/2000/svg","polyline");poly.classList.add("drag-line");svg.appendChild(poly);area.appendChild(svg);
-const n=lv().letters.length;lv().letters.forEach((ch,i)=>{const b=document.createElement("button");b.type="button";b.className="key";b.textContent=ch;b.dataset.ch=ch;b.dataset.i=i;const p=posFor(i,n);b.style.left=(p.x-41)+"px";b.style.top=(p.y-41)+"px";area.appendChild(b)});updateVisual()}
-function render(){$("level").textContent=levelIndex+1;$("gems").textContent=gems;$("score").textContent=score;$("xp").textContent=xp;$("fill").style.width=Math.min(100,xp)+"%";renderSlots();$("found").innerHTML=found.map(w=>`<span class="tag">✓ ${w}</span>`).join("");$("next").style.display=completed?"block":"none";$("clear").style.display=completed?"none":"block";renderLetters()}
-let dragging=false,selected=[],pointerId=null;
-function buttonAt(x,y){const e=document.elementFromPoint(x,y);return e&&e.closest?e.closest("button.key"):null}
-function center(b){const r=b.getBoundingClientRect(),a=$("letterArea").getBoundingClientRect();return{x:r.left+r.width/2-a.left,y:r.top+r.height/2-a.top}}
-function updateVisual(){const poly=$("letterArea").querySelector(".drag-line");if(poly)poly.setAttribute("points",selected.map(center).map(p=>p.x+","+p.y).join(" "))}
-function clearSel(){selected.forEach(b=>b.classList.remove("sel"));selected=[];updateVisual()}
-function add(b){if(!b||completed||selected.includes(b))return;const candidate=current+b.dataset.ch;if(!canBuild(candidate))return;if(!lv().words.some(w=>w.startsWith(candidate))){message("❌ Bu harfle devam eden kelime yok.");return}selected.push(b);b.classList.add("sel");current=candidate;renderSlots();updateVisual();if(navigator.vibrate)try{navigator.vibrate(8)}catch(_){} }
-function start(e){if(completed)return;const b=e.target.closest("button.key");if(!b)return;e.preventDefault();dragging=true;pointerId=e.pointerId;clearSel();current="";try{$("letterArea").setPointerCapture(e.pointerId)}catch(_){}add(b)}
-function move(e){if(!dragging||e.pointerId!==pointerId)return;e.preventDefault();add(buttonAt(e.clientX,e.clientY))}
-function end(e){if(!dragging||e.pointerId!==pointerId)return;e.preventDefault();dragging=false;try{$("letterArea").releasePointerCapture(e.pointerId)}catch(_){}pointerId=null;submit()}
-function submit(){if(!current){clearSel();render();return}const w=current;if(lv().words.includes(w)){if(found.includes(w)){message("Bu kelimeyi zaten buldun.");current="";clearSel();render();return}found.push(w);const reward=w.length>=5?100:w.length===4?50:25;score+=reward;xp+=w.length>=5?25:15;gems+=w.length>=5?5:1;message("✅ "+w+" bulundu! +"+reward+" puan");current="";clearSel();if(found.length===lv().words.length){completed=true;score+=200;gems+=10;xp+=25;if(xp>=100)xp-=100;message("🏆 BÖLÜM TAMAMLANDI! +200 puan • +10 💎")}save();render()}else{message("❌ Kelime listede yok.");current="";clearSel();render()}}
-$("letterArea").addEventListener("pointerdown",start);$("letterArea").addEventListener("pointermove",move);$("letterArea").addEventListener("pointerup",end);$("letterArea").addEventListener("pointercancel",end);
-$("clear").addEventListener("click",()=>{dragging=false;current="";clearSel();message("Bir harfe basılı tut ve sürükle.");render()});
-$("shuffle").addEventListener("click",()=>{if(completed)return;lv().letters.sort(()=>Math.random()-.5);current="";clearSel();message("🔀 Harfler karıştırıldı.");render()});
-$("hint").addEventListener("click",()=>{if(completed)return;if(gems<20){message("💎 Yeterli elmas yok.");return}const target=lv().words.find(w=>!found.includes(w)&&w.startsWith(current));if(!target){message("Önce uygun bir kelime başlangıcı seç.");return}gems-=20;current+=target[current.length];message("💡 Açılan harf: "+target[current.length-1]);save();render()});
-$("next").addEventListener("click",()=>{if(!completed)return;levelIndex=(levelIndex+1)%LEVELS.length;current="";found=[];completed=false;message("Yeni bölüm başladı.");save();render()});
-window.addEventListener("resize",()=>{if(!dragging)renderLetters()});
-if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));load();render();
-})();
-</script></body></html>
+let level=0,gems=50,score=0,xp=0,found=new Set(),selected=[],dragging=false;
+const $=id=>document.getElementById(id);
+function norm(s){return s.toLocaleUpperCase("tr-TR")}
+function render(){
+ const L=LEVELS[level]; found=new Set(); selected=[]; dragging=false;
+ $("levelNo").textContent=level+1;$("gems").textContent=gems;$("score").textContent=score;$("xp").textContent=xp;
+ $("sceneCaption").textContent=L.cat+" • "+L.title; $("hint").textContent="Bir harfe basılı tut ve sürükle.";
+ const boards=$("boards"); boards.innerHTML="";
+ L.main.forEach(w=>{let row=document.createElement("div");row.className="word";[...w].forEach(()=>{let s=document.createElement("div");s.className="slot";row.appendChild(s)});boards.appendChild(row)});
+ const cont=$("letters"); cont.querySelectorAll(".letter").forEach(e=>e.remove());
+ const positions=[[113,8],[204,58],[204,148],[113,148],[22,148],[22,58],[113,98]];
+ L.letters.forEach((ch,i)=>{let b=document.createElement("div");b.className="letter";b.textContent=ch;b.dataset.i=i;b.dataset.ch=ch;b.style.left=positions[i%positions.length][0]+"px";b.style.top=positions[i%positions.length][1]+"px";b.addEventListener("pointerdown",start);b.addEventListener("pointerenter",enter);cont.appendChild(b)});
+ $("message").textContent=""; $("bar").style.width=((found.size/L.main.length)*100)+"%";drawLines();
+}
+function pointFor(el){return {x:el.offsetLeft+el.offsetWidth/2,y:el.offsetTop+el.offsetHeight/2}}
+function start(e){e.preventDefault();dragging=true;selected=[e.currentTarget];e.currentTarget.classList.add("selected");e.currentTarget.setPointerCapture?.(e.pointerId);drawLines()}
+function enter(e){if(!dragging)return;let el=e.currentTarget;if(selected.includes(el))return;selected.push(el);el.classList.add("selected");drawLines()}
+document.addEventListener("pointerup",()=>{if(!dragging)return;dragging=false;const word=selected.map(x=>x.dataset.ch).join("");check(word);selected.forEach(x=>x.classList.remove("selected"));selected=[];drawLines()},{passive:true});
+function drawLines(){const svg=$("lines");svg.innerHTML="";if(selected.length<2)return;let ns="http://www.w3.org/2000/svg";let p=selected.map(pointFor);let poly=document.createElementNS(ns,"polyline");poly.setAttribute("points",p.map(q=>q.x+","+q.y).join(" "));poly.setAttribute("fill","none");poly.setAttribute("stroke","#8eb3ff");poly.setAttribute("stroke-width","9");poly.setAttribute("stroke-linecap","round");poly.setAttribute("stroke-linejoin","round");svg.appendChild(poly)}
+function check(word){
+ const L=LEVELS[level];
+ if(!L.words.map(norm).includes(norm(word))){$("message").textContent="❌ Bu kelime bu bölümde yok.";return}
+ if(found.has(norm(word))){$("message").textContent="↩ Bu kelime zaten bulundu.";return}
+ found.add(norm(word));score+=100;xp+=25;$("score").textContent=score;$("xp").textContent=xp;
+ $("message").textContent="✅ "+word+" bulundu! +100 puan";
+ fillBoards(word);
+ $("bar").style.width=Math.min(100,found.size/L.main.length*100)+"%";
+ if(L.main.every(w=>found.has(norm(w))))setTimeout(next,700);
+}
+function fillBoards(word){
+ document.querySelectorAll(".word").forEach(row=>{let len=row.children.length;if(len===word.length){[...word].forEach((c,i)=>{row.children[i].textContent=c;row.children[i].classList.add("filled")})}});
+}
+function next(){if(level<LEVELS.length-1){level++;xp=xp%100;render()}else{$("message").textContent="🏆 İlk dünya tamamlandı!";}}
+$("clear").onclick=()=>{selected.forEach(x=>x.classList.remove("selected"));selected=[];dragging=false;drawLines();$("message").textContent=""};
+$("shuffle").onclick=()=>{let L=LEVELS[level];L.letters.sort(()=>Math.random()-.5);render();$("message").textContent="🔀 Harfler karıştırıldı."};
+$("reveal").onclick=()=>{if(gems<20){$("message").textContent="💎 Yeterli elmas yok.";return}let L=LEVELS[level];let target=L.main.find(w=>!found.has(norm(w)));if(!target)return;gems-=20;found.add(norm(target));score+=100;xp+=25;$("gems").textContent=gems;$("score").textContent=score;$("xp").textContent=xp;fillBoards(target);$("message").textContent="💎 "+target+" açıldı!";$("bar").style.width=Math.min(100,found.size/L.main.length*100)+"%";if(L.main.every(w=>found.has(norm(w))))setTimeout(next,700)};
+if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js?v=84"));
+render();
+</script>
+</body></html>
