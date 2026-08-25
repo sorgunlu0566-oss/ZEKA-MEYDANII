@@ -5,25 +5,31 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#080d1b">
 <link rel="manifest" href="manifest.json">
-<title>ZEKÂ MEYDANI V8.4</title>
+<title>ZEKÂ MEYDANI V9.0 • Word Connect</title>
 <style>
 :root{--bg:#080d1b;--panel:#172342;--border:#4b68a8;--blue:#8faeff;--text:#fff;--muted:#b6c1da}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-body{display:flex;justify-content:center;touch-action:manipulation}.app{width:min(100%,760px);min-height:100vh;padding:16px 14px 30px}
-.top{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 18px}.brand{font-weight:900;font-size:28px;letter-spacing:.3px}.stats{font-size:18px;font-weight:900;display:flex;gap:14px}
+body{display:flex;justify-content:center;touch-action:manipulation}
+.app{width:min(100%,760px);min-height:100vh;padding:14px 14px 30px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 18px}
+.brand{font-weight:900;font-size:28px;letter-spacing:.3px}.stats{font-size:18px;font-weight:900;display:flex;gap:14px}
 .panel{background:linear-gradient(180deg,#1c2b4d,#172342);border:2px solid #405c99;border-radius:34px;padding:20px 18px 26px;box-shadow:0 18px 60px #0008}
 .meta{text-align:center;color:#c2cadc;font-size:18px}.title{text-align:center;font-size:40px;margin:8px 0 5px;font-weight:900}.sub{text-align:center;color:#c3cbe0;font-size:18px;margin-bottom:16px}
-.scene{height:190px;border:2px solid #5675bd;border-radius:28px;overflow:hidden;position:relative}.scene svg{width:100%;height:100%;display:block}.tag{position:absolute;left:16px;bottom:14px;background:#10221fee;padding:10px 16px;border-radius:18px;font-weight:900}
-.board{display:flex;flex-direction:column;align-items:center;gap:9px;margin:18px 0 20px}.row{display:flex;gap:7px;min-height:47px}.slot{width:42px;height:47px;border:3px solid #728fd6;border-radius:12px;background:#071021;display:grid;place-items:center;font-size:24px;font-weight:900}.slot.filled{background:#304779;border-color:#a9c1ff}
-.hint{text-align:center;color:#b9c3dc;font-weight:800;margin-bottom:14px}
-.letters{height:315px;min-height:315px;max-width:560px;margin:auto;position:relative;touch-action:none;user-select:none;-webkit-user-select:none}.letter{position:absolute;width:78px;height:78px;border-radius:50%;transform:translate(-50%,-50%);display:grid;place-items:center;background:radial-gradient(circle at 35% 28%,#7594e7,#405995);border:5px solid #91adf6;box-shadow:0 12px 26px #0008;font-size:29px;font-weight:900;z-index:4;touch-action:none}.letter.active{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 0 0 8px #91adf633,0 15px 32px #0009;background:radial-gradient(circle at 35% 28%,#a5bdff,#5873b4)}
+.scene{height:190px;border:2px solid #5675bd;border-radius:28px;overflow:hidden;position:relative;background:#355}
+.scene svg{width:100%;height:100%;display:block}.tag{position:absolute;left:16px;bottom:14px;background:#10221fee;padding:10px 16px;border-radius:18px;font-weight:900}
+.board{display:flex;flex-direction:column;align-items:center;gap:8px;margin:18px 0 20px;min-height:50px}
+.row{display:flex;gap:7px;justify-content:center;min-height:47px}.slot{width:42px;height:47px;border:3px solid #728fd6;border-radius:12px;background:#071021;display:grid;place-items:center;font-size:24px;font-weight:900}.slot.filled{background:#304779;border-color:#a9c1ff}
+.hint{text-align:center;color:#b9c3dc;font-weight:800;margin-bottom:10px}
+.letters{height:315px;min-height:315px;max-width:560px;margin:auto;position:relative;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.letter{position:absolute;width:78px;height:78px;border-radius:50%;transform:translate(-50%,-50%);display:grid;place-items:center;background:radial-gradient(circle at 35% 28%,#7594e7,#405995);border:5px solid #91adf6;box-shadow:0 12px 26px #0008;font-size:29px;font-weight:900;z-index:5;touch-action:none;user-select:none}
+.letter.active{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 0 0 8px #91c4ff55,0 15px 32px #0009;background:radial-gradient(circle at 35% 28%,#a5bdff,#5873b4)}
 svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}.link{stroke:#a7c4ff;stroke-width:9;stroke-linecap:round;filter:drop-shadow(0 0 7px #8fb0ff)}
 .message{text-align:center;min-height:28px;font-weight:900;margin:0 0 10px}.good{color:#7dff9d}.bad{color:#ff7d7d}.info{color:#c7d1e8}
 .progress{height:10px;background:#050a15;border-radius:20px;overflow:hidden;margin:8px 0 16px}.progress i{display:block;height:100%;background:#91aaf0;width:0%;transition:.3s}
 .controls{display:grid;grid-template-columns:1fr 1fr;gap:11px}.btn{border:0;border-radius:21px;background:#304575;color:white;padding:15px 10px;font-size:15px;font-weight:900}.wide{grid-column:1/-1}.btn:active{transform:scale(.98)}
 .note{text-align:center;color:#8994ae;font-size:12px;margin-top:15px;line-height:1.5}
-@media(max-width:430px){.brand{font-size:26px}.stats{font-size:17px}.title{font-size:35px}.scene{height:175px}.letters{height:300px}.letter{width:72px;height:72px}.slot{width:39px;height:44px}}
+@media(max-width:430px){.app{padding:10px 10px 24px}.brand{font-size:25px}.stats{font-size:16px;gap:10px}.title{font-size:35px}.scene{height:175px}.letters{height:300px;min-height:300px}.letter{width:72px;height:72px;font-size:27px}.slot{width:39px;height:44px}}
 </style>
 </head>
 <body>
@@ -31,134 +37,233 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 <header class="top"><div class="brand">🧠 ZEKÂ MEYDANI</div><div class="stats">💎 <span id="gems">50</span> 🏆 <span id="score">0</span></div></header>
 <main class="panel">
 <div class="meta">BÖLÜM <span id="level">1</span> • XP <span id="xp">0</span>/100</div>
-<h1 class="title">Kelime Meydanı</h1><div class="sub">Harfleri birleştir, kelimeleri keşfet</div>
+<h1 class="title">Kelime Meydanı</h1>
+<div class="sub">Harfleri birleştir, kelimeleri keşfet</div>
 <div class="scene" id="scene"><div class="tag" id="tag"></div></div>
 <div class="board" id="board"></div>
-<div class="hint">Bir harfe basılı tut ve sürükle.</div>
-<div class="letters" id="letters"><svg class="lines" id="lines"></svg><svg class="lines" id="trail"></svg></div>
+<div class="hint">Bir harfe basılı tut ve diğer harflerin üzerinden sürükle.</div>
+<div class="letters" id="letters">
+<svg class="lines" id="lines" aria-hidden="true"></svg>
+<svg class="lines" id="trail" aria-hidden="true"></svg>
+</div>
 <div id="msg" class="message info">İlk harfe basılı tut, diğer harflerin üzerinden geç.</div>
 <div class="progress"><i id="bar"></i></div>
-<div class="controls"><button class="btn" id="shuffle">🔀 KARIŞTIR</button><button class="btn" id="hintBtn">💎 HARF AÇ • 20</button><button class="btn wide" id="clear">↩ TEMİZLE</button></div>
-<div class="note">V8.6 FINAL • 30 bölüm • Word Connect • XP/Elmas • PWA<br>Reklam alanı sonraki entegrasyonda gerçek reklam ağına bağlanabilir.</div>
-</main></div>
+<div class="controls">
+<button class="btn" id="shuffle">🔀 KARIŞTIR</button>
+<button class="btn" id="hintBtn">💎 HARF AÇ • 20</button>
+<button class="btn wide" id="clear">↩ TEMİZLE</button>
+</div>
+<div class="note">V9.0 • Word Connect • 30 temalı bölüm • XP/Elmas • PWA<br>Sonraki aşama: reklam geliri + ödüllü reklam sistemi.</div>
+</main>
+</div>
+
 <script>
-const LEVELS=[{"theme": "DOĞA • GÖL", "kind": "nature", "letters": ["G", "Ö", "L", "Ü"], "words": ["GÖL", "GÜL", "ÖL"]}, {"theme": "TARİH • KALE", "kind": "history", "letters": ["K", "A", "L", "E"], "words": ["KALE", "KAL", "EL", "ALE"]}, {"theme": "BİLİM • ATOM", "kind": "science", "letters": ["A", "T", "O", "M"], "words": ["ATOM", "MAT", "AMT"]}, {"theme": "SANAT • RENK", "kind": "art", "letters": ["R", "E", "N", "K"], "words": ["RENK", "ERK", "KEN"]}, {"theme": "DENİZ • DALGA", "kind": "sea", "letters": ["D", "A", "L", "G"], "words": ["DAL", "DALGA"]}, {"theme": "UZAY • AY", "kind": "space", "letters": ["A", "Y", "I"], "words": ["AY", "AYI"]}, {"theme": "MÜZİK • NOTA", "kind": "music", "letters": ["N", "O", "T", "A"], "words": ["NOTA", "TON", "ON", "AT"]}, {"theme": "HAYVANLAR • KURT", "kind": "animals", "letters": ["K", "U", "R", "T"], "words": ["KURT", "KUT", "UR"]}, {"theme": "KÜLTÜR • DUA", "kind": "culture", "letters": ["D", "U", "A"], "words": ["DUA", "DU", "AD"]}, {"theme": "COĞRAFYA • DAĞ", "kind": "geo", "letters": ["D", "A", "Ğ"], "words": ["DAĞ", "DA"]}, {"theme": "DOĞA • ORMAN", "kind": "nature", "letters": ["O", "R", "M", "A", "N"], "words": ["ORMAN", "ROM", "NAR", "AN"]}, {"theme": "TARİH • TAHT", "kind": "history", "letters": ["T", "A", "H"], "words": ["TAHT", "HAT"]}, {"theme": "BİLİM • MİKROP", "kind": "science", "letters": ["M", "İ", "K", "R", "O", "P"], "words": ["MİKROP", "KİM", "KOR", "PİK"]}, {"theme": "SANAT • RESİM", "kind": "art", "letters": ["R", "E", "S", "İ", "M"], "words": ["RESİM", "ESİR", "SERİ", "Mİ"]}, {"theme": "DENİZ • MARTI", "kind": "sea", "letters": ["M", "A", "R", "T", "I"], "words": ["MARTI", "MART", "TAM", "AR"]}, {"theme": "UZAY • YILDIZ", "kind": "space", "letters": ["Y", "I", "L", "D", "Z"], "words": ["YILDIZ", "YIL", "DİL"]}, {"theme": "MÜZİK • ŞARKI", "kind": "music", "letters": ["Ş", "A", "R", "K", "I"], "words": ["ŞARKI", "ŞAİR", "KIR"]}, {"theme": "HAYVANLAR • KEDİ", "kind": "animals", "letters": ["K", "E", "D", "İ"], "words": ["KEDİ", "KİDE", "DİK", "Kİ"]}, {"theme": "KÜLTÜR • CAMİ", "kind": "culture", "letters": ["C", "A", "M", "İ"], "words": ["CAMİ", "CAM", "AMİ"]}, {"theme": "COĞRAFYA • NEHİR", "kind": "geo", "letters": ["N", "E", "H", "İ", "R"], "words": ["NEHİR", "HER", "Nİ"]}, {"theme": "DOĞA • ÇİÇEK", "kind": "nature", "letters": ["Ç", "İ", "Ç", "E", "K"], "words": ["ÇİÇEK", "ÇEK", "İÇ"]}, {"theme": "TARİH • KRAL", "kind": "history", "letters": ["K", "R", "A", "L"], "words": ["KRAL", "KAR", "KAL", "AL"]}, {"theme": "BİLİM • ENERJİ", "kind": "science", "letters": ["E", "N", "E", "R", "J", "İ"], "words": ["ENERJİ", "EREN", "Jİ"]}, {"theme": "SANAT • HEYKEL", "kind": "art", "letters": ["H", "E", "Y", "K", "E", "L"], "words": ["HEYKEL", "HEY", "EL", "YEL"]}, {"theme": "DENİZ • BALIK", "kind": "sea", "letters": ["B", "A", "L", "I", "K"], "words": ["BALIK", "BAL", "KIL", "AL"]}, {"theme": "UZAY • GEZEGEN", "kind": "space", "letters": ["G", "E", "Z", "E", "G", "E", "N"], "words": ["GEZEGEN", "GEN", "GEZ"]}, {"theme": "MÜZİK • DAVUL", "kind": "music", "letters": ["D", "A", "V", "U", "L"], "words": ["DAVUL", "DUA", "DAL", "UL"]}, {"theme": "HAYVANLAR • TAVŞAN", "kind": "animals", "letters": ["T", "A", "V", "Ş", "A", "N"], "words": ["TAVŞAN", "TAŞ", "ŞAN", "ANA"]}, {"theme": "KÜLTÜR • KİTAP", "kind": "culture", "letters": ["K", "İ", "T", "A", "P"], "words": ["KİTAP", "KİT", "TAK", "AT"]}, {"theme": "COĞRAFYA • ADA", "kind": "geo", "letters": ["A", "D", "A"], "words": ["ADA", "AD", "DA"]}];
-const $=s=>document.querySelector(s);
-let level=+(localStorage.getItem("zm_level")||1),xp=+(localStorage.getItem("zm_xp")||0),gems=+(localStorage.getItem("zm_gems")||50),score=+(localStorage.getItem("zm_score")||0);
-let data,selected=[],found=new Set(),pos=[],drag=false;
+"use strict";
+
+/* 30 bölüm. Her kelime, bölümdeki harflerle gerçekten kurulabilir. */
+const LEVELS=[
+{theme:"DOĞA • GÖL",kind:"nature",letters:["G","Ö","L","Ü"],words:["GÖL","GÜL","ÖL"]},
+{theme:"TARİH • KALE",kind:"history",letters:["K","A","L","E"],words:["KALE","KAL","ALE","EL"]},
+{theme:"BİLİM • ATOM",kind:"science",letters:["A","T","O","M"],words:["ATOM","MAT","AM","AT"]},
+{theme:"SANAT • RENK",kind:"art",letters:["R","E","N","K"],words:["RENK","ERK","KEN","NE"]},
+{theme:"DENİZ • DALGA",kind:"sea",letters:["D","A","L","G"],words:["DAL","DA","AL","LA"]},
+{theme:"UZAY • AY",kind:"space",letters:["A","Y","I"],words:["AY","AYI","YA"]},
+{theme:"MÜZİK • NOTA",kind:"music",letters:["N","O","T","A"],words:["NOTA","TON","ON","AT"]},
+{theme:"HAYVANLAR • KURT",kind:"animals",letters:["K","U","R","T"],words:["KURT","KUT","UR","TU"]},
+{theme:"KÜLTÜR • DUA",kind:"culture",letters:["D","U","A"],words:["DUA","DU","AD","DA"]},
+{theme:"COĞRAFYA • DAĞ",kind:"geo",letters:["D","A","Ğ"],words:["DAĞ","DA","AD"]},
+{theme:"DOĞA • ORMAN",kind:"nature",letters:["O","R","M","A","N"],words:["ORMAN","NAR","ROM","AN"]},
+{theme:"TARİH • TAHT",kind:"history",letters:["T","A","H"],words:["HAT","TAH","AT","HA"]},
+{theme:"BİLİM • MİKROP",kind:"science",letters:["M","İ","K","R","O","P"],words:["MİKROP","KİM","KOR","PİK"]},
+{theme:"SANAT • RESİM",kind:"art",letters:["R","E","S","İ","M"],words:["RESİM","SERİ","ESİR","Mİ"]},
+{theme:"DENİZ • MARTI",kind:"sea",letters:["M","A","R","T","I"],words:["MARTI","MART","TAM","AR"]},
+{theme:"UZAY • YILDIZ",kind:"space",letters:["Y","I","L","D","Z"],words:["YILDIZ","YIL","DİL"]},
+{theme:"MÜZİK • ŞARKI",kind:"music",letters:["Ş","A","R","K","I"],words:["ŞARKI","ŞAİR","KIR","KAR"]},
+{theme:"HAYVANLAR • KEDİ",kind:"animals",letters:["K","E","D","İ"],words:["KEDİ","DİK","Kİ","DE"]},
+{theme:"KÜLTÜR • CAMİ",kind:"culture",letters:["C","A","M","İ"],words:["CAMİ","CAM","AMİ","Mİ"]},
+{theme:"COĞRAFYA • NEHİR",kind:"geo",letters:["N","E","H","İ","R"],words:["NEHİR","HER","Nİ","NE"]},
+{theme:"DOĞA • ÇİÇEK",kind:"nature",letters:["Ç","İ","E","K"],words:["ÇİÇEK","ÇEK","İÇ","EK"]},
+{theme:"TARİH • KRAL",kind:"history",letters:["K","R","A","L"],words:["KRAL","KAR","KAL","AL"]},
+{theme:"BİLİM • ENERJİ",kind:"science",letters:["E","N","R","J","İ"],words:["ENERJİ","EREN","Jİ","EN"]},
+{theme:"SANAT • HEYKEL",kind:"art",letters:["H","E","Y","K","L"],words:["HEYKEL","HEY","EL","YEL"]},
+{theme:"DENİZ • BALIK",kind:"sea",letters:["B","A","L","I","K"],words:["BALIK","BAL","KIL","AL"]},
+{theme:"UZAY • GEZEGEN",kind:"space",letters:["G","E","Z","N"],words:["GEZ","GEN","NE","GE"]},
+{theme:"MÜZİK • DAVUL",kind:"music",letters:["D","A","V","U","L"],words:["DAVUL","DUA","DAL","UL"]},
+{theme:"HAYVANLAR • TAVŞAN",kind:"animals",letters:["T","A","V","Ş","N"],words:["TAVŞAN","TAŞ","ŞAN","ANA"]},
+{theme:"KÜLTÜR • KİTAP",kind:"culture",letters:["K","İ","T","A","P"],words:["KİTAP","KİT","TAK","AT"]},
+{theme:"COĞRAFYA • ADA",kind:"geo",letters:["A","D"],words:["ADA","AD","DA"]}
+];
+
 const themes={
-nature:["#5b88dc","#416a55"],history:["#d0a06b","#69452e"],science:["#21385e","#2d7590"],art:["#9b70c8","#d46b92"],sea:["#4e9ad8","#176287"],space:["#0b1235","#57448f"],music:["#7352a1","#d56e86"],animals:["#8ebd72","#4e734d"],culture:["#d7b873","#815d42"],geo:["#75a8dc","#688e5e"]
+nature:["#5b88dc","#416a55","#74c9e8"],history:["#d0a06b","#69452e","#6f9fc4"],
+science:["#294b7d","#285f79","#76d5e8"],art:["#9b70c8","#7a3f78","#f2a6c7"],
+sea:["#4e9ad8","#176287","#8edcf2"],space:["#0b1235","#57448f","#a78cff"],
+music:["#7352a1","#8d3e76","#f5a0b7"],animals:["#8ebd72","#4e734d","#b8e48e"],
+culture:["#d7b873","#815d42","#f2d89a"],geo:["#75a8dc","#688e5e","#a9d9f0"]
 };
-function svg(kind){let c=themes[kind]||themes.nature;return `<svg viewBox="0 0 800 260" preserveAspectRatio="xMidYMid slice"><rect width="800" height="260" fill="${c[0]}"/><circle cx="680" cy="55" r="35" fill="#ffeaa0"/><path d="M0 195 140 70 270 185 405 45 540 185 680 75 800 185V260H0Z" fill="${c[1]}"/><path d="M0 220Q180 195 360 230T800 220V260H0Z" fill="#1e5145" opacity=".8"/><path d="M0 236Q190 215 390 240T800 232" stroke="#74c9e8" stroke-width="20" fill="none" opacity=".6"/></svg>`}
-function save(){localStorage.setItem("zm_level",level);localStorage.setItem("zm_xp",xp);localStorage.setItem("zm_gems",gems);localStorage.setItem("zm_score",score)}
-function message(t,c="info"){$("#msg").textContent=t;$("#msg").className="message "+c}
+
+const $=s=>document.querySelector(s);
+let level=Math.max(1,+(localStorage.getItem("zm_level")||1));
+let xp=Math.max(0,+(localStorage.getItem("zm_xp")||0));
+let gems=Math.max(0,+(localStorage.getItem("zm_gems")||50));
+let score=Math.max(0,+(localStorage.getItem("zm_score")||0));
+let data=null,selected=[],found=new Set(),pos=[],drag=false,pointerId=null,lettersOrder=[];
+
+function save(){
+ localStorage.setItem("zm_level",String(level));
+ localStorage.setItem("zm_xp",String(xp));
+ localStorage.setItem("zm_gems",String(gems));
+ localStorage.setItem("zm_score",String(score));
+}
+function message(t,c="info"){const m=$("#msg");m.textContent=t;m.className="message "+c}
+
+function sceneSvg(kind){
+ const c=themes[kind]||themes.nature;
+ const motifs={
+  nature:`<circle cx="660" cy="50" r="28" fill="#ffe9a1"/><path d="M0 205L145 70l110 115L410 45l140 145L690 80l110 120V260H0Z" fill="${c[1]}"/><path d="M0 225Q180 195 360 230T800 225V260H0Z" fill="${c[2]}" opacity=".8"/>`,
+  history:`<rect x="560" y="75" width="150" height="115" rx="8" fill="${c[1]}"/><path d="M535 80L635 20l100 60Z" fill="#52311f"/><rect x="590" y="115" width="35" height="75" fill="#b9895d"/><path d="M0 220h800v40H0Z" fill="#59412f"/>`,
+  science:`<circle cx="620" cy="120" r="55" fill="none" stroke="${c[2]}" stroke-width="7"/><circle cx="620" cy="120" r="15" fill="#fff"/><ellipse cx="620" cy="120" rx="105" ry="35" fill="none" stroke="${c[2]}" stroke-width="5" transform="rotate(25 620 120)"/><ellipse cx="620" cy="120" rx="105" ry="35" fill="none" stroke="${c[2]}" stroke-width="5" transform="rotate(-25 620 120)"/>`,
+  art:`<rect x="80" y="35" width="320" height="180" rx="12" fill="#e8d8c4"/><circle cx="190" cy="105" r="48" fill="#e07b9c"/><path d="M120 185Q230 85 350 180" fill="none" stroke="#6c58a9" stroke-width="18"/><circle cx="660" cy="100" r="45" fill="#f2b35e"/>`,
+  sea:`<path d="M0 185Q120 130 240 185T480 185T720 185T960 185V260H0Z" fill="${c[1]}"/><path d="M0 210Q120 175 240 210T480 210T720 210T960 210" fill="none" stroke="${c[2]}" stroke-width="18"/><path d="M540 160l45-85 45 85Z" fill="#fff" opacity=".85"/>`,
+  space:`<circle cx="635" cy="105" r="52" fill="#8f86ff"/><circle cx="650" cy="90" r="52" fill="${c[0]}"/><circle cx="120" cy="55" r="3" fill="#fff"/><circle cx="230" cy="115" r="4" fill="#fff"/><circle cx="430" cy="45" r="3" fill="#fff"/><circle cx="730" cy="180" r="4" fill="#fff"/>`,
+  music:`<circle cx="220" cy="90" r="38" fill="#f5a0b7"/><path d="M260 90V190M260 90l120-35v100" stroke="#fff" stroke-width="10" fill="none"/><circle cx="245" cy="195" r="24" fill="#fff"/><circle cx="365" cy="160" r="24" fill="#fff"/>`,
+  animals:`<circle cx="610" cy="125" r="60" fill="#c48a62"/><circle cx="575" cy="85" r="25" fill="#c48a62"/><circle cx="645" cy="85" r="25" fill="#c48a62"/><circle cx="590" cy="120" r="6"/><circle cx="630" cy="120" r="6"/><path d="M605 145q10 10 20 0" fill="none" stroke="#fff" stroke-width="5"/>`,
+  culture:`<path d="M540 190V80h160v110M515 80h210L620 25Z" fill="${c[1]}"/><path d="M575 190V110M625 190V110M675 190V110" stroke="#f2d89a" stroke-width="18"/><path d="M515 195h210" stroke="#fff" stroke-width="8"/>`,
+  geo:`<path d="M0 200L160 80l110 120 150-135 120 135 150-105 110 105v60H0Z" fill="${c[1]}"/><path d="M0 225Q180 205 360 230T800 225" fill="none" stroke="${c[2]}" stroke-width="20"/>`
+ };
+ return `<svg viewBox="0 0 800 260" preserveAspectRatio="xMidYMid slice"><rect width="800" height="260" fill="${c[0]}"/>${motifs[kind]||motifs.nature}</svg>`;
+}
+
 function render(){
  data=LEVELS[(level-1)%LEVELS.length];
- if(!data) return;
- $("#level").textContent=level;
- $("#xp").textContent=xp;
- $("#gems").textContent=gems;
- $("#score").textContent=score;
+ selected=[];found=new Set();drag=false;pointerId=null;
+ $("#level").textContent=level;$("#xp").textContent=xp;$("#gems").textContent=gems;$("#score").textContent=score;
  $("#tag").textContent=data.theme;
- var oldSvg=$("#scene").querySelector("svg");
- if(oldSvg) oldSvg.remove();
- $("#scene").insertAdjacentHTML("afterbegin",svg(data.kind));
+ const old=$("#scene").querySelector("svg");if(old)old.remove();
+ $("#scene").insertAdjacentHTML("afterbegin",sceneSvg(data.kind));
  $("#board").innerHTML="";
- data.words.forEach(function(w){
-   var row=document.createElement("div");
-   row.className="row";
-   for(var i=0;i<w.length;i++){
-     var s=document.createElement("div");
-     s.className="slot";
-     s.setAttribute("data-w",w);
-     s.setAttribute("data-i",i);
-     row.appendChild(s);
-   }
+ data.words.forEach(w=>{
+   const row=document.createElement("div");row.className="row";
+   [...w].forEach((ch,i)=>{
+     const s=document.createElement("div");s.className="slot";s.dataset.w=w;s.dataset.i=i;row.appendChild(s);
+   });
    $("#board").appendChild(row);
  });
+ lettersOrder=data.letters.map((_,i)=>i);
  build();
  $("#bar").style.width=xp+"%";
  message("İlk harfe basılı tut, diğer harflerin üzerinden geç.");
 }
+
 function build(){
- let box=$("#letters");
- if(!box || !data) return;
- let w=box.clientWidth || 320;
- let h=box.clientHeight || 315;
- let cx=w/2,cy=h/2,r=Math.min(w,h)*.34;
+ const box=$("#letters");if(!box||!data)return;
+ const w=Math.max(box.clientWidth,280),h=box.clientHeight||315;
+ const cx=w/2,cy=h/2,r=Math.min(w,h)*.34;
  box.querySelectorAll(".letter").forEach(x=>x.remove());
- $("#lines").innerHTML="";
- $("#trail").innerHTML="";
- pos=[];
- data.letters.forEach((ch,i)=>{
-   let a=-Math.PI/2+i/data.letters.length*Math.PI*2;
-   pos.push({x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r});
+ $("#lines").innerHTML="";$("#trail").innerHTML="";pos=[];
+ lettersOrder.forEach((idx,k)=>{
+   const a=-Math.PI/2+k/lettersOrder.length*Math.PI*2;
+   pos[idx]={x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r};
  });
- data.letters.forEach((ch,i)=>{
-   let e=document.createElement("div");
-   e.className="letter";
-   e.textContent=ch;
-   e.dataset.i=i;
-   e.style.left=pos[i].x+"px";
-   e.style.top=pos[i].y+"px";
-   e.style.display="grid";
-   e.style.visibility="visible";
-   e.style.pointerEvents="auto";
+ lettersOrder.forEach(idx=>{
+   const e=document.createElement("div");
+   e.className="letter";e.textContent=data.letters[idx];e.dataset.i=idx;
+   e.style.left=pos[idx].x+"px";e.style.top=pos[idx].y+"px";
    box.appendChild(e);
  });
 }
-function p(e){let r=$("#letters").getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
-function hit(q){for(let i=0;i<pos.length;i++)if(Math.hypot(q.x-pos[i].x,q.y-pos[i].y)<48)return i;return -1}
-function draw(){let s="";for(let k=1;k<selected.length;k++){let a=pos[selected[k-1]],b=pos[selected[k]];s+=`<line class="link" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"/>`}$("#lines").innerHTML=s;document.querySelectorAll(".letter").forEach((e,i)=>e.classList.toggle("active",selected.includes(i)))}
-function clearSel(){selected=[];draw()}
-function submit(){let word=selected.map(i=>data.letters[i]).join("");if(!word){return}let target=data.words.find(w=>w===word&&!found.has(w));if(!target){message("❌ Bu kelime bu bölümde yok.","bad");clearSel();return}found.add(target);document.querySelectorAll(".slot").forEach(s=>{if(s.dataset.w===target){s.textContent=target[+s.dataset.i];s.classList.add("filled")}});xp=Math.min(100,xp+Math.max(10,Math.floor(100/data.words.length)));score+=100;gems+=5;save();$("#xp").textContent=xp;$("#score").textContent=score;$("#gems").textContent=gems;$("#bar").style.width=xp+"%";message("✅ "+target+" bulundu! +100 puan","good");clearSel();if(found.size===data.words.length){message("🏆 Bölüm tamamlandı! +25 elmas","good");gems+=25;score+=500;save();setTimeout(()=>{level++;xp=0;found=new Set();save();render()},900)}}
-function beginSelect(q,e){
- let i=hit(q);
- if(i<0)return;
- if(e && e.cancelable)e.preventDefault();
- drag=true;
- selected=[i];
- draw();
+
+function point(e){
+ const r=$("#letters").getBoundingClientRect();
+ return {x:e.clientX-r.left,y:e.clientY-r.top};
 }
-function moveSelect(q,e){
- if(!drag)return;
- if(e && e.cancelable)e.preventDefault();
- let i=hit(q);
- if(i>=0 && !selected.includes(i)){selected.push(i);draw();}
- if(selected.length){
-   let a=pos[selected[selected.length-1]];
-   $("#trail").innerHTML=`<line class="link" x1="${a.x}" y1="${a.y}" x2="${q.x}" y2="${q.y}"/>`;
+function hit(q){
+ for(let i=0;i<data.letters.length;i++){
+   if(Math.hypot(q.x-pos[i].x,q.y-pos[i].y)<58)return i;
+ }
+ return -1;
+}
+function draw(){
+ let s="";
+ for(let k=1;k<selected.length;k++){
+   const a=pos[selected[k-1]],b=pos[selected[k]];
+   s+=`<line class="link" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"/>`;
+ }
+ $("#lines").innerHTML=s;
+ document.querySelectorAll(".letter").forEach(e=>e.classList.toggle("active",selected.includes(+e.dataset.i)));
+}
+function clearSel(){selected=[];$("#trail").innerHTML="";draw();}
+
+function submit(){
+ const word=selected.map(i=>data.letters[i]).join("");
+ if(!word)return;
+ const target=data.words.find(w=>w===word&&!found.has(w));
+ if(!target){message("❌ Bu kelime bu bölümde yok.","bad");clearSel();return;}
+ found.add(target);
+ document.querySelectorAll(`.slot[data-w="${CSS.escape(target)}"]`).forEach(s=>{
+   const i=+s.dataset.i;s.textContent=target[i];s.classList.add("filled");
+ });
+ xp=Math.min(100,xp+Math.max(8,Math.floor(100/data.words.length)));
+ score+=100;gems+=5;save();
+ $("#xp").textContent=xp;$("#score").textContent=score;$("#gems").textContent=gems;$("#bar").style.width=xp+"%";
+ message("✅ "+target+" bulundu! +100 puan","good");
+ clearSel();
+ if(found.size===data.words.length){
+   gems+=25;score+=500;save();
+   message("🏆 Bölüm tamamlandı! +25 elmas","good");
+   setTimeout(()=>{level++;xp=0;save();render();},1100);
  }
 }
-function endSelect(){
+
+function begin(q,e){
+ if(drag)return;
+ const i=hit(q);if(i<0)return;
+ drag=true;selected=[i];pointerId=e.pointerId;
+ try{$("#letters").setPointerCapture(pointerId)}catch(_){}
+ e.preventDefault();draw();
+}
+function move(q,e){
+ if(!drag||e.pointerId!==pointerId)return;
+ e.preventDefault();
+ const i=hit(q);
+ if(i>=0&&!selected.includes(i)){selected.push(i);draw();}
+ const a=pos[selected[selected.length-1]];
+ $("#trail").innerHTML=`<line class="link" x1="${a.x}" y1="${a.y}" x2="${q.x}" y2="${q.y}"/>`;
+}
+function end(e){
  if(!drag)return;
- drag=false;
- $("#trail").innerHTML="";
- submit();
+ if(e&&e.pointerId!==pointerId)return;
+ drag=false;pointerId=null;$("#trail").innerHTML="";submit();
 }
 
-$("#letters").addEventListener("pointerdown",e=>beginSelect(p(e),e),{passive:false});
-$("#letters").addEventListener("pointermove",e=>moveSelect(p(e),e),{passive:false});
-$("#letters").addEventListener("pointerup",endSelect);
-$("#letters").addEventListener("pointercancel",()=>{drag=false;$("#trail").innerHTML="";clearSel()});
-
-$("#letters").addEventListener("touchstart",e=>{
- if(e.touches.length) beginSelect(p(e.touches[0]),e);
-},{passive:false});
-$("#letters").addEventListener("touchmove",e=>{
- if(e.touches.length) moveSelect(p(e.touches[0]),e);
-},{passive:false});
-$("#letters").addEventListener("touchend",endSelect,{passive:false});
+/* TEK giriş sistemi: pointer events.
+   Böylece iPhone'da pointer + touch olaylarının iki kez çalışması engellenir. */
+$("#letters").addEventListener("pointerdown",e=>begin(point(e),e),{passive:false});
+$("#letters").addEventListener("pointermove",e=>move(point(e),e),{passive:false});
+$("#letters").addEventListener("pointerup",end,{passive:false});
+$("#letters").addEventListener("pointercancel",e=>{drag=false;pointerId=null;$("#trail").innerHTML="";clearSel()},{passive:false});
 
 $("#clear").onclick=()=>{clearSel();message("Seçim temizlendi.")};
-$("#shuffle").onclick=()=>{data.letters=[...data.letters].sort(()=>Math.random()-.5);build();message("🔀 Harfler karıştırıldı.")};
-$("#hintBtn").onclick=()=>{let target=data.words.find(w=>!found.has(w));if(!target)return;if(gems<20){message("💎 Yeterli elmas yok.","bad");return}gems-=20;let idx=[...target].findIndex((_,i)=>!document.querySelector(`.slot[data-w="${target}"][data-i="${i}"]`) && document.querySelector(`.slot[data-w="${target}"][data-i="${i}"]`).classList.contains("filled"));let s=document.querySelector(`.slot[data-w="${target}"][data-i="${idx}"]`);if(s){s.textContent=target[idx];s.classList.add("filled")}save();$("#gems").textContent=gems;message("💎 Bir harf açıldı.")};
-window.addEventListener("resize",()=>data&&build());
+$("#shuffle").onclick=()=>{
+ for(let i=lettersOrder.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[lettersOrder[i],lettersOrder[j]]=[lettersOrder[j],lettersOrder[i]];}
+ build();message("🔀 Harfler karıştırıldı.");
+};
+$("#hintBtn").onclick=()=>{
+ const target=data.words.find(w=>!found.has(w));
+ if(!target)return;
+ if(gems<20){message("💎 Yeterli elmas yok.","bad");return;}
+ const idx=[...target].findIndex((_,i)=>{
+   const s=document.querySelector(`.slot[data-w="${CSS.escape(target)}"][data-i="${i}"]`);
+   return s&&!s.classList.contains("filled");
+ });
+ if(idx<0)return;
+ const s=document.querySelector(`.slot[data-w="${CSS.escape(target)}"][data-i="${idx}"]`);
+ s.textContent=target[idx];s.classList.add("filled");
+ gems-=20;save();$("#gems").textContent=gems;message("💎 Bir harf açıldı.");
+};
+
+window.addEventListener("resize",()=>{if(data)build()});
 render();
-setTimeout(()=>{
-  if($("#letters").querySelectorAll(".letter").length===0){
-    message("⚠️ Harfler yüklenemedi. Sayfayı yenile.","bad");
-  }
-},300);
 </script>
-</body></html>
+</body>
+</html>
