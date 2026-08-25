@@ -9,14 +9,14 @@
 <meta name="apple-mobile-web-app-title" content="ZEKÂ MEYDANI">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
-<title>ZEKÂ MEYDANI</title>
+<title>ZEKÂ MEYDANI V8.1</title>
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;background:#0b1020;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}body{padding:12px}.app{max-width:520px;margin:auto;min-height:calc(100vh - 24px);padding:16px 12px 28px;background:linear-gradient(180deg,#19233f,#0b1020);border:1px solid #33476f;border-radius:26px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:900}.brand{font-size:21px}.stats{white-space:nowrap}.card{margin-top:16px;background:#1b2643;border:1px solid #3b4d79;border-radius:24px;padding:18px 13px;text-align:center}.sub{opacity:.72}.title{font-size:31px;font-weight:900;margin:7px 0}.hint{opacity:.72}.word{height:62px;margin:17px 0 12px;background:#080d1b;border:1px solid #3b4d79;border-radius:15px;display:grid;place-items:center;font-size:30px;font-weight:900;letter-spacing:4px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.key{height:94px;border:0;border-radius:18px;background:#354b80;color:#fff;font-size:32px;font-weight:900;touch-action:manipulation;cursor:pointer}.key:active{transform:scale(.97)}.key.used{opacity:.35}.msg{min-height:34px;margin:13px 0;font-weight:800}.found{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;min-height:31px}.tag{padding:6px 9px;border-radius:9px;background:#26375f;border:1px solid #415b8a;font-weight:800}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.act{height:56px;border:0;border-radius:14px;background:#2a3b67;color:#fff;font-weight:900;font-size:14px;touch-action:manipulation}.next{grid-column:1/-1;background:#4565a5}.wide{grid-column:1/-1}.progress{height:8px;background:#080d1b;border-radius:9px;overflow:hidden;margin-top:12px}.fill{height:100%;width:0;background:#6b86c4}.note{font-size:12px;opacity:.48;margin-top:13px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;background:#0b1020;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}body{padding:12px}.app{max-width:520px;margin:auto;min-height:calc(100vh - 24px);padding:16px 12px 28px;background:linear-gradient(180deg,#19233f,#0b1020);border:1px solid #33476f;border-radius:26px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:900}.brand{font-size:21px}.stats{white-space:nowrap}.card{margin-top:16px;background:#1b2643;border:1px solid #3b4d79;border-radius:24px;padding:18px 13px;text-align:center}.sub{opacity:.72}.title{font-size:31px;font-weight:900;margin:7px 0}.hint{opacity:.72}.word{height:62px;margin:17px 0 12px;background:#080d1b;border:1px solid #3b4d79;border-radius:15px;display:grid;place-items:center;font-size:30px;font-weight:900;letter-spacing:4px}.grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:9px;touch-action:none;user-select:none;-webkit-user-select:none}.key{position:relative;z-index:2;height:94px;border:0;border-radius:18px;background:#354b80;color:#fff;font-size:32px;font-weight:900;touch-action:manipulation;cursor:pointer}.key:active{transform:scale(.97)}.key.sel{background:#5c75b8;box-shadow:0 0 0 3px #8fb2ff,0 0 22px #6b86c488;transform:scale(1.03)}.drag-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}.drag-line{fill:none;stroke:#9bb9ff;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 6px #6b86c4)}.key.used{opacity:.35}.msg{min-height:34px;margin:13px 0;font-weight:800}.found{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;min-height:31px}.tag{padding:6px 9px;border-radius:9px;background:#26375f;border:1px solid #415b8a;font-weight:800}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.act{height:56px;border:0;border-radius:14px;background:#2a3b67;color:#fff;font-weight:900;font-size:14px;touch-action:manipulation}.next{grid-column:1/-1;background:#4565a5}.wide{grid-column:1/-1}.progress{height:8px;background:#080d1b;border-radius:9px;overflow:hidden;margin-top:12px}.fill{height:100%;width:0;background:#6b86c4}.note{font-size:12px;opacity:.48;margin-top:13px}
 </style>
 </head>
 <body>
 <main class="app"><header class="top"><div class="brand">🧠 ZEKÂ MEYDANI</div><div class="stats">💎 <span id="gems">50</span>　🏆 <span id="score">0</span></div></header>
-<section class="card"><div class="sub">BÖLÜM <span id="level">1</span> • XP <span id="xp">0</span>/100</div><div class="title">Kelimeleri Bul</div><div class="hint">Harfleri sırayla seç</div><div class="word" id="word">&nbsp;</div><div class="grid" id="letters"></div><div class="msg" id="msg">Kelime seç.</div><div class="found" id="found"></div><div class="progress"><div class="fill" id="fill"></div></div><div class="actions"><button class="act" id="shuffle">🔀 KARIŞTIR</button><button class="act" id="hint">💎 HARF AÇ · 20</button><button class="act wide" id="clear">↩️ TEMİZLE</button><button class="act next" id="next" style="display:none">🏆 SONRAKİ BÖLÜM</button></div><div class="note">V8 PWA • Harici kütüphane yok • Mobil + bilgisayar</div></section></main>
+<section class="card"><div class="sub">BÖLÜM <span id="level">1</span> • XP <span id="xp">0</span>/100</div><div class="title">Kelimeleri Bul</div><div class="hint">Bir harfe basılı tut → sürükle → bırak</div><div class="word" id="word">&nbsp;</div><div class="grid" id="letters"></div><div class="msg" id="msg">Kelime seç.</div><div class="found" id="found"></div><div class="progress"><div class="fill" id="fill"></div></div><div class="actions"><button class="act" id="shuffle">🔀 KARIŞTIR</button><button class="act" id="hint">💎 HARF AÇ · 20</button><button class="act wide" id="clear">↩️ TEMİZLE</button><button class="act next" id="next" style="display:none">🏆 SONRAKİ BÖLÜM</button></div><div class="note">V8.1 PWA • Sürükleyerek Kelime Bağla • Mobil + bilgisayar</div></section></main>
 <script>
 (()=>{"use strict";
 const LEVELS=[
@@ -39,14 +39,154 @@ function load(){try{const s=JSON.parse(localStorage.getItem("zeka_meydani_v8")||
 function message(t){$("msg").textContent=t}
 function letterCounts(arr){const m=new Map();arr.forEach(ch=>m.set(ch,(m.get(ch)||0)+1));return m}
 function canBuild(candidate){const counts=letterCounts(level().letters);const used=letterCounts([...candidate]);for(const [ch,n] of used)if((counts.get(ch)||0)<n)return false;return true}
-function render(){const lv=level();$("level").textContent=levelIndex+1;$("gems").textContent=gems;$("score").textContent=score;$("xp").textContent=xp;$("fill").style.width=Math.min(100,xp)+"%";$("word").textContent=current||" ";$("found").innerHTML=found.map(w=>`<span class="tag">✓ ${w}</span>`).join("");
- const used=letterCounts([...current]); $("letters").innerHTML="";
- lv.letters.forEach((ch,i)=>{const b=document.createElement("button");b.type="button";b.className="key";b.textContent=ch;b.dataset.ch=ch;b.dataset.i=i;const usedN=used.get(ch)||0;const total=lv.letters.filter(x=>x===ch).length;const usedBefore=[...current].filter(x=>x===ch).length;b.classList.toggle("used",usedBefore>=total);$("letters").appendChild(b)});
- $("next").style.display=completed?"block":"none";$("clear").style.display=completed?"none":"block";
+function render(){
+ const lv=level();
+ $("level").textContent=levelIndex+1;
+ $("gems").textContent=gems;
+ $("score").textContent=score;
+ $("xp").textContent=xp;
+ $("fill").style.width=Math.min(100,xp)+"%";
+ $("word").textContent=current||" ";
+ $("found").innerHTML=found.map(w=>`<span class="tag">✓ ${w}</span>`).join("");
+ const used=letterCounts([...current]);
+ const box=$("letters");
+ box.innerHTML="";
+ const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+ svg.classList.add("drag-svg");
+ const poly=document.createElementNS("http://www.w3.org/2000/svg","polyline");
+ poly.classList.add("drag-line");
+ svg.appendChild(poly);
+ box.appendChild(svg);
+ lv.letters.forEach((ch,i)=>{
+   const b=document.createElement("button");
+   b.type="button";
+   b.className="key";
+   b.textContent=ch;
+   b.dataset.ch=ch;
+   b.dataset.i=i;
+   const total=lv.letters.filter(x=>x===ch).length;
+   const usedBefore=[...current].filter(x=>x===ch).length;
+   b.classList.toggle("used",usedBefore>=total);
+   box.appendChild(b);
+ });
+ $("next").style.display=completed?"block":"none";
+ $("clear").style.display=completed?"none":"block";
+ updateDragVisual();
 }
-function pick(ch){if(completed)return;const candidate=current+ch;const words=level().words;if(!canBuild(candidate)){message("❌ Bu harften daha fazla kullanamazsın.");return}if(!words.some(w=>w.startsWith(candidate))){current="";message("❌ Bu harfle devam eden kelime yok.");render();return}current=candidate;if(words.includes(current)){if(found.includes(current)){current="";message("Bu kelimeyi zaten buldun.");render();return}const solved=current;found.push(solved);const reward=solved.length>=5?100:solved.length===4?50:25;score+=reward;xp+=solved.length>=5?25:15;gems+=solved.length>=5?5:1;current="";message("✅ "+solved+" bulundu! +"+reward+" puan");if(found.length===words.length){completed=true;score+=200;gems+=10;xp+=25;if(xp>=100)xp-=100;message("🏆 BÖLÜM TAMAMLANDI! +200 puan • +10 💎")}save()}render()}
-$("letters").addEventListener("click",e=>{const b=e.target.closest("button[data-ch]");if(b&&!b.classList.contains("used"))pick(b.dataset.ch)});
-$("clear").addEventListener("click",()=>{current="";message("Kelime seç.");render()});
+let dragging=false,selectedButtons=[],dragPointerId=null;
+
+function buttonAt(x,y){
+ const e=document.elementFromPoint(x,y);
+ return e && e.closest ? e.closest("button.key") : null;
+}
+
+function buttonCenter(b){
+ const r=b.getBoundingClientRect(), br=$("letters").getBoundingClientRect();
+ return {x:r.left+r.width/2-br.left,y:r.top+r.height/2-br.top};
+}
+
+function updateDragVisual(){
+ const svg=$("letters").querySelector(".drag-svg");
+ const poly=svg && svg.querySelector(".drag-line");
+ if(!poly)return;
+ poly.setAttribute("points",selectedButtons.map(buttonCenter).map(p=>p.x+","+p.y).join(" "));
+}
+
+function clearDragSelection(){
+ selectedButtons.forEach(b=>b.classList.remove("sel"));
+ selectedButtons=[];
+ updateDragVisual();
+}
+
+function tryAddButton(b){
+ if(!b || completed || b.classList.contains("used") || selectedButtons.includes(b))return;
+ const candidate=current+b.dataset.ch;
+ const words=level().words;
+ if(!canBuild(candidate))return;
+ if(!words.some(w=>w.startsWith(candidate))){
+   message("❌ Bu harfle bu kelime devam etmiyor.");
+   return;
+ }
+ selectedButtons.push(b);
+ b.classList.add("sel");
+ current=candidate;
+ $("word").textContent=current;
+ updateDragVisual();
+ if(navigator.vibrate)try{navigator.vibrate(8)}catch(_){}
+}
+
+function startDrag(e){
+ if(completed)return;
+ const b=e.target.closest("button.key");
+ if(!b || b.classList.contains("used"))return;
+ e.preventDefault();
+ dragging=true;
+ dragPointerId=e.pointerId;
+ clearDragSelection();
+ current="";
+ $("word").textContent=" ";
+ try{$("letters").setPointerCapture(e.pointerId)}catch(_){}
+ tryAddButton(b);
+}
+
+function moveDrag(e){
+ if(!dragging || e.pointerId!==dragPointerId)return;
+ e.preventDefault();
+ tryAddButton(buttonAt(e.clientX,e.clientY));
+}
+
+function endDrag(e){
+ if(!dragging || e.pointerId!==dragPointerId)return;
+ e.preventDefault();
+ dragging=false;
+ try{$("letters").releasePointerCapture(e.pointerId)}catch(_){}
+ dragPointerId=null;
+ submitDragWord();
+}
+
+function submitDragWord(){
+ if(!current){clearDragSelection();render();return;}
+ const key=current;
+ const words=level().words;
+ if(words.includes(key)){
+   if(found.includes(key)){
+     message("Bu kelimeyi zaten buldun.");
+     current="";
+     clearDragSelection();
+     render();
+     return;
+   }
+   found.push(key);
+   const reward=key.length>=5?100:key.length===4?50:25;
+   score+=reward;
+   xp+=key.length>=5?25:15;
+   gems+=key.length>=5?5:1;
+   message("✅ "+key+" bulundu! +"+reward+" puan");
+   current="";
+   clearDragSelection();
+   if(found.length===words.length){
+     completed=true;
+     score+=200;
+     gems+=10;
+     xp+=25;
+     if(xp>=100)xp-=100;
+     message("🏆 BÖLÜM TAMAMLANDI! +200 puan • +10 💎");
+   }
+   save();
+   render();
+ }else{
+   message("❌ Kelime listede yok.");
+   current="";
+   setTimeout(()=>render(),250);
+ }
+}
+
+$("letters").addEventListener("pointerdown",startDrag);
+$("letters").addEventListener("pointermove",moveDrag);
+$("letters").addEventListener("pointerup",endDrag);
+$("letters").addEventListener("pointercancel",endDrag);
+$("letters").addEventListener("lostpointercapture",e=>{if(dragging)endDrag(e)});
+$("clear").addEventListener("click",()=>{dragging=false;current="";clearDragSelection();message("Kelime seç.");render()});
 $("shuffle").addEventListener("click",()=>{if(completed)return;level().letters.sort(()=>Math.random()-.5);current="";message("🔀 Harfler karıştırıldı.");render()});
 $("hint").addEventListener("click",()=>{if(completed)return;if(gems<20){message("💎 Yeterli elmas yok.");return}const target=level().words.find(w=>!found.includes(w)&&w.startsWith(current));if(!target){message("Önce uygun bir kelime başlangıcı seç.");return}const ch=target[current.length];gems-=20;current+=ch;message("💡 Açılan harf: "+ch);save();render()});
 $("next").addEventListener("click",()=>{if(!completed)return;levelIndex=(levelIndex+1)%LEVELS.length;current="";found=[];completed=false;message("Yeni bölüm başladı.");save();render()});

@@ -1,9 +1,15 @@
-ZEKÂ MEYDANI V8 PWA
+# ZEKÂ MEYDANI V8.1 PWA
 
-YAYINLAMA:
-1) Bu klasördeki dosyaları GitHub repository ana dizinine yükleyin.
-2) GitHub -> Settings -> Pages -> Deploy from branch -> main / root seçin.
-3) Birkaç dakika sonra verilen HTTPS adresini Safari'de açın.
-4) Safari paylaş -> Ana Ekrana Ekle ile uygulama gibi kullanın.
+## Bu pakette iki aşama birlikte
+1. **Sürükleyerek kelime seçme:** Harfe basılı tut, diğer harflerin üzerinden sürükle, son harfte bırak.
+2. **Word Connect görsel motoru:** Seçilen harfler ışıklı bağlantı çizgisiyle gösterilir, yanlış/tekrar seçimler temizlenir ve mobil dokunma davranışı korunur.
 
-ÖNEMLİ: PWA service worker yalnızca HTTPS (veya localhost) altında çalışır.
+## Kurulum
+1. ZIP'i aç.
+2. İçindeki 6 dosyayı GitHub repository'sinin `main` dalında kök dizine yükle.
+3. GitHub Pages → **Deploy from a branch** → `main` → `/(root)` → **Save**.
+4. Açılan siteyi yenile.
+5. Telefonda eski PWA önbelleği görünürse Safari sayfasını yenileyip siteyi yeniden aç.
+
+PWA dosyaları: `manifest.json`, `service-worker.js`, `icon-192.png`, `icon-512.png`, `index.html`.
+Harici kütüphane yoktur.
