@@ -1,4 +1,4 @@
-const CACHE = "zeka-meydani-v8-5";
+const CACHE = "zeka-meydani-v8-5-fix";
 const ASSETS = [
   "./",
   "./index.html",
