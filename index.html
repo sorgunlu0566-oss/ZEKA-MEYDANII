@@ -39,7 +39,7 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 <div id="msg" class="message info">İlk harfe basılı tut, diğer harflerin üzerinden geç.</div>
 <div class="progress"><i id="bar"></i></div>
 <div class="controls"><button class="btn" id="shuffle">🔀 KARIŞTIR</button><button class="btn" id="hintBtn">💎 HARF AÇ • 20</button><button class="btn wide" id="clear">↩ TEMİZLE</button></div>
-<div class="note">V8.5 FIX • 30 bölüm • Word Connect • XP/Elmas • PWA<br>Reklam alanı sonraki entegrasyonda gerçek reklam ağına bağlanabilir.</div>
+<div class="note">V8.6 FINAL • 30 bölüm • Word Connect • XP/Elmas • PWA<br>Reklam alanı sonraki entegrasyonda gerçek reklam ağına bağlanabilir.</div>
 </main></div>
 <script>
 const LEVELS=[{"theme": "DOĞA • GÖL", "kind": "nature", "letters": ["G", "Ö", "L", "Ü"], "words": ["GÖL", "GÜL", "ÖL"]}, {"theme": "TARİH • KALE", "kind": "history", "letters": ["K", "A", "L", "E"], "words": ["KALE", "KAL", "EL", "ALE"]}, {"theme": "BİLİM • ATOM", "kind": "science", "letters": ["A", "T", "O", "M"], "words": ["ATOM", "MAT", "AMT"]}, {"theme": "SANAT • RENK", "kind": "art", "letters": ["R", "E", "N", "K"], "words": ["RENK", "ERK", "KEN"]}, {"theme": "DENİZ • DALGA", "kind": "sea", "letters": ["D", "A", "L", "G"], "words": ["DAL", "DALGA"]}, {"theme": "UZAY • AY", "kind": "space", "letters": ["A", "Y", "I"], "words": ["AY", "AYI"]}, {"theme": "MÜZİK • NOTA", "kind": "music", "letters": ["N", "O", "T", "A"], "words": ["NOTA", "TON", "ON", "AT"]}, {"theme": "HAYVANLAR • KURT", "kind": "animals", "letters": ["K", "U", "R", "T"], "words": ["KURT", "KUT", "UR"]}, {"theme": "KÜLTÜR • DUA", "kind": "culture", "letters": ["D", "U", "A"], "words": ["DUA", "DU", "AD"]}, {"theme": "COĞRAFYA • DAĞ", "kind": "geo", "letters": ["D", "A", "Ğ"], "words": ["DAĞ", "DA"]}, {"theme": "DOĞA • ORMAN", "kind": "nature", "letters": ["O", "R", "M", "A", "N"], "words": ["ORMAN", "ROM", "NAR", "AN"]}, {"theme": "TARİH • TAHT", "kind": "history", "letters": ["T", "A", "H"], "words": ["TAHT", "HAT"]}, {"theme": "BİLİM • MİKROP", "kind": "science", "letters": ["M", "İ", "K", "R", "O", "P"], "words": ["MİKROP", "KİM", "KOR", "PİK"]}, {"theme": "SANAT • RESİM", "kind": "art", "letters": ["R", "E", "S", "İ", "M"], "words": ["RESİM", "ESİR", "SERİ", "Mİ"]}, {"theme": "DENİZ • MARTI", "kind": "sea", "letters": ["M", "A", "R", "T", "I"], "words": ["MARTI", "MART", "TAM", "AR"]}, {"theme": "UZAY • YILDIZ", "kind": "space", "letters": ["Y", "I", "L", "D", "Z"], "words": ["YILDIZ", "YIL", "DİL"]}, {"theme": "MÜZİK • ŞARKI", "kind": "music", "letters": ["Ş", "A", "R", "K", "I"], "words": ["ŞARKI", "ŞAİR", "KIR"]}, {"theme": "HAYVANLAR • KEDİ", "kind": "animals", "letters": ["K", "E", "D", "İ"], "words": ["KEDİ", "KİDE", "DİK", "Kİ"]}, {"theme": "KÜLTÜR • CAMİ", "kind": "culture", "letters": ["C", "A", "M", "İ"], "words": ["CAMİ", "CAM", "AMİ"]}, {"theme": "COĞRAFYA • NEHİR", "kind": "geo", "letters": ["N", "E", "H", "İ", "R"], "words": ["NEHİR", "HER", "Nİ"]}, {"theme": "DOĞA • ÇİÇEK", "kind": "nature", "letters": ["Ç", "İ", "Ç", "E", "K"], "words": ["ÇİÇEK", "ÇEK", "İÇ"]}, {"theme": "TARİH • KRAL", "kind": "history", "letters": ["K", "R", "A", "L"], "words": ["KRAL", "KAR", "KAL", "AL"]}, {"theme": "BİLİM • ENERJİ", "kind": "science", "letters": ["E", "N", "E", "R", "J", "İ"], "words": ["ENERJİ", "EREN", "Jİ"]}, {"theme": "SANAT • HEYKEL", "kind": "art", "letters": ["H", "E", "Y", "K", "E", "L"], "words": ["HEYKEL", "HEY", "EL", "YEL"]}, {"theme": "DENİZ • BALIK", "kind": "sea", "letters": ["B", "A", "L", "I", "K"], "words": ["BALIK", "BAL", "KIL", "AL"]}, {"theme": "UZAY • GEZEGEN", "kind": "space", "letters": ["G", "E", "Z", "E", "G", "E", "N"], "words": ["GEZEGEN", "GEN", "GEZ"]}, {"theme": "MÜZİK • DAVUL", "kind": "music", "letters": ["D", "A", "V", "U", "L"], "words": ["DAVUL", "DUA", "DAL", "UL"]}, {"theme": "HAYVANLAR • TAVŞAN", "kind": "animals", "letters": ["T", "A", "V", "Ş", "A", "N"], "words": ["TAVŞAN", "TAŞ", "ŞAN", "ANA"]}, {"theme": "KÜLTÜR • KİTAP", "kind": "culture", "letters": ["K", "İ", "T", "A", "P"], "words": ["KİTAP", "KİT", "TAK", "AT"]}, {"theme": "COĞRAFYA • ADA", "kind": "geo", "letters": ["A", "D", "A"], "words": ["ADA", "AD", "DA"]}];
@@ -53,9 +53,32 @@ function svg(kind){let c=themes[kind]||themes.nature;return `<svg viewBox="0 0 8
 function save(){localStorage.setItem("zm_level",level);localStorage.setItem("zm_xp",xp);localStorage.setItem("zm_gems",gems);localStorage.setItem("zm_score",score)}
 function message(t,c="info"){$("#msg").textContent=t;$("#msg").className="message "+c}
 function render(){
- data=LEVELS[(level-1)%LEVELS.length];$("#level").textContent=level;$("#xp").textContent=xp;$("#gems").textContent=gems;$("#score").textContent=score;$("#tag").textContent=data.theme;$("#scene").querySelector("svg")?.remove();$("#scene").insertAdjacentHTML("afterbegin",svg(data.kind));
- $("#board").innerHTML="";data.words.forEach(w=>{let r=document.createElement("div");r.className="row";[...w].forEach((ch,i)=>{let s=document.createElement("div");s.className="slot";s.dataset.w=w;s.dataset.i=i;r.appendChild(s)});$("#board").appendChild(r)});
- build();message("İlk harfe basılı tut, diğer harflerin üzerinden geç.");$("#bar").style.width=xp+"%"
+ data=LEVELS[(level-1)%LEVELS.length];
+ if(!data) return;
+ $("#level").textContent=level;
+ $("#xp").textContent=xp;
+ $("#gems").textContent=gems;
+ $("#score").textContent=score;
+ $("#tag").textContent=data.theme;
+ var oldSvg=$("#scene").querySelector("svg");
+ if(oldSvg) oldSvg.remove();
+ $("#scene").insertAdjacentHTML("afterbegin",svg(data.kind));
+ $("#board").innerHTML="";
+ data.words.forEach(function(w){
+   var row=document.createElement("div");
+   row.className="row";
+   for(var i=0;i<w.length;i++){
+     var s=document.createElement("div");
+     s.className="slot";
+     s.setAttribute("data-w",w);
+     s.setAttribute("data-i",i);
+     row.appendChild(s);
+   }
+   $("#board").appendChild(row);
+ });
+ build();
+ $("#bar").style.width=xp+"%";
+ message("İlk harfe basılı tut, diğer harflerin üzerinden geç.");
 }
 function build(){
  let box=$("#letters");
@@ -129,7 +152,7 @@ $("#letters").addEventListener("touchend",endSelect,{passive:false});
 
 $("#clear").onclick=()=>{clearSel();message("Seçim temizlendi.")};
 $("#shuffle").onclick=()=>{data.letters=[...data.letters].sort(()=>Math.random()-.5);build();message("🔀 Harfler karıştırıldı.")};
-$("#hintBtn").onclick=()=>{let target=data.words.find(w=>!found.has(w));if(!target)return;if(gems<20){message("💎 Yeterli elmas yok.","bad");return}gems-=20;let idx=[...target].findIndex((_,i)=>!document.querySelector(`.slot[data-w="${target}"][data-i="${i}"]`).classList.contains("filled"));let s=document.querySelector(`.slot[data-w="${target}"][data-i="${idx}"]`);if(s){s.textContent=target[idx];s.classList.add("filled")}save();$("#gems").textContent=gems;message("💎 Bir harf açıldı.")};
+$("#hintBtn").onclick=()=>{let target=data.words.find(w=>!found.has(w));if(!target)return;if(gems<20){message("💎 Yeterli elmas yok.","bad");return}gems-=20;let idx=[...target].findIndex((_,i)=>!document.querySelector(`.slot[data-w="${target}"][data-i="${i}"]`) && document.querySelector(`.slot[data-w="${target}"][data-i="${i}"]`).classList.contains("filled"));let s=document.querySelector(`.slot[data-w="${target}"][data-i="${idx}"]`);if(s){s.textContent=target[idx];s.classList.add("filled")}save();$("#gems").textContent=gems;message("💎 Bir harf açıldı.")};
 window.addEventListener("resize",()=>data&&build());
 render();
 setTimeout(()=>{
