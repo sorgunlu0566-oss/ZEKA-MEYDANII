@@ -1,6 +1,6 @@
-# ZEKÂ MEYDANI V8.4
+# ZEKÂ MEYDANI V8.5
 
-V8.4, çalışan V8.3 Word Connect mekaniğinin üzerine 30 temalı bölüm, bölüm ilerlemesi, XP, elmas, puan ve bölüm ödülü ekler.
+V8.5, çalışan V8.3 Word Connect mekaniğinin üzerine 30 temalı bölüm, bölüm ilerlemesi, XP, elmas, puan ve bölüm ödülü ekler.
 
 ## Kurulum
 ZIP'i aç. İçindeki 6 dosyayı GitHub repository `main` dalının köküne yükle ve eski dosyaların üzerine yaz:

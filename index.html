@@ -10,14 +10,14 @@
 :root{--bg:#080d1b;--panel:#172342;--border:#4b68a8;--blue:#8faeff;--text:#fff;--muted:#b6c1da}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-body{display:flex;justify-content:center}.app{width:min(100%,760px);min-height:100vh;padding:16px 14px 30px}
+body{display:flex;justify-content:center;touch-action:manipulation}.app{width:min(100%,760px);min-height:100vh;padding:16px 14px 30px}
 .top{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 18px}.brand{font-weight:900;font-size:28px;letter-spacing:.3px}.stats{font-size:18px;font-weight:900;display:flex;gap:14px}
 .panel{background:linear-gradient(180deg,#1c2b4d,#172342);border:2px solid #405c99;border-radius:34px;padding:20px 18px 26px;box-shadow:0 18px 60px #0008}
 .meta{text-align:center;color:#c2cadc;font-size:18px}.title{text-align:center;font-size:40px;margin:8px 0 5px;font-weight:900}.sub{text-align:center;color:#c3cbe0;font-size:18px;margin-bottom:16px}
 .scene{height:190px;border:2px solid #5675bd;border-radius:28px;overflow:hidden;position:relative}.scene svg{width:100%;height:100%;display:block}.tag{position:absolute;left:16px;bottom:14px;background:#10221fee;padding:10px 16px;border-radius:18px;font-weight:900}
 .board{display:flex;flex-direction:column;align-items:center;gap:9px;margin:18px 0 20px}.row{display:flex;gap:7px;min-height:47px}.slot{width:42px;height:47px;border:3px solid #728fd6;border-radius:12px;background:#071021;display:grid;place-items:center;font-size:24px;font-weight:900}.slot.filled{background:#304779;border-color:#a9c1ff}
 .hint{text-align:center;color:#b9c3dc;font-weight:800;margin-bottom:14px}
-.letters{height:315px;max-width:560px;margin:auto;position:relative;touch-action:none;user-select:none;-webkit-user-select:none}.letter{position:absolute;width:78px;height:78px;border-radius:50%;transform:translate(-50%,-50%);display:grid;place-items:center;background:radial-gradient(circle at 35% 28%,#7594e7,#405995);border:5px solid #91adf6;box-shadow:0 12px 26px #0008;font-size:29px;font-weight:900;z-index:4;touch-action:none}.letter.active{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 0 0 8px #91adf633,0 15px 32px #0009;background:radial-gradient(circle at 35% 28%,#a5bdff,#5873b4)}
+.letters{height:315px;min-height:315px;max-width:560px;margin:auto;position:relative;touch-action:none;user-select:none;-webkit-user-select:none}.letter{position:absolute;width:78px;height:78px;border-radius:50%;transform:translate(-50%,-50%);display:grid;place-items:center;background:radial-gradient(circle at 35% 28%,#7594e7,#405995);border:5px solid #91adf6;box-shadow:0 12px 26px #0008;font-size:29px;font-weight:900;z-index:4;touch-action:none}.letter.active{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 0 0 8px #91adf633,0 15px 32px #0009;background:radial-gradient(circle at 35% 28%,#a5bdff,#5873b4)}
 svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}.link{stroke:#a7c4ff;stroke-width:9;stroke-linecap:round;filter:drop-shadow(0 0 7px #8fb0ff)}
 .message{text-align:center;min-height:28px;font-weight:900;margin:0 0 10px}.good{color:#7dff9d}.bad{color:#ff7d7d}.info{color:#c7d1e8}
 .progress{height:10px;background:#050a15;border-radius:20px;overflow:hidden;margin:8px 0 16px}.progress i{display:block;height:100%;background:#91aaf0;width:0%;transition:.3s}
@@ -39,7 +39,7 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 <div id="msg" class="message info">İlk harfe basılı tut, diğer harflerin üzerinden geç.</div>
 <div class="progress"><i id="bar"></i></div>
 <div class="controls"><button class="btn" id="shuffle">🔀 KARIŞTIR</button><button class="btn" id="hintBtn">💎 HARF AÇ • 20</button><button class="btn wide" id="clear">↩ TEMİZLE</button></div>
-<div class="note">V8.4 • 30 bölüm • Word Connect • XP/Elmas • PWA<br>Reklam alanı sonraki entegrasyonda gerçek reklam ağına bağlanabilir.</div>
+<div class="note">V8.5 • 30 bölüm • Word Connect • XP/Elmas • PWA<br>Reklam alanı sonraki entegrasyonda gerçek reklam ağına bağlanabilir.</div>
 </main></div>
 <script>
 const LEVELS=[{"theme": "DOĞA • GÖL", "kind": "nature", "letters": ["G", "Ö", "L", "Ü"], "words": ["GÖL", "GÜL", "ÖL"]}, {"theme": "TARİH • KALE", "kind": "history", "letters": ["K", "A", "L", "E"], "words": ["KALE", "KAL", "EL", "ALE"]}, {"theme": "BİLİM • ATOM", "kind": "science", "letters": ["A", "T", "O", "M"], "words": ["ATOM", "MAT", "AMT"]}, {"theme": "SANAT • RENK", "kind": "art", "letters": ["R", "E", "N", "K"], "words": ["RENK", "ERK", "KEN"]}, {"theme": "DENİZ • DALGA", "kind": "sea", "letters": ["D", "A", "L", "G"], "words": ["DAL", "DALGA"]}, {"theme": "UZAY • AY", "kind": "space", "letters": ["A", "Y", "I"], "words": ["AY", "AYI"]}, {"theme": "MÜZİK • NOTA", "kind": "music", "letters": ["N", "O", "T", "A"], "words": ["NOTA", "TON", "ON", "AT"]}, {"theme": "HAYVANLAR • KURT", "kind": "animals", "letters": ["K", "U", "R", "T"], "words": ["KURT", "KUT", "UR"]}, {"theme": "KÜLTÜR • DUA", "kind": "culture", "letters": ["D", "U", "A"], "words": ["DUA", "DU", "AD"]}, {"theme": "COĞRAFYA • DAĞ", "kind": "geo", "letters": ["D", "A", "Ğ"], "words": ["DAĞ", "DA"]}, {"theme": "DOĞA • ORMAN", "kind": "nature", "letters": ["O", "R", "M", "A", "N"], "words": ["ORMAN", "ROM", "NAR", "AN"]}, {"theme": "TARİH • TAHT", "kind": "history", "letters": ["T", "A", "H"], "words": ["TAHT", "HAT"]}, {"theme": "BİLİM • MİKROP", "kind": "science", "letters": ["M", "İ", "K", "R", "O", "P"], "words": ["MİKROP", "KİM", "KOR", "PİK"]}, {"theme": "SANAT • RESİM", "kind": "art", "letters": ["R", "E", "S", "İ", "M"], "words": ["RESİM", "ESİR", "SERİ", "Mİ"]}, {"theme": "DENİZ • MARTI", "kind": "sea", "letters": ["M", "A", "R", "T", "I"], "words": ["MARTI", "MART", "TAM", "AR"]}, {"theme": "UZAY • YILDIZ", "kind": "space", "letters": ["Y", "I", "L", "D", "Z"], "words": ["YILDIZ", "YIL", "DİL"]}, {"theme": "MÜZİK • ŞARKI", "kind": "music", "letters": ["Ş", "A", "R", "K", "I"], "words": ["ŞARKI", "ŞAİR", "KIR"]}, {"theme": "HAYVANLAR • KEDİ", "kind": "animals", "letters": ["K", "E", "D", "İ"], "words": ["KEDİ", "KİDE", "DİK", "Kİ"]}, {"theme": "KÜLTÜR • CAMİ", "kind": "culture", "letters": ["C", "A", "M", "İ"], "words": ["CAMİ", "CAM", "AMİ"]}, {"theme": "COĞRAFYA • NEHİR", "kind": "geo", "letters": ["N", "E", "H", "İ", "R"], "words": ["NEHİR", "HER", "Nİ"]}, {"theme": "DOĞA • ÇİÇEK", "kind": "nature", "letters": ["Ç", "İ", "Ç", "E", "K"], "words": ["ÇİÇEK", "ÇEK", "İÇ"]}, {"theme": "TARİH • KRAL", "kind": "history", "letters": ["K", "R", "A", "L"], "words": ["KRAL", "KAR", "KAL", "AL"]}, {"theme": "BİLİM • ENERJİ", "kind": "science", "letters": ["E", "N", "E", "R", "J", "İ"], "words": ["ENERJİ", "EREN", "Jİ"]}, {"theme": "SANAT • HEYKEL", "kind": "art", "letters": ["H", "E", "Y", "K", "E", "L"], "words": ["HEYKEL", "HEY", "EL", "YEL"]}, {"theme": "DENİZ • BALIK", "kind": "sea", "letters": ["B", "A", "L", "I", "K"], "words": ["BALIK", "BAL", "KIL", "AL"]}, {"theme": "UZAY • GEZEGEN", "kind": "space", "letters": ["G", "E", "Z", "E", "G", "E", "N"], "words": ["GEZEGEN", "GEN", "GEZ"]}, {"theme": "MÜZİK • DAVUL", "kind": "music", "letters": ["D", "A", "V", "U", "L"], "words": ["DAVUL", "DUA", "DAL", "UL"]}, {"theme": "HAYVANLAR • TAVŞAN", "kind": "animals", "letters": ["T", "A", "V", "Ş", "A", "N"], "words": ["TAVŞAN", "TAŞ", "ŞAN", "ANA"]}, {"theme": "KÜLTÜR • KİTAP", "kind": "culture", "letters": ["K", "İ", "T", "A", "P"], "words": ["KİTAP", "KİT", "TAK", "AT"]}, {"theme": "COĞRAFYA • ADA", "kind": "geo", "letters": ["A", "D", "A"], "words": ["ADA", "AD", "DA"]}];
@@ -58,22 +58,84 @@ function render(){
  build();message("İlk harfe basılı tut, diğer harflerin üzerinden geç.");$("#bar").style.width=xp+"%")
 }
 function build(){
- let box=$("#letters"),w=box.clientWidth,h=box.clientHeight,cx=w/2,cy=h/2,r=Math.min(w,h)*.34;box.querySelectorAll(".letter").forEach(x=>x.remove());$("#lines").innerHTML="";$("#trail").innerHTML="";pos=[];
- data.letters.forEach((ch,i)=>{let a=-Math.PI/2+i/data.letters.length*Math.PI*2;pos.push({x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r})});
- data.letters.forEach((ch,i)=>{let e=document.createElement("div");e.className="letter";e.textContent=ch;e.dataset.i=i;e.style.left=pos[i].x+"px";e.style.top=pos[i].y+"px";box.appendChild(e)})
+ let box=$("#letters");
+ if(!box || !data) return;
+ let w=box.clientWidth || 320;
+ let h=box.clientHeight || 315;
+ let cx=w/2,cy=h/2,r=Math.min(w,h)*.34;
+ box.querySelectorAll(".letter").forEach(x=>x.remove());
+ $("#lines").innerHTML="";
+ $("#trail").innerHTML="";
+ pos=[];
+ data.letters.forEach((ch,i)=>{
+   let a=-Math.PI/2+i/data.letters.length*Math.PI*2;
+   pos.push({x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r});
+ });
+ data.letters.forEach((ch,i)=>{
+   let e=document.createElement("div");
+   e.className="letter";
+   e.textContent=ch;
+   e.dataset.i=i;
+   e.style.left=pos[i].x+"px";
+   e.style.top=pos[i].y+"px";
+   e.style.display="grid";
+   e.style.visibility="visible";
+   e.style.pointerEvents="auto";
+   box.appendChild(e);
+ });
 }
 function p(e){let r=$("#letters").getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
 function hit(q){for(let i=0;i<pos.length;i++)if(Math.hypot(q.x-pos[i].x,q.y-pos[i].y)<48)return i;return -1}
 function draw(){let s="";for(let k=1;k<selected.length;k++){let a=pos[selected[k-1]],b=pos[selected[k]];s+=`<line class="link" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"/>`}$("#lines").innerHTML=s;document.querySelectorAll(".letter").forEach((e,i)=>e.classList.toggle("active",selected.includes(i)))}
 function clearSel(){selected=[];draw()}
 function submit(){let word=selected.map(i=>data.letters[i]).join("");if(!word){return}let target=data.words.find(w=>w===word&&!found.has(w));if(!target){message("❌ Bu kelime bu bölümde yok.","bad");clearSel();return}found.add(target);document.querySelectorAll(".slot").forEach(s=>{if(s.dataset.w===target){s.textContent=target[+s.dataset.i];s.classList.add("filled")}});xp=Math.min(100,xp+Math.max(10,Math.floor(100/data.words.length)));score+=100;gems+=5;save();$("#xp").textContent=xp;$("#score").textContent=score;$("#gems").textContent=gems;$("#bar").style.width=xp+"%";message("✅ "+target+" bulundu! +100 puan","good");clearSel();if(found.size===data.words.length){message("🏆 Bölüm tamamlandı! +25 elmas","good");gems+=25;score+=500;save();setTimeout(()=>{level++;xp=0;found=new Set();save();render()},900)}}
-$("#letters").addEventListener("pointerdown",e=>{let q=p(e),i=hit(q);if(i<0)return;e.preventDefault();drag=true;selected=[i];$("#letters").setPointerCapture(e.pointerId);draw()});
-$("#letters").addEventListener("pointermove",e=>{if(!drag)return;let q=p(e),i=hit(q);if(i>=0&&!selected.includes(i)){selected.push(i);draw()}if(selected.length){let a=pos[selected[selected.length-1]];$("#trail").innerHTML=`<line class="link" x1="${a.x}" y1="${a.y}" x2="${q.x}" y2="${q.y}"/>`}});
-$("#letters").addEventListener("pointerup",()=>{if(!drag)return;drag=false;$("#trail").innerHTML="";submit()});
+function beginSelect(q,e){
+ let i=hit(q);
+ if(i<0)return;
+ if(e && e.cancelable)e.preventDefault();
+ drag=true;
+ selected=[i];
+ draw();
+}
+function moveSelect(q,e){
+ if(!drag)return;
+ if(e && e.cancelable)e.preventDefault();
+ let i=hit(q);
+ if(i>=0 && !selected.includes(i)){selected.push(i);draw();}
+ if(selected.length){
+   let a=pos[selected[selected.length-1]];
+   $("#trail").innerHTML=`<line class="link" x1="${a.x}" y1="${a.y}" x2="${q.x}" y2="${q.y}"/>`;
+ }
+}
+function endSelect(){
+ if(!drag)return;
+ drag=false;
+ $("#trail").innerHTML="";
+ submit();
+}
+
+$("#letters").addEventListener("pointerdown",e=>beginSelect(p(e),e),{passive:false});
+$("#letters").addEventListener("pointermove",e=>moveSelect(p(e),e),{passive:false});
+$("#letters").addEventListener("pointerup",endSelect);
 $("#letters").addEventListener("pointercancel",()=>{drag=false;$("#trail").innerHTML="";clearSel()});
+
+$("#letters").addEventListener("touchstart",e=>{
+ if(e.touches.length) beginSelect(p(e.touches[0]),e);
+},{passive:false});
+$("#letters").addEventListener("touchmove",e=>{
+ if(e.touches.length) moveSelect(p(e.touches[0]),e);
+},{passive:false});
+$("#letters").addEventListener("touchend",endSelect,{passive:false});
+
 $("#clear").onclick=()=>{clearSel();message("Seçim temizlendi.")};
 $("#shuffle").onclick=()=>{data.letters=[...data.letters].sort(()=>Math.random()-.5);build();message("🔀 Harfler karıştırıldı.")};
 $("#hintBtn").onclick=()=>{let target=data.words.find(w=>!found.has(w));if(!target)return;if(gems<20){message("💎 Yeterli elmas yok.","bad");return}gems-=20;let idx=[...target].findIndex((_,i)=>!document.querySelector(`.slot[data-w="${target}"][data-i="${i}"]`).classList.contains("filled"));let s=document.querySelector(`.slot[data-w="${target}"][data-i="${idx}"]`);if(s){s.textContent=target[idx];s.classList.add("filled")}save();$("#gems").textContent=gems;message("💎 Bir harf açıldı.")};
-window.addEventListener("resize",()=>data&&build());render();
+window.addEventListener("resize",()=>data&&build());
+render();
+setTimeout(()=>{
+  if($("#letters").querySelectorAll(".letter").length===0){
+    message("⚠️ Harfler yüklenemedi. Sayfayı yenile.","bad");
+  }
+},300);
 </script>
 </body></html>
