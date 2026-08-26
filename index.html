@@ -5,32 +5,28 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#080d1b">
 <link rel="manifest" href="manifest.json">
-<title>ZEKÂ MEYDANI V10.9 • Word Connect</title>
+<title>ZEKÂ MEYDANI V10.10 • Word Connect</title>
 <style>
 :root{--text:#fff;--muted:#d6d9e5;--purple:#9b6cff;--blue:#2d66ff;--pink:#d67bff;--panel:rgba(10,10,22,.48)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;min-height:100%;background:#05060d;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
 body{display:flex;justify-content:center;touch-action:manipulation;overflow-x:hidden}
-#backdrop{position:fixed;inset:0;z-index:0;background-color:#1b2a26;background-position:center center;background-size:cover;background-repeat:no-repeat;transition:background-image .25s ease;transform:none;overflow:hidden;pointer-events:none}
-#backdrop:before{content:"";position:absolute;inset:-22px;background-image:var(--bg-image);background-size:cover;background-position:center;filter:blur(3px) saturate(1.05);transform:scale(1.02);opacity:.55}
-#backdrop:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,.08) 35%,rgba(0,0,0,.28) 72%,rgba(0,0,0,.62) 100%)}
-
-.app{width:min(100%,440px);min-height:100vh;padding:10px 10px 34px;position:relative;z-index:1}
+#backdrop{position:fixed;inset:0;z-index:-3;background:#080910 center/cover no-repeat;transition:background-image .25s ease;transform:scale(1.015)}
+#backdrop:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,rgba(0,0,0,.06) 0%,rgba(0,0,0,.24) 52%,rgba(0,0,0,.68) 100%),linear-gradient(180deg,rgba(0,0,0,.48) 0%,rgba(0,0,0,.08) 38%,rgba(0,0,0,.42) 72%,rgba(0,0,0,.76) 100%)}
+.app{width:min(100%,440px);min-height:100vh;padding:10px 10px 34px;position:relative}
 .top{display:flex;align-items:center;justify-content:space-between;padding:3px 6px 14px;text-shadow:0 3px 12px #000}.brand{font-weight:900;font-size:28px;letter-spacing:.3px}.stats{font-size:18px;font-weight:900;display:flex;gap:14px;background:rgba(8,10,24,.52);border-radius:30px;padding:12px 18px;backdrop-filter:blur(12px)}
 .panel{background:linear-gradient(180deg,rgba(5,6,15,.08),rgba(5,6,15,.16));border:0;border-radius:34px;padding:8px 4px 28px;box-shadow:none;backdrop-filter:blur(1.5px)}
 .meta{text-align:center;color:#fff;font-size:17px;font-weight:900;text-shadow:0 3px 12px #000;margin-top:2px}.title{text-align:center;font-size:42px;line-height:1.05;margin:9px 0 5px;font-weight:900;text-shadow:0 4px 18px #000}.sub{text-align:center;color:#fff;font-size:18px;font-weight:800;margin-bottom:15px;text-shadow:0 3px 12px #000}
 .scene{height:54px;border:2px solid var(--purple);border-radius:28px;overflow:hidden;position:relative;background:rgba(10,10,22,.52);width:max-content;max-width:100%;margin:0 auto 12px;box-shadow:0 8px 28px #0008}.scene svg{display:none}.tag{padding:12px 22px;font-weight:900;font-size:17px;white-space:nowrap}
-.board{display:flex;flex-direction:column;align-items:center;gap:8px;margin:10px 0 19px;min-height:50px}.row{display:flex;gap:7px;justify-content:center;min-height:47px}.slot{width:45px;height:50px;border:4px solid #9a6cff;border-radius:15px;background:rgba(9,8,20,.70);display:grid;place-items:center;font-size:24px;font-weight:900;box-shadow:0 4px 16px #0009}.slot.filled{background:rgba(184,172,255,.86);border-color:#b8c8ff;color:#3e2d82;text-shadow:0 2px 5px #fff}.slot.preview{background:rgba(184,172,255,.42);border-color:#b8c8ff;color:#dcd7ff;text-shadow:0 2px 6px #000}
+.board{display:flex;flex-direction:column;align-items:center;gap:8px;margin:10px 0 19px;min-height:50px}.row{display:flex;gap:7px;justify-content:center;min-height:47px}.slot{width:45px;height:50px;border:4px solid #9a6cff;border-radius:15px;background:rgba(9,8,20,.70);display:grid;place-items:center;font-size:24px;font-weight:900;box-shadow:0 4px 16px #0009}.slot.filled{background:rgba(184,172,255,.86);border-color:#b8c8ff;color:#3e2d82;text-shadow:0 2px 5px #fff}
 .hint{text-align:center;color:#fff;font-weight:900;font-size:17px;margin:8px 0 10px;text-shadow:0 3px 12px #000}
 .letters{height:315px;min-height:315px;max-width:560px;margin:auto;position:relative;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.letter{position:absolute;width:80px;height:80px;border-radius:50%;transform:translate(-50%,-50%);display:grid;place-items:center;background:radial-gradient(circle at 35% 28%,#f3efff,#cfc3ff 55%,#a17cff);border:6px solid #8e5eff;box-shadow:0 14px 30px #000b,0 0 0 4px #b792ff33;font-size:30px;font-weight:900;color:#4d368d;z-index:5;touch-action:none;user-select:none}.letter.active{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 0 0 9px #b896ff55,0 15px 32px #000b;background:radial-gradient(circle at 35% 28%,#fff,#e4dcff 55%,#b496ff)}
 svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}.link{stroke:#9fb8ff;stroke-width:9;stroke-linecap:round;filter:drop-shadow(0 0 7px #8fb0ff)}
 .message{text-align:center;min-height:28px;font-weight:900;font-size:17px;margin:0 0 8px;text-shadow:0 3px 12px #000}.good{color:#8cffad}.bad{color:#ff6680}.info{color:#fff}.progress{height:10px;background:rgba(255,255,255,.20);border-radius:20px;overflow:hidden;margin:8px 0 7px}.progress i{display:block;height:100%;background:linear-gradient(90deg,#8da7ff,#b26cff);width:0%;transition:.3s}.attempts{text-align:center;font-weight:900;font-size:14px;margin-bottom:10px;text-shadow:0 3px 10px #000}.attempts.warn{color:#ffcc66}.attempts.zero{color:#ff6b82}
 .controls{display:grid;grid-template-columns:1fr 1fr;gap:11px}.btn{border:0;border-radius:22px;background:linear-gradient(110deg,#2270ee,#5a22d9);color:white;padding:15px 10px;font-size:15px;font-weight:900;box-shadow:0 9px 24px #0007}.wide{grid-column:1/-1}.btn:active{transform:scale(.98)}.btn:disabled{opacity:.45;filter:grayscale(.3)}
-.pool{margin-top:13px;background:rgba(255,255,255,.92);color:#4b358a;border:3px solid #b18cff;border-radius:25px;padding:14px 14px 12px;box-shadow:0 12px 35px #0008}.poolHead{display:flex;justify-content:space-between;font-size:17px;font-weight:900}.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.chip{background:#f2efff;border:2px solid #c5b5ff;border-radius:16px;padding:7px 10px;font-weight:900}.chip.discovery{background:#e9f8e9;border-color:#8fd69a;color:#317442}.memory{margin-top:9px;font-size:13px;font-weight:800;color:#5f6380}.emptyPool{color:#777b96;font-weight:800;padding:4px 2px}
+.discoveries{margin-top:13px;text-align:center;background:rgba(8,10,24,.48);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:10px 12px;color:#fff;font-size:13px;font-weight:800;text-shadow:0 2px 8px #000;backdrop-filter:blur(8px)}
 .adGate{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;align-items:center;justify-content:center;padding:20px}.adGate.show{display:flex}.adCard{width:min(92vw,430px);background:#fff;color:#30245e;border-radius:28px;padding:24px;text-align:center;box-shadow:0 20px 80px #000}.adCard h2{margin:0 0 8px}.adCard p{margin:7px 0 16px;color:#666}.adVideo{height:190px;border-radius:18px;background:linear-gradient(135deg,#17142b,#513c86);position:relative;overflow:hidden;display:grid;place-items:center;color:#fff;font-size:42px;margin-bottom:16px}.adVideo video,.adVideo #imaContainer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.adVideo video{background:#111}.adVideo #imaContainer{z-index:2}.adVideo #adFallbackIcon{position:relative;z-index:3}.adTimer{font-size:14px;font-weight:900;margin-bottom:12px}.adBtn{width:100%;border:0;border-radius:18px;padding:14px;font-weight:900;background:linear-gradient(110deg,#2270ee,#5a22d9);color:#fff}.note{text-align:center;color:#fff;font-size:12px;margin-top:15px;line-height:1.5;text-shadow:0 2px 10px #000}
 @media(max-width:430px){.app{padding:8px 9px 30px}.brand{font-size:24px}.stats{font-size:15px;gap:9px;padding:10px 14px}.title{font-size:35px}.letter{width:74px;height:74px;font-size:27px}.letters{height:300px;min-height:300px}.slot{width:39px;height:44px}.tag{font-size:15px;padding:11px 18px}}
-
-@media (max-width:699px){#backdrop{background-size:cover;background-position:center center;background-color:#080910} #backdrop:before{background-size:cover;background-position:center center;opacity:.42}}
 </style>
 </head>
 <body>
@@ -65,8 +61,8 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 <button class="btn" id="hintBtn">💎 HARF AÇ • 20</button>
 <button class="btn wide" id="clear">↩ TEMİZLE</button>
 </div>
-<div class="pool"><div class="poolHead"><span>🔎 Keşif Kelimeleri</span><span id="poolCount">0</span></div><div class="chips" id="poolChips"></div><div class="memory" id="memoryCount">🌿 Genel Kelime Hafızası: 0 keşif</div></div>
-<div class="note">V10.9 • Word Connect • 2000 bölüm • Kelime Havuzu • XP/Elmas • PWA<br>Her bölümün havuzu ayrı; oyuncunun keşfettiği yeni kelimeler genel hafızada tutulur.</div>
+<div class="discoveries" id="discoveries">🌿 Genel Kelime Hafızası: <b id="memoryCount">0</b> keşif</div>
+<div class="note">V10.10 • Word Connect • 2000 bölüm • XP/Elmas • PWA<br>Her bölümün havuzu ayrı; oyuncunun keşfettiği yeni kelimeler genel hafızada tutulur.</div>
 </main>
 </div>
 
@@ -76,36 +72,36 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 
 /* 30 bölüm. Her kelime, bölümdeki harflerle gerçekten kurulabilir. */
 const LEVELS=[
-{theme:"DOĞA • MANZARA",kind:"nature",letters:["G","Ö","L","Ü"],words:["GÖL","GÜL","ÖL"]},
-{theme:"TARİH • ESKİ ÇAĞ",kind:"history",letters:["K","A","L","E"],words:["KALE","KAL","ALE","EL"]},
-{theme:"BİLİM • KEŞİF",kind:"science",letters:["A","T","O","M"],words:["ATOM","MAT","AM","AT"]},
-{theme:"SANAT • GALERİ",kind:"art",letters:["R","E","N","K"],words:["RENK","ERK","KEN","NE"]},
-{theme:"DENİZ • OKYANUS",kind:"sea",letters:["D","A","L","G"],words:["DAL","DA","AL","LA"]},
-{theme:"UZAY • KOZMOS",kind:"space",letters:["A","Y","I"],words:["AY","AYI","YA"]},
-{theme:"MÜZİK • SAHNE",kind:"music",letters:["N","O","T","A"],words:["NOTA","TON","ON","AT"]},
-{theme:"HAYVANLAR • YABAN HAYATI",kind:"animals",letters:["K","U","R","T"],words:["KURT","KUT","UR","TU"]},
-{theme:"KÜLTÜR • GELENEK",kind:"culture",letters:["D","U","A"],words:["DUA","DU","AD","DA"]},
-{theme:"COĞRAFYA • DOĞA",kind:"geo",letters:["D","A","Ğ"],words:["DAĞ","DA","AD"]},
-{theme:"DOĞA • YABANIL",kind:"nature",letters:["O","R","M","A","N"],words:["ORMAN","NAR","ROM","AN"]},
-{theme:"TARİH • SARAY",kind:"history",letters:["T","A","H"],words:["HAT","TAH","AT","HA"]},
-{theme:"BİLİM • LABORATUVAR",kind:"science",letters:["M","İ","K","R","O","P"],words:["MİKROP","KİM","KOR","PİK"]},
-{theme:"SANAT • ATÖLYE",kind:"art",letters:["R","E","S","İ","M"],words:["RESİM","SERİ","ESİR","Mİ"]},
-{theme:"DENİZ • KIYI",kind:"sea",letters:["M","A","R","T","I"],words:["MARTI","MART","TAM","AR"]},
-{theme:"UZAY • GALAKSİ",kind:"space",letters:["Y","I","L","D","Z"],words:["YILDIZ","YIL","DİL"]},
-{theme:"MÜZİK • KONSER",kind:"music",letters:["Ş","A","R","K","I"],words:["ŞARKI","ŞAİR","KIR","KAR"]},
-{theme:"HAYVANLAR • EVREN",kind:"animals",letters:["K","E","D","İ"],words:["KEDİ","DİK","Kİ","DE"]},
-{theme:"KÜLTÜR • MİRAS",kind:"culture",letters:["C","A","M","İ"],words:["CAMİ","CAM","AMİ","Mİ"]},
-{theme:"COĞRAFYA • SULAR",kind:"geo",letters:["N","E","H","İ","R"],words:["NEHİR","HER","Nİ","NE"]},
-{theme:"DOĞA • BİTKİLER",kind:"nature",letters:["Ç","İ","E","K"],words:["ÇİÇEK","ÇEK","İÇ","EK"]},
-{theme:"TARİH • HÜKÜMDARLAR",kind:"history",letters:["K","R","A","L"],words:["KRAL","KAR","KAL","AL"]},
-{theme:"BİLİM • FİZİK",kind:"science",letters:["E","N","R","J","İ"],words:["ENERJİ","EREN","Jİ","EN"]},
-{theme:"SANAT • HEYKELTIRAŞ",kind:"art",letters:["H","E","Y","K","L"],words:["HEYKEL","HEY","EL","YEL"]},
-{theme:"DENİZ • DENİZ YAŞAMI",kind:"sea",letters:["B","A","L","I","K"],words:["BALIK","BAL","KIL","AL"]},
-{theme:"UZAY • GÖKYÜZÜ",kind:"space",letters:["G","E","Z","N"],words:["GEZ","GEN","NE","GE"]},
-{theme:"MÜZİK • RİTİM",kind:"music",letters:["D","A","V","U","L"],words:["DAVUL","DUA","DAL","UL"]},
-{theme:"HAYVANLAR • YABAN HAYATI",kind:"animals",letters:["T","A","V","Ş","N"],words:["TAVŞAN","TAŞ","ŞAN","ANA"]},
-{theme:"KÜLTÜR • EDEBİYAT",kind:"culture",letters:["K","İ","T","A","P"],words:["KİTAP","KİT","TAK","AT"]},
-{theme:"COĞRAFYA • KIYILAR",kind:"geo",letters:["A","D"],words:["ADA","AD","DA"]}
+{theme:"DOĞA • GÖL",kind:"nature",letters:["G","Ö","L","Ü"],words:["GÖL","GÜL","ÖL"]},
+{theme:"TARİH • KALE",kind:"history",letters:["K","A","L","E"],words:["KALE","KAL","ALE","EL"]},
+{theme:"BİLİM • ATOM",kind:"science",letters:["A","T","O","M"],words:["ATOM","MAT","AM","AT"]},
+{theme:"SANAT • RENK",kind:"art",letters:["R","E","N","K"],words:["RENK","ERK","KEN","NE"]},
+{theme:"DENİZ • DALGA",kind:"sea",letters:["D","A","L","G"],words:["DAL","DA","AL","LA"]},
+{theme:"UZAY • AY",kind:"space",letters:["A","Y","I"],words:["AY","AYI","YA"]},
+{theme:"MÜZİK • NOTA",kind:"music",letters:["N","O","T","A"],words:["NOTA","TON","ON","AT"]},
+{theme:"HAYVANLAR • KURT",kind:"animals",letters:["K","U","R","T"],words:["KURT","KUT","UR","TU"]},
+{theme:"KÜLTÜR • DUA",kind:"culture",letters:["D","U","A"],words:["DUA","DU","AD","DA"]},
+{theme:"COĞRAFYA • DAĞ",kind:"geo",letters:["D","A","Ğ"],words:["DAĞ","DA","AD"]},
+{theme:"DOĞA • ORMAN",kind:"nature",letters:["O","R","M","A","N"],words:["ORMAN","NAR","ROM","AN"]},
+{theme:"TARİH • TAHT",kind:"history",letters:["T","A","H"],words:["HAT","TAH","AT","HA"]},
+{theme:"BİLİM • MİKROP",kind:"science",letters:["M","İ","K","R","O","P"],words:["MİKROP","KİM","KOR","PİK"]},
+{theme:"SANAT • RESİM",kind:"art",letters:["R","E","S","İ","M"],words:["RESİM","SERİ","ESİR","Mİ"]},
+{theme:"DENİZ • MARTI",kind:"sea",letters:["M","A","R","T","I"],words:["MARTI","MART","TAM","AR"]},
+{theme:"UZAY • YILDIZ",kind:"space",letters:["Y","I","L","D","Z"],words:["YILDIZ","YIL","DİL"]},
+{theme:"MÜZİK • ŞARKI",kind:"music",letters:["Ş","A","R","K","I"],words:["ŞARKI","ŞAİR","KIR","KAR"]},
+{theme:"HAYVANLAR • KEDİ",kind:"animals",letters:["K","E","D","İ"],words:["KEDİ","DİK","Kİ","DE"]},
+{theme:"KÜLTÜR • CAMİ",kind:"culture",letters:["C","A","M","İ"],words:["CAMİ","CAM","AMİ","Mİ"]},
+{theme:"COĞRAFYA • NEHİR",kind:"geo",letters:["N","E","H","İ","R"],words:["NEHİR","HER","Nİ","NE"]},
+{theme:"DOĞA • ÇİÇEK",kind:"nature",letters:["Ç","İ","E","K"],words:["ÇİÇEK","ÇEK","İÇ","EK"]},
+{theme:"TARİH • KRAL",kind:"history",letters:["K","R","A","L"],words:["KRAL","KAR","KAL","AL"]},
+{theme:"BİLİM • ENERJİ",kind:"science",letters:["E","N","R","J","İ"],words:["ENERJİ","EREN","Jİ","EN"]},
+{theme:"SANAT • HEYKEL",kind:"art",letters:["H","E","Y","K","L"],words:["HEYKEL","HEY","EL","YEL"]},
+{theme:"DENİZ • BALIK",kind:"sea",letters:["B","A","L","I","K"],words:["BALIK","BAL","KIL","AL"]},
+{theme:"UZAY • GEZEGEN",kind:"space",letters:["G","E","Z","N"],words:["GEZ","GEN","NE","GE"]},
+{theme:"MÜZİK • DAVUL",kind:"music",letters:["D","A","V","U","L"],words:["DAVUL","DUA","DAL","UL"]},
+{theme:"HAYVANLAR • TAVŞAN",kind:"animals",letters:["T","A","V","Ş","N"],words:["TAVŞAN","TAŞ","ŞAN","ANA"]},
+{theme:"KÜLTÜR • KİTAP",kind:"culture",letters:["K","İ","T","A","P"],words:["KİTAP","KİT","TAK","AT"]},
+{theme:"COĞRAFYA • ADA",kind:"geo",letters:["A","D"],words:["ADA","AD","DA"]}
 ];
 
 const themes={
@@ -156,14 +152,22 @@ function updateAttempts(){
   $("#letters").style.pointerEvents=attempts>0?"auto":"none";
 }
 function renderPool(){
-  // ÇÖZÜMLERİ aşağıda göstermiyoruz. Hedef kelimeler yalnızca üstteki kutucuklarda görünür.
-  // Bu alan sadece oyuncunun bölümde kendi bulduğu, hedef listesinde olmayan keşifleri tutar.
-  const extras=[...levelDiscoveries]
-    .filter(w=>!data.words.includes(w))
-    .map(w=>`<span class="chip discovery">🌿 ${w}</span>`).join("");
-  $("#poolCount").textContent=[...levelDiscoveries].length;
-  $("#poolChips").innerHTML=extras || `<span class="emptyPool">Bu bölümde henüz ekstra kelime keşfedilmedi.</span>`;
-  $("#memoryCount").textContent="🌿 Genel Kelime Hafızası: "+globalWords.size+" keşif";
+  $("#memoryCount").textContent=globalWords.size;
+}
+
+function addWordRow(word,filled=false){
+  let row=$("#board").querySelector(`.row[data-w="${CSS.escape(word)}"]`);
+  if(!row){
+    row=document.createElement("div"); row.className="row"; row.dataset.w=word;
+    [...word].forEach((ch,i)=>{
+      const slot=document.createElement("div"); slot.className="slot"; slot.dataset.w=word; slot.dataset.i=i; row.appendChild(slot);
+    });
+    $("#board").appendChild(row);
+  }
+  if(filled){
+    row.querySelectorAll(".slot").forEach(slot=>{const i=+slot.dataset.i;slot.textContent=word[i];slot.classList.add("filled")});
+  }
+  return row;
 }
 function consumeAttempt(){
   attempts=Math.max(0,attempts-1);saveLevelState();updateAttempts();
@@ -235,65 +239,23 @@ function render(){
  $("#level").textContent=level;$("#xp").textContent=xp;$("#gems").textContent=gems;$("#score").textContent=score;
  $("#tag").textContent=data.theme;
   const bg={
-    nature:[
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&h=1600&q=90",
-      "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&h=1600&q=90"
-    ],
-    history:[
-      "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=900&h=1600&q=90",
-      "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=900&h=1600&q=90"
-    ],
-    science:[
-      "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=900&h=1600&q=90",
-      "https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&w=900&h=1600&q=90"
-    ],
-    art:[
-      "https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=900&h=1600&q=90",
-      "https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=900&h=1600&q=90"
-    ],
-    sea:[
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&h=1600&q=90",
-      "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=900&h=1600&q=90"
-    ],
-    space:[
-      "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=900&h=1600&q=90",
-      "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=900&h=1600&q=90"
-    ],
-    music:[
-      "https://images.unsplash.com/photo-1525201548942-d8732f6617a0?auto=format&fit=crop&w=900&h=1600&q=90",
-      "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=900&h=1600&q=90",
-      "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=900&h=1600&q=90"
-    ],
-    animals:[
-      "https://images.unsplash.com/photo-1544550285-f813152fb2fd?auto=format&fit=crop&w=900&h=1600&q=90",
-      "https://images.unsplash.com/photo-1555169062-013468b47731?auto=format&fit=crop&w=900&h=1600&q=90",
-      "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?auto=format&fit=crop&w=900&h=1600&q=90"
-    ],
-    culture:[
-      "https://images.unsplash.com/photo-1521292270410-a8c4d716d518?auto=format&fit=crop&w=900&h=1600&q=90",
-      "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&h=1600&q=90"
-    ],
-    geo:[
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&h=1600&q=90",
-      "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&h=1600&q=90"
-    ]
+    nature:"https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=85",
+    history:"https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=85",
+    science:"https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=85",
+    art:"https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=1200&q=85",
+    sea:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=85",
+    space:"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1200&q=85",
+    music:"https://images.unsplash.com/photo-1525201548942-d8732f6617a0?auto=format&fit=crop&w=1200&q=85",
+    animals:"https://commons.wikimedia.org/wiki/Special:FilePath/Scarlet%20Macaw%20(Ara%20macao)%20in%20the%20Amazon%20jungle.jpg?width=900",
+    culture:"https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=85",
+    geo:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85"
   };
-  const choices=bg[data.kind]||bg.music;
-  const bgUrl=choices[(level-1)%choices.length];
-  $("#backdrop").style.setProperty("--bg-image",`url("${bgUrl}")`); $("#backdrop").style.backgroundImage=`url("${bgUrl}")`;
+  $("#backdrop").style.backgroundImage=`url("${bg[data.kind]||bg.music}")`;
  const old=$("#scene").querySelector("svg");if(old)old.remove();
  $("#scene").insertAdjacentHTML("afterbegin",sceneSvg(data.kind));
  $("#board").innerHTML="";
- data.words.forEach(w=>{
-   const row=document.createElement("div");row.className="row";
-   [...w].forEach((ch,i)=>{
-     const el=document.createElement("div");
-     el.className="slot";el.dataset.w=w;el.dataset.i=i;
-     if(found.has(w)){el.textContent=ch;el.classList.add("filled");}
-     row.appendChild(el);
-   });
-   $("#board").appendChild(row);
- });
+ // Kelime kutuları yalnızca oyuncu kelimeyi bulduğunda görünür.
+ data.words.filter(w=>found.has(w)).forEach(w=>addWordRow(w,true));
  lettersOrder=data.letters.map((_,i)=>i);
  build();
  renderPool(); updateAttempts();
@@ -337,23 +299,8 @@ function draw(){
  }
  $("#lines").innerHTML=s;
  document.querySelectorAll(".letter").forEach(e=>e.classList.toggle("active",selected.includes(+e.dataset.i)));
- previewBoard();
 }
-function clearSel(){selected=[];$("#trail").innerHTML="";document.querySelectorAll(".slot.preview").forEach(s=>{s.textContent="";s.classList.remove("preview")});draw();}
-
-function isDiscoveryWord(word){
-  const w=String(word||"").toLocaleUpperCase("tr-TR");
-  if(w.length<2 || w.length>10)return false;
-  if(!/^[A-ZÇĞİÖŞÜ]+$/u.test(w))return false;
-  if(/[ÇĞİÖŞÜ]/u.test(w) || /[AEIİOÖUÜ]/u.test(w)){
-    // En az bir sesli ve makul bir ünsüz/sesli dağılımı.
-    const vowels=(w.match(/[AEIİOÖUÜ]/gu)||[]).length;
-    const cons=(w.match(/[BCÇDFGĞHJKLMNPRSŞTVYZ]/gu)||[]).length;
-    if(vowels<1 || cons>vowels*4)return false;
-    return true;
-  }
-  return false;
-}
+function clearSel(){selected=[];$("#trail").innerHTML="";draw();}
 
 function isDiscoveryWord(word){
   const w=String(word||"").toLocaleUpperCase("tr-TR");
@@ -365,27 +312,9 @@ function isDiscoveryWord(word){
   return true;
 }
 
-function previewBoard(){
-  const word=selected.map(i=>data.letters[i]).join("");
-  // Bulunan kelimeleri koru; yalnızca aktif seçimin eşleştiği kutularda canlı önizleme yap.
-  document.querySelectorAll(".slot").forEach(s=>{
-    if(s.classList.contains("filled")) return;
-    s.textContent="";
-  });
-  if(word.length<1) return;
-  const target=data.words.find(w=>w.startsWith(word) && !found.has(w));
-  if(!target) return;
-  document.querySelectorAll(`.slot[data-w="${CSS.escape(target)}"]`).forEach(s=>{
-    const i=+s.dataset.i;
-    if(i<word.length){ s.textContent=word[i]; s.classList.add("preview"); }
-  });
-}
-
 function submit(){
  const word=selected.map(i=>data.letters[i]).join("");
  if(!word)return;
- const alreadyFound=found.has(word);
- if(alreadyFound){ clearSel(); message("✅ Bu kelimeyi zaten buldun.","info"); return; }
  const target=data.words.find(w=>w===word&&!found.has(w));
  if(!target){
    // Oyuncunun ürettiği ama bu bölümün kutularında bulunmayan gerçek kelime:
@@ -406,7 +335,6 @@ function submit(){
    message(attempts>0?"❌ Bu kelime bu bölümde yok.":"⛔ Denemelerin bitti.","bad");
    clearSel();return;
  }
- document.querySelectorAll(".slot.preview").forEach(s=>s.classList.remove("preview"));
  found.add(target);
  const isNewDiscovery=!globalWords.has(target);
  globalWords.add(target);
@@ -465,15 +393,7 @@ function move(q,e){
 function end(e){
  if(!drag)return;
  if(e&&e.pointerId!==pointerId)return;
- drag=false;pointerId=null;$("#trail").innerHTML="";
- // Tek harfe dokunup bırakmak veya aynı harfe basılı tutmak deneme tüketmez.
- // Deneme yalnızca en az iki farklı harften oluşan bir kelime gönderildiğinde harcanır.
- if(selected.length>=2) submit();
- else { clearSel(); message("İlk harften basılı tut, diğer harflerin üzerinden geç.","info"); }
-}
-function cancelDrag(){
- if(!drag)return;
- drag=false;pointerId=null;$("#trail").innerHTML="";clearSel();
+ drag=false;pointerId=null;$("#trail").innerHTML="";submit();
 }
 
 /* TEK giriş sistemi: pointer events.
@@ -481,8 +401,7 @@ function cancelDrag(){
 $("#letters").addEventListener("pointerdown",e=>begin(point(e),e),{passive:false});
 $("#letters").addEventListener("pointermove",e=>move(point(e),e),{passive:false});
 $("#letters").addEventListener("pointerup",end,{passive:false});
-$("#letters").addEventListener("pointercancel",cancelDrag,{passive:false});
-$("#letters").addEventListener("lostpointercapture",cancelDrag,{passive:false});
+$("#letters").addEventListener("pointercancel",e=>{drag=false;pointerId=null;$("#trail").innerHTML="";clearSel()},{passive:false});
 
 $("#clear").onclick=()=>{clearSel();message("Seçim temizlendi.")};
 $("#shuffle").onclick=()=>{
@@ -493,13 +412,14 @@ $("#hintBtn").onclick=()=>{
  const target=data.words.find(w=>!found.has(w));
  if(!target)return;
  if(gems<20){message("💎 Yeterli elmas yok.","bad");return;}
+ addWordRow(target,false);
  const idx=[...target].findIndex((_,i)=>{
-   const s=document.querySelector(`.slot[data-w="${CSS.escape(target)}"][data-i="${i}"]`);
-   return s&&!s.classList.contains("filled");
+   const slot=document.querySelector(`.slot[data-w="${CSS.escape(target)}"][data-i="${i}"]`);
+   return slot&&!slot.classList.contains("filled");
  });
  if(idx<0)return;
- const s=document.querySelector(`.slot[data-w="${CSS.escape(target)}"][data-i="${idx}"]`);
- s.textContent=target[idx];s.classList.add("filled");
+ const slot=document.querySelector(`.slot[data-w="${CSS.escape(target)}"][data-i="${idx}"]`);
+ slot.textContent=target[idx];slot.classList.add("filled");
  gems-=20;save();$("#gems").textContent=gems;message("💎 Bir harf açıldı.");
 };
 
