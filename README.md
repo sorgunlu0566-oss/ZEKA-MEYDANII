@@ -1,4 +1,4 @@
-# ZEKÂ MEYDANI V10.2
+# ZEKÂ MEYDANI V10.3
 
 Renkli, temalı ve ölçeklenen Word Connect PWA.
 
@@ -11,4 +11,9 @@ Renkli, temalı ve ölçeklenen Word Connect PWA.
 - Karıştır / Temizle
 - Kalıcı **Kelime Havuzum**
 - Yeni keşfedilen bonus kelimeler havuza eklenir
+- Kelime havuzu harf uzunluğuna göre istatistik gösterir
+- Yeni keşfedilen kelimeler kısa süreyle ✨ ile vurgulanır
+- 7 aşamalı kelime koleksiyonu rozetleri ve elmas ödülleri
+- Bir sonraki koleksiyon hedefine ilerleme çubuğu
+- Başarılar kalıcı olarak cihazda saklanır
 - PWA / GitHub Pages uyumlu

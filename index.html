@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#080d1b">
+<meta name="theme-color" content="#b9efff">
 <link rel="manifest" href="manifest.json">
-<title>ZEKÂ MEYDANI V10.2 • Word Connect</title>
+<title>ZEKÂ MEYDANI V10.3 • Word Connect</title>
 <style>
 :root{--bg:#eaf7ff;--panel:#ffffff;--border:#9bc8ff;--blue:#6b8ff5;--text:#24345d;--muted:#66739a;--accent:#9a63e8;--pink:#ff6f9f;--yellow:#ffc94d;--green:#63c97b}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -28,7 +28,7 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 .message{text-align:center;min-height:28px;font-weight:900;margin:0 0 10px}.good{color:#25a85b}.bad{color:#e34f62}.info{color:#6c7698}
 .progress{height:11px;background:#e8eaff;border-radius:20px;overflow:hidden;margin:8px 0 16px}.progress i{display:block;height:100%;background:linear-gradient(90deg,#7f9cf6,#c47cf0,#ff86a9);width:0%;transition:.3s}
 .controls{display:grid;grid-template-columns:1fr 1fr;gap:11px}.btn{border:0;border-radius:21px;background:linear-gradient(135deg,#7e9df5,#7a63cf);color:white;padding:15px 10px;font-size:15px;font-weight:900;box-shadow:0 8px 18px #6b68aa44}.btn.pool{background:linear-gradient(135deg,#4fa9ee,#6b72e7)}.btn:disabled{opacity:.55}.wide{grid-column:1/-1}.btn:active{transform:scale(.98)}
-.note{text-align:center;color:#7b86a5;font-size:12px;margin-top:15px;line-height:1.5}
+.note{text-align:center;color:#7b86a5;font-size:12px;margin-top:15px;line-height:1.5}.ach{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:16px;background:#ffffffcc;border:1px solid #eadfff}.ach.done{background:linear-gradient(135deg,#f0fff3,#fff9df);border-color:#a9dfb6}.achIcon{font-size:23px}.achText{flex:1}.achTitle{font-weight:900;color:#4e3a91}.achSub{font-size:12px;color:#7883a2;margin-top:2px}.achReward{font-weight:900;color:#d78a00;font-size:12px}.newWord{box-shadow:0 0 0 2px #ffcb65,0 4px 12px #ffbf5555!important}
 @media(max-width:430px){.app{padding:10px 10px 24px}.brand{font-size:25px}.stats{font-size:16px;gap:10px}.title{font-size:35px}.scene{height:175px}.letters{height:300px;min-height:300px}.letter{width:72px;height:72px;font-size:27px}.slot{width:var(--slot,39px);height:var(--slot,44px)}}
 </style>
 </head>
@@ -56,9 +56,15 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 </div>
 <div id="poolPanel" style="display:none;margin-top:14px;background:#ffffff;border:2px solid #d7c7ff;border-radius:24px;padding:14px;box-shadow:0 10px 24px #6b6aa522">
   <div style="display:flex;justify-content:space-between;align-items:center;font-weight:900;color:#5b3ba6;margin-bottom:10px"><span>📚 Kelime Havuzum</span><span id="poolTotal">0 kelime</span></div>
+  <div id="poolStats" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px"></div>
   <div id="poolList" style="display:flex;flex-wrap:wrap;gap:7px;max-height:190px;overflow:auto"></div>
 </div>
-<div class="note">V10.2 • Word Connect • 2000 bölüm • Kelime Havuzu • XP/Elmas • PWA<br>Temaya göre görseller, keşif kelimeleri ve ölçeklenen zorluk.</div>
+<div id="achievementPanel" style="margin-top:14px;background:linear-gradient(135deg,#fff8e8,#f4efff);border:2px solid #f0c9ff;border-radius:24px;padding:14px;box-shadow:0 10px 24px #6b6aa522">
+  <div style="display:flex;justify-content:space-between;align-items:center;font-weight:900;color:#5b3ba6;margin-bottom:8px"><span>🏆 Başarılar & Ödüller</span><span id="achievementNext">Yeni hedef</span></div>
+  <div class="progress" style="margin:7px 0 10px"><i id="achievementBar"></i></div>
+  <div id="achievementList" style="display:grid;gap:8px"></div>
+</div>
+<div class="note">V10.3 • Word Connect • 2000 bölüm • Kelime Havuzu • Rozetler • XP/Elmas • PWA<br>Temaya göre görseller, keşif kelimeleri ve ölçeklenen zorluk.</div>
 </main>
 </div>
 
@@ -185,6 +191,17 @@ let gems=Math.max(0,+(localStorage.getItem("zm_gems")||50));
 let score=Math.max(0,+(localStorage.getItem("zm_score")||0));
 let data=null,selected=[],found=new Set(),revealed=new Set(),pos=[],drag=false,pointerId=null,lettersOrder=[];
 let wordPool=new Set(JSON.parse(localStorage.getItem("zm_word_pool")||"[]"));
+let achievements=new Set(JSON.parse(localStorage.getItem("zm_achievements")||"[]"));
+const ACHIEVEMENTS=[
+ {id:"w10",n:10,title:"İlk Koleksiyon",icon:"🌱",reward:"+5 💎",count:10,gems:5},
+ {id:"w50",n:50,title:"Kelime Avcısı",icon:"🔎",reward:"+15 💎",count:50,gems:15},
+ {id:"w100",n:100,title:"Kelime Ustası",icon:"🏅",reward:"+30 💎",count:100,gems:30},
+ {id:"w250",n:250,title:"Kelime Kaşifi",icon:"🧭",reward:"+75 💎",count:250,gems:75},
+ {id:"w500",n:500,title:"Kelime Koleksiyoncusu",icon:"📚",reward:"+150 💎",count:500,gems:150},
+ {id:"w1000",n:1000,title:"Zekâ Avcısı",icon:"🧠",reward:"+300 💎",count:1000,gems:300},
+ {id:"w2000",n:2000,title:"ZEKÂ MEYDANI USTASI",icon:"👑",reward:"+1000 💎",count:2000,gems:1000}
+];
+let lastNewWords=new Set();
 
 function save(){
  localStorage.setItem("zm_level",String(level));
@@ -193,6 +210,7 @@ function save(){
  localStorage.setItem("zm_gems",String(gems));
  localStorage.setItem("zm_score",String(score));
  localStorage.setItem("zm_word_pool",JSON.stringify([...wordPool]));
+ localStorage.setItem("zm_achievements",JSON.stringify([...achievements]));
 }
 function message(t,c="info"){const m=$("#msg");m.textContent=t;m.className="message "+c}
 
@@ -282,18 +300,50 @@ function draw(){
 function updatePoolUI(){
   $("#poolCount").textContent=wordPool.size;
   $("#poolTotal").textContent=wordPool.size+" kelime";
-  const list=$("#poolList");
-  if(!wordPool.size){list.innerHTML='<span style="color:#8b95b0;font-weight:700">Henüz yeni kelime keşfetmedin.</span>';return;}
+  const list=$("#poolList"), stats=$("#poolStats");
   const arr=[...wordPool].sort((a,b)=>a.length-b.length||a.localeCompare(b,"tr"));
-  list.innerHTML=arr.map(w=>`<span style="padding:7px 10px;border-radius:14px;background:linear-gradient(135deg,#eef4ff,#f8eaff);border:1px solid #c7baff;color:#4e3a91;font-weight:900;font-size:13px">${w}</span>`).join('');
+  const counts={2:0,3:0,4:0,"5+":0};
+  arr.forEach(w=>{const k=w.length>=5?"5+":String(w.length);counts[k]++;});
+  stats.innerHTML=Object.entries(counts).map(([k,v])=>`<span style="padding:6px 9px;border-radius:12px;background:#f3efff;color:#5b3ba6;font-weight:900;font-size:12px">${k} harf: ${v}</span>`).join('');
+  if(!arr.length){list.innerHTML='<span style="color:#8b95b0;font-weight:700">Henüz kelime keşfetmedin.</span>';return;}
+  list.innerHTML=arr.map(w=>{const fresh=lastNewWords.has(w);return `<span class="${fresh?'newWord':''}" style="padding:7px 10px;border-radius:14px;background:linear-gradient(135deg,#eef4ff,#f8eaff);border:1px solid #c7baff;color:#4e3a91;font-weight:900;font-size:13px">${w}${fresh?' ✨':''}</span>`}).join('');
+  renderAchievements();
+}
+function renderAchievements(){
+  const list=$("#achievementList"), next=$("#achievementNext"), bar=$("#achievementBar");
+  const nextA=ACHIEVEMENTS.find(a=>!achievements.has(a.id));
+  const prev=nextA?ACHIEVEMENTS[ACHIEVEMENTS.indexOf(nextA)-1]:ACHIEVEMENTS[ACHIEVEMENTS.length-1];
+  if(nextA){
+    next.textContent=nextA.count+" kelime hedefi";
+    const base=prev?prev.count:0;
+    const pct=Math.max(0,Math.min(100,((wordPool.size-base)/(nextA.count-base))*100));
+    bar.style.width=pct+"%";
+  }else{next.textContent="TÜMÜ TAMAM! 👑";bar.style.width="100%";}
+  list.innerHTML=ACHIEVEMENTS.map(a=>{
+    const done=achievements.has(a.id);
+    return `<div class="ach ${done?'done':''}"><div class="achIcon">${a.icon}</div><div class="achText"><div class="achTitle">${a.title}</div><div class="achSub">${Math.min(wordPool.size,a.count)} / ${a.count} farklı kelime</div></div><div class="achReward">${done?'✅ ALINDI':a.reward}</div></div>`;
+  }).join('');
+}
+function checkAchievements(){
+  let changed=false;
+  for(const a of ACHIEVEMENTS){
+    if(wordPool.size>=a.count && !achievements.has(a.id)){
+      achievements.add(a.id);gems+=a.gems;changed=true;
+      message(`🏆 ${a.title}! ${a.reward}`,"good");
+    }
+  }
+  if(changed){save();$("#gems").textContent=gems;}
+  renderAchievements();
 }
 function addToPool(word,bonus=false){
   const w=word.toUpperCase();
   const fresh=!wordPool.has(w);
   if(fresh){
-    wordPool.add(w);
+    wordPool.add(w);lastNewWords=new Set([w]);
     save(); updatePoolUI();
     if(bonus){ score+=20; gems+=1; $("#score").textContent=score; $("#gems").textContent=gems; save(); }
+    checkAchievements();
+    setTimeout(()=>{lastNewWords=new Set();updatePoolUI();},3500);
   }
   return fresh;
 }
