@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#b9efff">
 <link rel="manifest" href="manifest.json">
-<title>ZEKÂ MEYDANI V10.3 • Word Connect</title>
+<title>ZEKÂ MEYDANI V10.4 • Word Connect</title>
 <style>
 :root{--bg:#eaf7ff;--panel:#ffffff;--border:#9bc8ff;--blue:#6b8ff5;--text:#24345d;--muted:#66739a;--accent:#9a63e8;--pink:#ff6f9f;--yellow:#ffc94d;--green:#63c97b}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -57,6 +57,7 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 <div id="poolPanel" style="display:none;margin-top:14px;background:#ffffff;border:2px solid #d7c7ff;border-radius:24px;padding:14px;box-shadow:0 10px 24px #6b6aa522">
   <div style="display:flex;justify-content:space-between;align-items:center;font-weight:900;color:#5b3ba6;margin-bottom:10px"><span>📚 Kelime Havuzum</span><span id="poolTotal">0 kelime</span></div>
   <div id="poolStats" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px"></div>
+  <div id="poolLegend" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px;font-size:12px;font-weight:900"><span style="padding:6px 9px;border-radius:12px;background:#eef4ff;color:#4e3a91">📚 Bölüm kelimesi</span><span style="padding:6px 9px;border-radius:12px;background:#e9f9df;color:#2e7d32">🔎 Keşif kelimesi</span></div>
   <div id="poolList" style="display:flex;flex-wrap:wrap;gap:7px;max-height:190px;overflow:auto"></div>
 </div>
 <div id="achievementPanel" style="margin-top:14px;background:linear-gradient(135deg,#fff8e8,#f4efff);border:2px solid #f0c9ff;border-radius:24px;padding:14px;box-shadow:0 10px 24px #6b6aa522">
@@ -64,7 +65,7 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
   <div class="progress" style="margin:7px 0 10px"><i id="achievementBar"></i></div>
   <div id="achievementList" style="display:grid;gap:8px"></div>
 </div>
-<div class="note">V10.3 • Word Connect • 2000 bölüm • Kelime Havuzu • Rozetler • XP/Elmas • PWA<br>Temaya göre görseller, keşif kelimeleri ve ölçeklenen zorluk.</div>
+<div class="note">V10.4 • Word Connect • 2000 bölüm • Kelime Havuzu • Keşif Kelimeleri • Rozetler • XP/Elmas • PWA<br>Temaya göre görseller, keşif kelimeleri ve ölçeklenen zorluk.</div>
 </main>
 </div>
 
@@ -191,6 +192,7 @@ let gems=Math.max(0,+(localStorage.getItem("zm_gems")||50));
 let score=Math.max(0,+(localStorage.getItem("zm_score")||0));
 let data=null,selected=[],found=new Set(),revealed=new Set(),pos=[],drag=false,pointerId=null,lettersOrder=[];
 let wordPool=new Set(JSON.parse(localStorage.getItem("zm_word_pool")||"[]"));
+let discoveryPool=new Set(JSON.parse(localStorage.getItem("zm_discovery_pool")||"[]"));
 let achievements=new Set(JSON.parse(localStorage.getItem("zm_achievements")||"[]"));
 const ACHIEVEMENTS=[
  {id:"w10",n:10,title:"İlk Koleksiyon",icon:"🌱",reward:"+5 💎",count:10,gems:5},
@@ -210,25 +212,31 @@ function save(){
  localStorage.setItem("zm_gems",String(gems));
  localStorage.setItem("zm_score",String(score));
  localStorage.setItem("zm_word_pool",JSON.stringify([...wordPool]));
+ localStorage.setItem("zm_discovery_pool",JSON.stringify([...discoveryPool]));
  localStorage.setItem("zm_achievements",JSON.stringify([...achievements]));
 }
 function message(t,c="info"){const m=$("#msg");m.textContent=t;m.className="message "+c}
 
 function sceneSvg(kind){
- const c=themes[kind]||themes.nature;
- const motifs={
-  nature:`<circle cx="660" cy="50" r="28" fill="#ffe9a1"/><path d="M0 205L145 70l110 115L410 45l140 145L690 80l110 120V260H0Z" fill="${c[1]}"/><path d="M0 225Q180 195 360 230T800 225V260H0Z" fill="${c[2]}" opacity=".8"/>`,
-  history:`<rect x="560" y="75" width="150" height="115" rx="8" fill="${c[1]}"/><path d="M535 80L635 20l100 60Z" fill="#52311f"/><rect x="590" y="115" width="35" height="75" fill="#b9895d"/><path d="M0 220h800v40H0Z" fill="#59412f"/>`,
-  science:`<circle cx="620" cy="120" r="55" fill="none" stroke="${c[2]}" stroke-width="7"/><circle cx="620" cy="120" r="15" fill="#fff"/><ellipse cx="620" cy="120" rx="105" ry="35" fill="none" stroke="${c[2]}" stroke-width="5" transform="rotate(25 620 120)"/><ellipse cx="620" cy="120" rx="105" ry="35" fill="none" stroke="${c[2]}" stroke-width="5" transform="rotate(-25 620 120)"/>`,
-  art:`<rect x="80" y="35" width="320" height="180" rx="12" fill="#e8d8c4"/><circle cx="190" cy="105" r="48" fill="#e07b9c"/><path d="M120 185Q230 85 350 180" fill="none" stroke="#6c58a9" stroke-width="18"/><circle cx="660" cy="100" r="45" fill="#f2b35e"/>`,
-  sea:`<path d="M0 185Q120 130 240 185T480 185T720 185T960 185V260H0Z" fill="${c[1]}"/><path d="M0 210Q120 175 240 210T480 210T720 210T960 210" fill="none" stroke="${c[2]}" stroke-width="18"/><path d="M540 160l45-85 45 85Z" fill="#fff" opacity=".85"/>`,
-  space:`<circle cx="635" cy="105" r="52" fill="#8f86ff"/><circle cx="650" cy="90" r="52" fill="${c[0]}"/><circle cx="120" cy="55" r="3" fill="#fff"/><circle cx="230" cy="115" r="4" fill="#fff"/><circle cx="430" cy="45" r="3" fill="#fff"/><circle cx="730" cy="180" r="4" fill="#fff"/>`,
-  music:`<circle cx="220" cy="90" r="38" fill="#f5a0b7"/><path d="M260 90V190M260 90l120-35v100" stroke="#fff" stroke-width="10" fill="none"/><circle cx="245" cy="195" r="24" fill="#fff"/><circle cx="365" cy="160" r="24" fill="#fff"/>`,
-  animals:`<circle cx="610" cy="125" r="60" fill="#c48a62"/><circle cx="575" cy="85" r="25" fill="#c48a62"/><circle cx="645" cy="85" r="25" fill="#c48a62"/><circle cx="590" cy="120" r="6"/><circle cx="630" cy="120" r="6"/><path d="M605 145q10 10 20 0" fill="none" stroke="#fff" stroke-width="5"/>`,
-  culture:`<path d="M540 190V80h160v110M515 80h210L620 25Z" fill="${c[1]}"/><path d="M575 190V110M625 190V110M675 190V110" stroke="#f2d89a" stroke-width="18"/><path d="M515 195h210" stroke="#fff" stroke-width="8"/>`,
-  geo:`<path d="M0 200L160 80l110 120 150-135 120 135 150-105 110 105v60H0Z" fill="${c[1]}"/><path d="M0 225Q180 205 360 230T800 225" fill="none" stroke="${c[2]}" stroke-width="20"/>`
+ const photos={
+  nature:'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=82',
+  history:'https://images.unsplash.com/photo-1520637836862-4d197d17c42a?auto=format&fit=crop&w=1200&q=82',
+  science:'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=82',
+  art:'https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=1200&q=82',
+  sea:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82',
+  space:'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1200&q=82',
+  music:'https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1200&q=82',
+  animals:'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=1200&q=82',
+  culture:'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=82',
+  geo:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82'
  };
- return `<svg viewBox="0 0 800 260" preserveAspectRatio="xMidYMid slice"><rect width="800" height="260" fill="${c[0]}"/><circle cx="85" cy="55" r="34" fill="#fff" opacity=".65"/><circle cx="135" cy="52" r="24" fill="#fff" opacity=".55"/>${motifs[kind]||motifs.nature}<circle cx="740" cy="45" r="5" fill="#fff" opacity=".9"/><circle cx="770" cy="85" r="3" fill="#fff" opacity=".9"/></svg>`;
+ const fallback={
+  nature:['#8fd8ff','#6dbf83','#b9f0d4'],history:['#ffd58a','#a46d48','#bfe5ff'],science:['#7eddf3','#4c8db1','#baf6ff'],art:['#d8a5ff','#9a63d2','#ffc0dc'],sea:['#72d9ff','#258bb3','#b8f2ff'],space:['#151b4d','#16103b','#d7caff'],music:['#c69cff','#9d59a6','#ffd0e1'],animals:['#a8df87','#5d9a66','#d7f7a9'],culture:['#ffd995','#a9784e','#fff0ba'],geo:['#9fd6ff','#78aa70','#c8f2ff']
+ };
+ const c=fallback[kind]||fallback.nature;
+ const url=photos[kind]||photos.nature;
+ const labels={nature:'Doğa',history:'Tarih',science:'Bilim',art:'Sanat',sea:'Deniz',space:'Uzay',music:'Müzik',animals:'Hayvanlar',culture:'Kültür',geo:'Coğrafya'};
+ return `<svg viewBox="0 0 800 260" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${labels[kind]||'Tema'} görseli"><defs><linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#08112b" stop-opacity=".10"/><stop offset="1" stop-color="#08112b" stop-opacity=".62"/></linearGradient></defs><rect width="800" height="260" fill="${c[0]}"/><image href="${url}" x="0" y="0" width="800" height="260" preserveAspectRatio="xMidYMid slice"/><rect width="800" height="260" fill="url(#shade)"/><rect x="0" y="0" width="800" height="260" fill="none" stroke="#ffffff" stroke-opacity=".12" stroke-width="8"/></svg>`;
 }
 
 function render(){
@@ -305,10 +313,18 @@ function updatePoolUI(){
   const counts={2:0,3:0,4:0,"5+":0};
   arr.forEach(w=>{const k=w.length>=5?"5+":String(w.length);counts[k]++;});
   stats.innerHTML=Object.entries(counts).map(([k,v])=>`<span style="padding:6px 9px;border-radius:12px;background:#f3efff;color:#5b3ba6;font-weight:900;font-size:12px">${k} harf: ${v}</span>`).join('');
-  if(!arr.length){list.innerHTML='<span style="color:#8b95b0;font-weight:700">Henüz kelime keşfetmedin.</span>';return;}
-  list.innerHTML=arr.map(w=>{const fresh=lastNewWords.has(w);return `<span class="${fresh?'newWord':''}" style="padding:7px 10px;border-radius:14px;background:linear-gradient(135deg,#eef4ff,#f8eaff);border:1px solid #c7baff;color:#4e3a91;font-weight:900;font-size:13px">${w}${fresh?' ✨':''}</span>`}).join('');
+  if(!arr.length){list.innerHTML='<span style="color:#8b95b0;font-weight:700">Henüz kelime keşfetmedin.</span>';renderAchievements();return;}
+  list.innerHTML=arr.map(w=>{
+    const fresh=lastNewWords.has(w);
+    const discovery=discoveryPool.has(w);
+    const bg=discovery?'linear-gradient(135deg,#e8f8df,#f1ffe9)':'linear-gradient(135deg,#eef4ff,#f8eaff)';
+    const border=discovery?'#9bd28f':'#c7baff';
+    const color=discovery?'#28733a':'#4e3a91';
+    return `<span class="${fresh?'newWord':''}" title="${discovery?'Keşif kelimesi':'Bölüm kelimesi'}" style="padding:7px 10px;border-radius:14px;background:${bg};border:1px solid ${border};color:${color};font-weight:900;font-size:13px">${discovery?'🔎 ':''}${w}${fresh?' ✨':''}</span>`;
+  }).join('');
   renderAchievements();
 }
+
 function renderAchievements(){
   const list=$("#achievementList"), next=$("#achievementNext"), bar=$("#achievementBar");
   const nextA=ACHIEVEMENTS.find(a=>!achievements.has(a.id));
@@ -338,14 +354,17 @@ function checkAchievements(){
 function addToPool(word,bonus=false){
   const w=word.toUpperCase();
   const fresh=!wordPool.has(w);
-  if(fresh){
-    wordPool.add(w);lastNewWords=new Set([w]);
+  const newDiscovery=bonus&&!discoveryPool.has(w);
+  if(fresh) wordPool.add(w);
+  if(newDiscovery) discoveryPool.add(w);
+  if(fresh||newDiscovery){
+    lastNewWords=new Set([w]);
     save(); updatePoolUI();
-    if(bonus){ score+=20; gems+=1; $("#score").textContent=score; $("#gems").textContent=gems; save(); }
+    if(newDiscovery){ score+=20; gems+=1; $("#score").textContent=score; $("#gems").textContent=gems; save(); }
     checkAchievements();
     setTimeout(()=>{lastNewWords=new Set();updatePoolUI();},3500);
   }
-  return fresh;
+  return fresh||newDiscovery;
 }
 
 function clearSel(){selected=[];$("#trail").innerHTML="";draw();}
