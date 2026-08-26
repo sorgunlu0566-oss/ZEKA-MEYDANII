@@ -1,18 +1,14 @@
-# ZEKÂ MEYDANI V8.5
+# ZEKÂ MEYDANI V10.2
 
-V8.5, çalışan V8.3 Word Connect mekaniğinin üzerine 30 temalı bölüm, bölüm ilerlemesi, XP, elmas, puan ve bölüm ödülü ekler.
+Renkli, temalı ve ölçeklenen Word Connect PWA.
 
-## Kurulum
-ZIP'i aç. İçindeki 6 dosyayı GitHub repository `main` dalının köküne yükle ve eski dosyaların üzerine yaz:
-- index.html
-- manifest.json
-- service-worker.js
-- icon-192.svg
-- icon-512.svg
-- README.md
-
-GitHub Pages: `main` + `/(root)`.
-
-## Oyun
-Harf üzerinde basılı tut → diğer harflerin üzerinden sürükle → son harfte bırak.
-Kelime bulununca üst kutular dolar.
+## Özellikler
+- 2000 bölümlük ölçeklenen bölüm motoru
+- Tema bazlı görseller: sanat, tarih, bilim, uzay, deniz, müzik, hayvanlar, coğrafya vb.
+- Bölüm ilerledikçe harf ve kelime sayısında artış
+- XP, puan ve elmas
+- Harf Aç sistemi
+- Karıştır / Temizle
+- Kalıcı **Kelime Havuzum**
+- Yeni keşfedilen bonus kelimeler havuza eklenir
+- PWA / GitHub Pages uyumlu

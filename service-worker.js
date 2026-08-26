@@ -1,4 +1,4 @@
-const CACHE='zeka-meydani-v10-1';
+const CACHE='zeka-meydani-v10-2';
 self.addEventListener('install',e=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
 self.addEventListener('fetch',e=>{

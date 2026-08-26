@@ -1,9 +1,9 @@
 {
-  "name": "ZEKÂ MEYDANI V10.1",
+  "name": "ZEKÂ MEYDANI V10.2",
   "short_name": "ZEKÂ MEYDANI",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#080d1b",
-  "theme_color": "#080d1b",
+  "background_color": "#eaf7ff",
+  "theme_color": "#eaf7ff",
   "lang": "tr"
 }
