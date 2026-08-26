@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#5b2fcf">
+<title>ZEKÂ MEYDANI • Kelime Meydanı</title>
+<style>
+:root{
+  --purple:#5b2fcf; --purple2:#8b5cf6; --ink:#2f225f; --white:#fff;
+  --green:#72b85d; --shadow:0 14px 35px rgba(42,28,87,.18);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#eef7f0;color:var(--ink)}
+body{overflow-x:hidden}
+button{font:inherit;border:0}
+.app{min-height:100vh;position:relative;overflow:hidden;padding:env(safe-area-inset-top) 14px env(safe-area-inset-bottom)}
+.bg{position:fixed;inset:0;z-index:-3;background-image:url("https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=85");background-size:cover;background-position:center}
+.bg:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(244,251,244,.76),rgba(210,239,194,.82) 55%,rgba(245,250,239,.88))}
+.bgBlur{position:fixed;inset:0;z-index:-2;backdrop-filter:blur(2px)}
+.shell{width:min(680px,100%);margin:0 auto;padding:14px 0 34px}
+.top{background:rgba(255,255,255,.92);border-radius:28px;padding:18px 18px 20px;box-shadow:var(--shadow);border:2px solid rgba(255,255,255,.9)}
+.meta{text-align:center;font-weight:900;color:#756b8d;font-size:15px;letter-spacing:.3px}
+h1{text-align:center;font-size:clamp(32px,8vw,52px);line-height:1;margin:10px 0 5px;color:#38216f}
+.sub{text-align:center;font-size:18px;font-weight:800;color:#756b8d}
+.hero{position:relative;margin-top:18px;height:210px;border-radius:30px;overflow:hidden;background:#76b960;box-shadow:0 10px 25px rgba(47,80,37,.18);border:5px solid white}
+.heroImg{position:absolute;inset:0;background-image:url("https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=1200&q=85");background-size:cover;background-position:center;filter:saturate(1.18)}
+.heroShade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(91,47,207,.12),rgba(0,0,0,.18))}
+.theme{position:absolute;left:28px;bottom:25px;background:rgba(255,255,255,.96);padding:14px 25px;border-radius:22px;font-size:20px;font-weight:950;color:#38216f;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.game{margin-top:18px;background:rgba(255,255,255,.88);border-radius:30px;padding:20px 12px 24px;box-shadow:var(--shadow);border:2px solid rgba(255,255,255,.9)}
+.slots{display:flex;flex-direction:column;align-items:center;gap:12px;margin:2px 0 25px;min-height:308px}
+.slotRow{display:flex;justify-content:center;gap:12px}
+.slot{width:68px;height:68px;border:4px solid #9b7af2;border-radius:18px;background:rgba(255,255,255,.82);display:flex;align-items:center;justify-content:center;font-size:31px;font-weight:950;color:#4d2a9c;box-shadow:0 7px 15px rgba(91,47,207,.1);transition:.12s}
+.slot.filled{background:#eee7ff;border-color:#6939d9;transform:scale(1.03)}
+.instruction{text-align:center;font-weight:850;color:#71658a;font-size:17px;line-height:1.25;margin:8px auto 22px;max-width:520px}
+.letterArea{position:relative;width:min(410px,94vw);height:350px;margin:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.letter{position:absolute;width:92px;height:92px;border-radius:50%;background:radial-gradient(circle at 35% 25%,#fff 0,#f1eaff 42%,#cbb9ff 100%);border:6px solid #6b3ee1;color:#45258e;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:950;box-shadow:0 9px 0 rgba(91,47,207,.13),0 8px 25px rgba(91,47,207,.2);touch-action:none;z-index:2}
+.letter.active{transform:scale(1.08);border-color:#4b20c6;box-shadow:0 9px 0 rgba(91,47,207,.18),0 12px 30px rgba(91,47,207,.3)}
+.l1{left:calc(50% - 46px);top:5px}.l2{left:25px;top:115px}.l3{right:25px;top:115px}.l4{left:calc(50% - 46px);top:235px}
+.status{text-align:center;min-height:42px;font-size:20px;font-weight:950;margin:2px 0 13px}
+.status.ok{color:#168b3c}.status.bad{color:#df2534}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pill{background:#fff;border-radius:18px;padding:10px 15px;font-weight:900;box-shadow:0 5px 16px rgba(49,35,93,.1)}
+.actions{display:flex;gap:12px;margin-top:14px}
+.action{flex:1;border-radius:18px;padding:14px 10px;color:white;background:linear-gradient(135deg,#2d7cff,#713de8);font-weight:950;font-size:16px;box-shadow:0 8px 18px rgba(74,67,225,.22)}
+.action:active{transform:scale(.98)}
+#nextSection.show{display:block!important;animation:pop .25s ease}@keyframes pop{from{transform:scale(.96);opacity:.5}to{transform:scale(1);opacity:1}}
+.words{margin-top:15px;background:rgba(255,255,255,.94);border:3px solid #b18df8;border-radius:22px;padding:14px 16px}
+.words h2{font-size:20px;margin:0 0 6px;color:#4a2a90}.words p{margin:0;color:#766b8b;font-weight:700}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,130px);background:#2f225f;color:white;padding:13px 20px;border-radius:18px;font-weight:900;z-index:10;transition:.25s;box-shadow:0 10px 25px #0003}
+.toast.show{transform:translate(-50%,0)}
+@media(max-width:420px){.slot{width:58px;height:58px;border-radius:16px}.letterArea{height:320px}.letter{width:84px;height:84px;font-size:34px}.l1{left:calc(50% - 42px)}.l2{left:8px;top:110px}.l3{right:8px;top:110px}.l4{left:calc(50% - 42px);top:220px}}
+</style>
+</head>
+<body>
+<div class="bg"></div><div class="bgBlur"></div>
+<div class="app"><main class="shell">
+<section class="top">
+  <div class="meta" id="meta">BÖLÜM 8 / 2000 • XP 0/100</div>
+  <h1>Kelime Meydanı</h1>
+  <div class="sub">Harfleri birleştir, kelimeleri keşfet</div>
+  <div class="hero">
+    <div class="heroImg"></div><div class="heroShade"></div>
+    <div class="theme">🐺 HAYVANLAR</div>
+  </div>
+</section>
+
+<section class="game">
+  <div class="slots" id="slots"></div>
+  <div class="instruction">Bir harfe basılı tut ve diğer harflerin üzerinden sürükle.</div>
+
+  <div class="letterArea" id="letterArea">
+    <svg class="lines" id="lines" viewBox="0 0 410 350" preserveAspectRatio="none"></svg>
+    <div class="letter l1" data-letter="K">K</div>
+    <div class="letter l2" data-letter="T">T</div>
+    <div class="letter l3" data-letter="U">U</div>
+    <div class="letter l4" data-letter="R">R</div>
+  </div>
+
+  <div class="status" id="status">Harfleri sırayla birleştir; bölüm kelimeleri kutulara, yeni kelimeler bonus havuzuna gider.</div>
+  <div class="stats">
+    <div class="pill">🎯 DENEME <span id="attempt">0</span>/30</div>
+    <div class="pill">⭐ PUAN <span id="score">0</span></div>
+  </div>
+  <div class="actions">
+    <button class="action" id="shuffle">🔀 KARIŞTIR</button>
+    <button class="action" id="hint">💎 HARF AÇ • 20</button>
+  </div>
+  <button class="action" id="nextSection" style="display:none;width:100%;margin-top:12px;background:linear-gradient(135deg,#16a34a,#0f766e)">➡️ SONRAKİ BÖLÜME GEÇ</button>
+  <div class="words"><h2>📚 Bu Bölümün Kelimeleri <span id="count">0/4</span></h2><p id="found">Henüz keşfedilen kelime yok.</p></div>
+  <div class="words" id="bonusBox" style="margin-top:12px">
+    <h2>🔎 Keşfedilen Bonus Kelimeler <span id="bonusCount">0</span></h2>
+    <p id="bonusFound">Henüz bonus kelime keşfedilmedi.</p>
+  </div>
+</section>
+</main></div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const SECTIONS = [
+  {no:8, theme:"🐺 HAYVANLAR", hero:"https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=1200&q=85",
+   letters:["K","T","U","R"], targets:["KURT","TUR","KUT","UT"], bonus:["KUR"]},
+  {no:9, theme:"🐱 HAYVANLAR", hero:"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=1200&q=85",
+   letters:["K","E","D","İ"], targets:["KEDİ","KED","DİK","EDİ"], bonus:["DEK"]}
+];
+const MAX_ATTEMPTS=30;
+const BONUS_SCORE=50;
+let sectionIndex=Number(localStorage.getItem("zekaMeydaniBolum")||"0");
+if(sectionIndex<0 || sectionIndex>=SECTIONS.length) sectionIndex=0;
+let current=SECTIONS[sectionIndex];
+let TARGETS=current.targets;
+let BONUS_WORDS=current.bonus;
+let discovered=JSON.parse(localStorage.getItem("zekaMeydaniKelimeHavuzu")||"[]");
+const letters=[...document.querySelectorAll(".letter")];
+const area=document.getElementById("letterArea");
+const lines=document.getElementById("lines");
+const statusEl=document.getElementById("status");
+const slotsEl=document.getElementById("slots");
+const attemptEl=document.getElementById("attempt");
+const scoreEl=document.getElementById("score");
+const foundEl=document.getElementById("found");
+const countEl=document.getElementById("count");
+const bonusFoundEl=document.getElementById("bonusFound");
+const bonusCountEl=document.getElementById("bonusCount");
+const toastEl=document.getElementById("toast");
+let path=[],dragging=false,attempts=0,score=0,found=[];
+
+const WORD_SIZES = [4,3,3,2];
+
+function buildSlots(){
+  slotsEl.innerHTML="";
+  WORD_SIZES.forEach(size=>{
+    const row=document.createElement("div");
+    row.className="slotRow";
+    for(let i=0;i<size;i++){
+      const s=document.createElement("div");
+      s.className="slot";
+      row.appendChild(s);
+    }
+    slotsEl.appendChild(row);
+  });
+}
+buildSlots();
+function renderSection(){
+  current=SECTIONS[sectionIndex];
+  TARGETS=current.targets;
+  BONUS_WORDS=current.bonus;
+  document.getElementById("meta").textContent="BÖLÜM "+current.no+" / 2000 • XP 0/100";
+  document.querySelector(".theme").textContent=current.theme;
+  document.querySelector(".heroImg").style.backgroundImage=`url("${current.hero}")`;
+  letters.forEach((el,i)=>{
+    el.dataset.letter=current.letters[i];
+    el.textContent=current.letters[i];
+    el.className="letter "+["l1","l2","l3","l4"][i];
+    el.classList.remove("active");
+  });
+  slotsEl.innerHTML="";
+  current.targets.forEach(word=>{
+    const row=document.createElement("div");
+    row.className="slotRow";
+    for(let i=0;i<word.length;i++){
+      const s=document.createElement("div");
+      s.className="slot";
+      row.appendChild(s);
+    }
+    slotsEl.appendChild(row);
+  });
+  document.getElementById("count").textContent="0/"+current.targets.length;
+  document.getElementById("found").textContent="Henüz keşfedilen kelime yok.";
+}
+renderSection();
+
+
+function centerOf(el){
+  const a=area.getBoundingClientRect(), r=el.getBoundingClientRect();
+  return {x:r.left+r.width/2-a.left,y:r.top+r.height/2-a.top};
+}
+function draw(){
+  lines.innerHTML="";
+  if(path.length<1)return;
+  const pts=path.map(centerOf);
+  const ns="http://www.w3.org/2000/svg";
+  for(let i=0;i<pts.length-1;i++){
+    const line=document.createElementNS(ns,"line");
+    line.setAttribute("x1",pts[i].x);line.setAttribute("y1",pts[i].y);
+    line.setAttribute("x2",pts[i+1].x);line.setAttribute("y2",pts[i+1].y);
+    line.setAttribute("stroke","#6b3ee1");line.setAttribute("stroke-width","13");
+    line.setAttribute("stroke-linecap","round");line.setAttribute("opacity",".8");
+    lines.appendChild(line);
+  }
+}
+function letterAt(x,y){
+  const el=document.elementFromPoint(x,y);
+  return el?.closest(".letter")||null;
+}
+function start(e){
+  e.preventDefault();
+  if(attempts>=MAX_ATTEMPTS){
+    statusEl.textContent="🏁 30/30 — bölüm tamamlandı.";
+    statusEl.className="status ok";
+    return;
+  }
+  dragging=true;path=[];
+  const el=e.currentTarget;
+  path.push(el);el.classList.add("active");draw();
+  try{el.setPointerCapture(e.pointerId)}catch(_){}
+}
+function move(e){
+  if(!dragging)return;
+  e.preventDefault();
+  const el=letterAt(e.clientX,e.clientY);
+  if(el && !path.includes(el)){
+    path.push(el);el.classList.add("active");draw();
+    if(path.length===4)finish();
+  }
+}
+function finish(){
+  if(!dragging)return;
+  dragging=false;
+
+  // 30 denemeden sonra yeni deneme kabul edilmez.
+  if(attempts >= MAX_ATTEMPTS){
+    statusEl.textContent="🏁 Bölüm tamamlandı — 30 deneme hakkın bitti.";
+    statusEl.className="status ok";
+    setTimeout(()=>{path.forEach(x=>x.classList.remove("active"));path=[];draw()},120);
+    return;
+  }
+
+  const word=path.map(x=>x.dataset.letter).join("");
+  attempts=Math.min(MAX_ATTEMPTS,attempts+1);
+  attemptEl.textContent=attempts;
+
+  if(TARGETS.includes(word)){
+    if(!found.includes(word)){
+      found.push(word);
+      score+=100;
+      scoreEl.textContent=score;
+      statusEl.textContent="✓ "+word+" bulundu!";
+      statusEl.className="status ok";
+      updateFound();
+      fillSlots(word);
+      toast("Kelime doğru! +100 puan");
+      if(found.length===TARGETS.length){
+        completeSection();
+      }
+    }else{
+      statusEl.textContent="✓ "+word+" zaten bulundu.";
+      statusEl.className="status ok";
+    }
+  }else if(BONUS_WORDS.includes(word)){
+    if(!discovered.includes(word)){
+      discovered.push(word);
+      localStorage.setItem("zekaMeydaniKelimeHavuzu",JSON.stringify(discovered));
+      score+=BONUS_SCORE;
+      scoreEl.textContent=score;
+      updateBonus();
+      statusEl.textContent="⭐ Bonus kelime: "+word+"!";
+      statusEl.className="status ok";
+      toast("Yeni kelime keşfedildi! +"+BONUS_SCORE+" puan");
+    }else{
+      statusEl.textContent="⭐ "+word+" daha önce keşfedilmiş.";
+      statusEl.className="status ok";
+    }
+  }else{
+    statusEl.textContent="✕ Bu kelime tanınmıyor.";
+    statusEl.className="status bad";
+  }
+
+  if(attempts>=MAX_ATTEMPTS && found.length<TARGETS.length){
+    setTimeout(()=>{
+      statusEl.textContent="⏳ 30/30 — bölüm tamamlanmadı.";
+      statusEl.className="status bad";
+    },320);
+  }
+
+  setTimeout(()=>{path.forEach(x=>x.classList.remove("active"));path=[];draw()},260);
+}
+function completeSection(){
+  statusEl.textContent="🏆 BÖLÜM "+current.no+" TAMAMLANDI!";
+  statusEl.className="status ok";
+  const next=document.getElementById("nextSection");
+  if(sectionIndex < SECTIONS.length-1){
+    next.style.display="block";
+    next.classList.add("show");
+  }else{
+    next.style.display="block";
+    next.classList.add("show");
+    next.textContent="🏆 SON BÖLÜM TAMAMLANDI";
+  }
+  toast("Bölüm tamamlandı!");
+}
+
+function fillSlots(word){
+  const wordIndex = TARGETS.indexOf(word);
+  if(wordIndex < 0) return;
+  const row = slotsEl.querySelectorAll(".slotRow")[wordIndex];
+  if(!row) return;
+  const all = [...row.querySelectorAll(".slot")];
+  [...word].forEach((ch,i)=>{
+    if(all[i]){
+      all[i].textContent=ch;
+      all[i].classList.add("filled");
+    }
+  });
+}
+function updateFound(){
+  countEl.textContent=found.length+"/4";
+  foundEl.textContent=found.length?found.join(" • "):"Henüz keşfedilen kelime yok.";
+}
+function updateBonus(){
+  bonusCountEl.textContent=discovered.length;
+  bonusFoundEl.textContent=discovered.length
+    ? discovered.join(" • ")
+    : "Henüz bonus kelime keşfedilmedi.";
+}
+updateBonus();
+function toast(t){toastEl.textContent=t;toastEl.classList.add("show");setTimeout(()=>toastEl.classList.remove("show"),1500)}
+letters.forEach(el=>{
+  el.addEventListener("pointerdown",start,{passive:false});
+  el.addEventListener("pointermove",move,{passive:false});
+  el.addEventListener("pointerup",finish,{passive:false});
+  el.addEventListener("pointercancel",finish,{passive:false});
+});
+document.addEventListener("pointermove",move,{passive:false});
+document.addEventListener("pointerup",finish,{passive:false});
+
+document.getElementById("nextSection").onclick=()=>{
+  if(sectionIndex >= SECTIONS.length-1){
+    toast("Şimdilik mevcut bölümlerin sonundasın.");
+    return;
+  }
+  sectionIndex++;
+  localStorage.setItem("zekaMeydaniBolum",String(sectionIndex));
+  found=[];
+  attempts=0;
+  score=0;
+  attemptEl.textContent="0";
+  scoreEl.textContent="0";
+  document.getElementById("nextSection").style.display="none";
+  document.getElementById("nextSection").classList.remove("show");
+  statusEl.textContent="Yeni bölüm başladı. Harfleri birleştir.";
+  statusEl.className="status";
+  renderSection();
+};
+
+document.getElementById("shuffle").onclick=()=>{
+  const positions=["l1","l2","l3","l4"].sort(()=>Math.random()-.5);
+  letters.forEach((el,i)=>{el.className="letter "+positions[i] ;el.classList.remove("active")});
+  statusEl.textContent="Harfleri sırayla birleştir.";
+  statusEl.className="status";
+};
+document.getElementById("hint").onclick=()=>{
+  const next=TARGETS.find(w=>!found.includes(w));
+  if(!next){toast("Bu bölüm tamamlandı!");return}
+  toast("İpucu: "+next.length+" harfli kelime");
+};
+window.addEventListener("resize",draw);
+</script>
+</body>
+</html>
