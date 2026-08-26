@@ -1,4 +1,4 @@
-# ZEKÂ MEYDANI V10.7
+# ZEKÂ MEYDANI V10.8
 
 Renkli, temalı ve ölçeklenen Word Connect PWA.
 
@@ -21,8 +21,7 @@ Renkli, temalı ve ölçeklenen Word Connect PWA.
 - PWA / GitHub Pages uyumlu
 
 
-## V10.7 görsel düzeltmesi
-- Tema fotoğrafı artık oyun panelinin içine sıkışmıyor; gerçek tam ekran arka plan olarak çalışıyor.
-- Fotoğrafın üzerine aşırı gri/beyaz perde kaldırıldı; yazılar için kontrollü koyu gradyan kullanılıyor.
-- Müzik temasında gitar odaklı gerçek fotoğraf kullanılıyor.
-- Tema bazında fotoğraf kadrajı korunuyor; önemli nesnenin ekranın ortasında kalması hedefleniyor.
+## V10.8
+- Müzik temasında tam gitarı merkezleyen gerçekçi dikey fotoğraf kadrajı.
+- Oyun arayüzü taslağa daha yakın: gitarın tamamı arka planda, harf kutuları ve harfler üstünde.
+- Mobil ekran için karanlık vignette ve neon mor kontroller korunur.
