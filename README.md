@@ -1,4 +1,4 @@
-# ZEKÂ MEYDANI V10.5
+# ZEKÂ MEYDANI V10.6
 
 Renkli, temalı ve ölçeklenen Word Connect PWA.
 
