@@ -11,16 +11,16 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;min-height:100%;background:#05060d;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
 body{display:flex;justify-content:center;touch-action:manipulation;overflow-x:hidden}
-#backdrop{position:fixed;inset:0;z-index:-3;background-color:#080910;background-position:center;background-size:cover;background-repeat:no-repeat;transition:background-image .25s ease;transform:none;overflow:hidden}
-#backdrop:before{content:"";position:absolute;inset:-22px;background-image:var(--bg-image);background-size:cover;background-position:center;filter:blur(18px) saturate(.9);transform:scale(1.08);opacity:.72}
-#backdrop:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 38%,rgba(0,0,0,.03) 0%,rgba(0,0,0,.18) 48%,rgba(0,0,0,.72) 100%),linear-gradient(180deg,rgba(0,0,0,.48) 0%,rgba(0,0,0,.06) 35%,rgba(0,0,0,.38) 70%,rgba(0,0,0,.78) 100%)}
+#backdrop{position:fixed;inset:0;z-index:0;background-color:#1b2a26;background-position:center center;background-size:cover;background-repeat:no-repeat;transition:background-image .25s ease;transform:none;overflow:hidden;pointer-events:none}
+#backdrop:before{content:"";position:absolute;inset:-22px;background-image:var(--bg-image);background-size:cover;background-position:center;filter:blur(3px) saturate(1.05);transform:scale(1.02);opacity:.55}
+#backdrop:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,.08) 35%,rgba(0,0,0,.28) 72%,rgba(0,0,0,.62) 100%)}
 
-.app{width:min(100%,440px);min-height:100vh;padding:10px 10px 34px;position:relative}
+.app{width:min(100%,440px);min-height:100vh;padding:10px 10px 34px;position:relative;z-index:1}
 .top{display:flex;align-items:center;justify-content:space-between;padding:3px 6px 14px;text-shadow:0 3px 12px #000}.brand{font-weight:900;font-size:28px;letter-spacing:.3px}.stats{font-size:18px;font-weight:900;display:flex;gap:14px;background:rgba(8,10,24,.52);border-radius:30px;padding:12px 18px;backdrop-filter:blur(12px)}
 .panel{background:linear-gradient(180deg,rgba(5,6,15,.08),rgba(5,6,15,.16));border:0;border-radius:34px;padding:8px 4px 28px;box-shadow:none;backdrop-filter:blur(1.5px)}
 .meta{text-align:center;color:#fff;font-size:17px;font-weight:900;text-shadow:0 3px 12px #000;margin-top:2px}.title{text-align:center;font-size:42px;line-height:1.05;margin:9px 0 5px;font-weight:900;text-shadow:0 4px 18px #000}.sub{text-align:center;color:#fff;font-size:18px;font-weight:800;margin-bottom:15px;text-shadow:0 3px 12px #000}
 .scene{height:54px;border:2px solid var(--purple);border-radius:28px;overflow:hidden;position:relative;background:rgba(10,10,22,.52);width:max-content;max-width:100%;margin:0 auto 12px;box-shadow:0 8px 28px #0008}.scene svg{display:none}.tag{padding:12px 22px;font-weight:900;font-size:17px;white-space:nowrap}
-.board{display:flex;flex-direction:column;align-items:center;gap:8px;margin:10px 0 19px;min-height:50px}.row{display:flex;gap:7px;justify-content:center;min-height:47px}.slot{width:45px;height:50px;border:4px solid #9a6cff;border-radius:15px;background:rgba(9,8,20,.70);display:grid;place-items:center;font-size:24px;font-weight:900;box-shadow:0 4px 16px #0009}.slot.filled{background:rgba(184,172,255,.86);border-color:#b8c8ff;color:#3e2d82;text-shadow:0 2px 5px #fff}
+.board{display:flex;flex-direction:column;align-items:center;gap:8px;margin:10px 0 19px;min-height:50px}.row{display:flex;gap:7px;justify-content:center;min-height:47px}.slot{width:45px;height:50px;border:4px solid #9a6cff;border-radius:15px;background:rgba(9,8,20,.70);display:grid;place-items:center;font-size:24px;font-weight:900;box-shadow:0 4px 16px #0009}.slot.filled{background:rgba(184,172,255,.86);border-color:#b8c8ff;color:#3e2d82;text-shadow:0 2px 5px #fff}.slot.preview{background:rgba(184,172,255,.42);border-color:#b8c8ff;color:#dcd7ff;text-shadow:0 2px 6px #000}
 .hint{text-align:center;color:#fff;font-weight:900;font-size:17px;margin:8px 0 10px;text-shadow:0 3px 12px #000}
 .letters{height:315px;min-height:315px;max-width:560px;margin:auto;position:relative;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.letter{position:absolute;width:80px;height:80px;border-radius:50%;transform:translate(-50%,-50%);display:grid;place-items:center;background:radial-gradient(circle at 35% 28%,#f3efff,#cfc3ff 55%,#a17cff);border:6px solid #8e5eff;box-shadow:0 14px 30px #000b,0 0 0 4px #b792ff33;font-size:30px;font-weight:900;color:#4d368d;z-index:5;touch-action:none;user-select:none}.letter.active{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 0 0 9px #b896ff55,0 15px 32px #000b;background:radial-gradient(circle at 35% 28%,#fff,#e4dcff 55%,#b496ff)}
 svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}.link{stroke:#9fb8ff;stroke-width:9;stroke-linecap:round;filter:drop-shadow(0 0 7px #8fb0ff)}
@@ -30,7 +30,7 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 .adGate{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;align-items:center;justify-content:center;padding:20px}.adGate.show{display:flex}.adCard{width:min(92vw,430px);background:#fff;color:#30245e;border-radius:28px;padding:24px;text-align:center;box-shadow:0 20px 80px #000}.adCard h2{margin:0 0 8px}.adCard p{margin:7px 0 16px;color:#666}.adVideo{height:190px;border-radius:18px;background:linear-gradient(135deg,#17142b,#513c86);position:relative;overflow:hidden;display:grid;place-items:center;color:#fff;font-size:42px;margin-bottom:16px}.adVideo video,.adVideo #imaContainer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.adVideo video{background:#111}.adVideo #imaContainer{z-index:2}.adVideo #adFallbackIcon{position:relative;z-index:3}.adTimer{font-size:14px;font-weight:900;margin-bottom:12px}.adBtn{width:100%;border:0;border-radius:18px;padding:14px;font-weight:900;background:linear-gradient(110deg,#2270ee,#5a22d9);color:#fff}.note{text-align:center;color:#fff;font-size:12px;margin-top:15px;line-height:1.5;text-shadow:0 2px 10px #000}
 @media(max-width:430px){.app{padding:8px 9px 30px}.brand{font-size:24px}.stats{font-size:15px;gap:9px;padding:10px 14px}.title{font-size:35px}.letter{width:74px;height:74px;font-size:27px}.letters{height:300px;min-height:300px}.slot{width:39px;height:44px}.tag{font-size:15px;padding:11px 18px}}
 
-@media (max-width:699px){#backdrop{background-size:contain;background-position:center top;background-color:#080910} #backdrop:before{background-size:cover;background-position:center;opacity:.55}}
+@media (max-width:699px){#backdrop{background-size:cover;background-position:center center;background-color:#080910} #backdrop:before{background-size:cover;background-position:center center;opacity:.42}}
 </style>
 </head>
 <body>
@@ -65,7 +65,7 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 <button class="btn" id="hintBtn">💎 HARF AÇ • 20</button>
 <button class="btn wide" id="clear">↩ TEMİZLE</button>
 </div>
-<div class="pool"><div class="poolHead"><span>📚 Bu Bölümün Kelimeleri</span><span id="poolCount">0</span></div><div class="chips" id="poolChips"></div><div class="memory" id="memoryCount">🌿 Genel Kelime Hafızası: 0 keşif</div></div>
+<div class="pool"><div class="poolHead"><span>🔎 Keşif Kelimeleri</span><span id="poolCount">0</span></div><div class="chips" id="poolChips"></div><div class="memory" id="memoryCount">🌿 Genel Kelime Hafızası: 0 keşif</div></div>
 <div class="note">V10.9 • Word Connect • 2000 bölüm • Kelime Havuzu • XP/Elmas • PWA<br>Her bölümün havuzu ayrı; oyuncunun keşfettiği yeni kelimeler genel hafızada tutulur.</div>
 </main>
 </div>
@@ -76,36 +76,36 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 
 /* 30 bölüm. Her kelime, bölümdeki harflerle gerçekten kurulabilir. */
 const LEVELS=[
-{theme:"DOĞA • GÖL",kind:"nature",letters:["G","Ö","L","Ü"],words:["GÖL","GÜL","ÖL"]},
-{theme:"TARİH • KALE",kind:"history",letters:["K","A","L","E"],words:["KALE","KAL","ALE","EL"]},
-{theme:"BİLİM • ATOM",kind:"science",letters:["A","T","O","M"],words:["ATOM","MAT","AM","AT"]},
-{theme:"SANAT • RENK",kind:"art",letters:["R","E","N","K"],words:["RENK","ERK","KEN","NE"]},
-{theme:"DENİZ • DALGA",kind:"sea",letters:["D","A","L","G"],words:["DAL","DA","AL","LA"]},
-{theme:"UZAY • AY",kind:"space",letters:["A","Y","I"],words:["AY","AYI","YA"]},
-{theme:"MÜZİK • NOTA",kind:"music",letters:["N","O","T","A"],words:["NOTA","TON","ON","AT"]},
-{theme:"HAYVANLAR • KURT",kind:"animals",letters:["K","U","R","T"],words:["KURT","KUT","UR","TU"]},
-{theme:"KÜLTÜR • DUA",kind:"culture",letters:["D","U","A"],words:["DUA","DU","AD","DA"]},
-{theme:"COĞRAFYA • DAĞ",kind:"geo",letters:["D","A","Ğ"],words:["DAĞ","DA","AD"]},
-{theme:"DOĞA • ORMAN",kind:"nature",letters:["O","R","M","A","N"],words:["ORMAN","NAR","ROM","AN"]},
-{theme:"TARİH • TAHT",kind:"history",letters:["T","A","H"],words:["HAT","TAH","AT","HA"]},
-{theme:"BİLİM • MİKROP",kind:"science",letters:["M","İ","K","R","O","P"],words:["MİKROP","KİM","KOR","PİK"]},
-{theme:"SANAT • RESİM",kind:"art",letters:["R","E","S","İ","M"],words:["RESİM","SERİ","ESİR","Mİ"]},
-{theme:"DENİZ • MARTI",kind:"sea",letters:["M","A","R","T","I"],words:["MARTI","MART","TAM","AR"]},
-{theme:"UZAY • YILDIZ",kind:"space",letters:["Y","I","L","D","Z"],words:["YILDIZ","YIL","DİL"]},
-{theme:"MÜZİK • ŞARKI",kind:"music",letters:["Ş","A","R","K","I"],words:["ŞARKI","ŞAİR","KIR","KAR"]},
-{theme:"HAYVANLAR • KEDİ",kind:"animals",letters:["K","E","D","İ"],words:["KEDİ","DİK","Kİ","DE"]},
-{theme:"KÜLTÜR • CAMİ",kind:"culture",letters:["C","A","M","İ"],words:["CAMİ","CAM","AMİ","Mİ"]},
-{theme:"COĞRAFYA • NEHİR",kind:"geo",letters:["N","E","H","İ","R"],words:["NEHİR","HER","Nİ","NE"]},
-{theme:"DOĞA • ÇİÇEK",kind:"nature",letters:["Ç","İ","E","K"],words:["ÇİÇEK","ÇEK","İÇ","EK"]},
-{theme:"TARİH • KRAL",kind:"history",letters:["K","R","A","L"],words:["KRAL","KAR","KAL","AL"]},
-{theme:"BİLİM • ENERJİ",kind:"science",letters:["E","N","R","J","İ"],words:["ENERJİ","EREN","Jİ","EN"]},
-{theme:"SANAT • HEYKEL",kind:"art",letters:["H","E","Y","K","L"],words:["HEYKEL","HEY","EL","YEL"]},
-{theme:"DENİZ • BALIK",kind:"sea",letters:["B","A","L","I","K"],words:["BALIK","BAL","KIL","AL"]},
-{theme:"UZAY • GEZEGEN",kind:"space",letters:["G","E","Z","N"],words:["GEZ","GEN","NE","GE"]},
-{theme:"MÜZİK • DAVUL",kind:"music",letters:["D","A","V","U","L"],words:["DAVUL","DUA","DAL","UL"]},
-{theme:"HAYVANLAR • TAVŞAN",kind:"animals",letters:["T","A","V","Ş","N"],words:["TAVŞAN","TAŞ","ŞAN","ANA"]},
-{theme:"KÜLTÜR • KİTAP",kind:"culture",letters:["K","İ","T","A","P"],words:["KİTAP","KİT","TAK","AT"]},
-{theme:"COĞRAFYA • ADA",kind:"geo",letters:["A","D"],words:["ADA","AD","DA"]}
+{theme:"DOĞA • MANZARA",kind:"nature",letters:["G","Ö","L","Ü"],words:["GÖL","GÜL","ÖL"]},
+{theme:"TARİH • ESKİ ÇAĞ",kind:"history",letters:["K","A","L","E"],words:["KALE","KAL","ALE","EL"]},
+{theme:"BİLİM • KEŞİF",kind:"science",letters:["A","T","O","M"],words:["ATOM","MAT","AM","AT"]},
+{theme:"SANAT • GALERİ",kind:"art",letters:["R","E","N","K"],words:["RENK","ERK","KEN","NE"]},
+{theme:"DENİZ • OKYANUS",kind:"sea",letters:["D","A","L","G"],words:["DAL","DA","AL","LA"]},
+{theme:"UZAY • KOZMOS",kind:"space",letters:["A","Y","I"],words:["AY","AYI","YA"]},
+{theme:"MÜZİK • SAHNE",kind:"music",letters:["N","O","T","A"],words:["NOTA","TON","ON","AT"]},
+{theme:"HAYVANLAR • YABAN HAYATI",kind:"animals",letters:["K","U","R","T"],words:["KURT","KUT","UR","TU"]},
+{theme:"KÜLTÜR • GELENEK",kind:"culture",letters:["D","U","A"],words:["DUA","DU","AD","DA"]},
+{theme:"COĞRAFYA • DOĞA",kind:"geo",letters:["D","A","Ğ"],words:["DAĞ","DA","AD"]},
+{theme:"DOĞA • YABANIL",kind:"nature",letters:["O","R","M","A","N"],words:["ORMAN","NAR","ROM","AN"]},
+{theme:"TARİH • SARAY",kind:"history",letters:["T","A","H"],words:["HAT","TAH","AT","HA"]},
+{theme:"BİLİM • LABORATUVAR",kind:"science",letters:["M","İ","K","R","O","P"],words:["MİKROP","KİM","KOR","PİK"]},
+{theme:"SANAT • ATÖLYE",kind:"art",letters:["R","E","S","İ","M"],words:["RESİM","SERİ","ESİR","Mİ"]},
+{theme:"DENİZ • KIYI",kind:"sea",letters:["M","A","R","T","I"],words:["MARTI","MART","TAM","AR"]},
+{theme:"UZAY • GALAKSİ",kind:"space",letters:["Y","I","L","D","Z"],words:["YILDIZ","YIL","DİL"]},
+{theme:"MÜZİK • KONSER",kind:"music",letters:["Ş","A","R","K","I"],words:["ŞARKI","ŞAİR","KIR","KAR"]},
+{theme:"HAYVANLAR • EVREN",kind:"animals",letters:["K","E","D","İ"],words:["KEDİ","DİK","Kİ","DE"]},
+{theme:"KÜLTÜR • MİRAS",kind:"culture",letters:["C","A","M","İ"],words:["CAMİ","CAM","AMİ","Mİ"]},
+{theme:"COĞRAFYA • SULAR",kind:"geo",letters:["N","E","H","İ","R"],words:["NEHİR","HER","Nİ","NE"]},
+{theme:"DOĞA • BİTKİLER",kind:"nature",letters:["Ç","İ","E","K"],words:["ÇİÇEK","ÇEK","İÇ","EK"]},
+{theme:"TARİH • HÜKÜMDARLAR",kind:"history",letters:["K","R","A","L"],words:["KRAL","KAR","KAL","AL"]},
+{theme:"BİLİM • FİZİK",kind:"science",letters:["E","N","R","J","İ"],words:["ENERJİ","EREN","Jİ","EN"]},
+{theme:"SANAT • HEYKELTIRAŞ",kind:"art",letters:["H","E","Y","K","L"],words:["HEYKEL","HEY","EL","YEL"]},
+{theme:"DENİZ • DENİZ YAŞAMI",kind:"sea",letters:["B","A","L","I","K"],words:["BALIK","BAL","KIL","AL"]},
+{theme:"UZAY • GÖKYÜZÜ",kind:"space",letters:["G","E","Z","N"],words:["GEZ","GEN","NE","GE"]},
+{theme:"MÜZİK • RİTİM",kind:"music",letters:["D","A","V","U","L"],words:["DAVUL","DUA","DAL","UL"]},
+{theme:"HAYVANLAR • YABAN HAYATI",kind:"animals",letters:["T","A","V","Ş","N"],words:["TAVŞAN","TAŞ","ŞAN","ANA"]},
+{theme:"KÜLTÜR • EDEBİYAT",kind:"culture",letters:["K","İ","T","A","P"],words:["KİTAP","KİT","TAK","AT"]},
+{theme:"COĞRAFYA • KIYILAR",kind:"geo",letters:["A","D"],words:["ADA","AD","DA"]}
 ];
 
 const themes={
@@ -156,15 +156,13 @@ function updateAttempts(){
   $("#letters").style.pointerEvents=attempts>0?"auto":"none";
 }
 function renderPool(){
-  // ÇÖZÜM KELİMELERİNİ ÖNCEDEN GÖSTERME: Havuz yalnızca oyuncunun
-  // bu bölümde gerçekten bulduğu kelimeleri ve kendi keşiflerini gösterir.
-  const foundHtml=[...found].map(w=>`<span class="chip">${w} ✓</span>`).join("");
-  const extra=[...levelDiscoveries]
+  // ÇÖZÜMLERİ aşağıda göstermiyoruz. Hedef kelimeler yalnızca üstteki kutucuklarda görünür.
+  // Bu alan sadece oyuncunun bölümde kendi bulduğu, hedef listesinde olmayan keşifleri tutar.
+  const extras=[...levelDiscoveries]
     .filter(w=>!data.words.includes(w))
     .map(w=>`<span class="chip discovery">🌿 ${w}</span>`).join("");
-  const html=foundHtml+extra;
-  $("#poolCount").textContent=found.size+levelDiscoveries.size;
-  $("#poolChips").innerHTML=html || `<span class="emptyPool">Henüz keşfedilen kelime yok.</span>`;
+  $("#poolCount").textContent=[...levelDiscoveries].length;
+  $("#poolChips").innerHTML=extras || `<span class="emptyPool">Bu bölümde henüz ekstra kelime keşfedilmedi.</span>`;
   $("#memoryCount").textContent="🌿 Genel Kelime Hafızası: "+globalWords.size+" keşif";
 }
 function consumeAttempt(){
@@ -289,7 +287,10 @@ function render(){
  data.words.forEach(w=>{
    const row=document.createElement("div");row.className="row";
    [...w].forEach((ch,i)=>{
-     const s=document.createElement("div");s.className="slot";s.dataset.w=w;s.dataset.i=i;row.appendChild(s);
+     const el=document.createElement("div");
+     el.className="slot";el.dataset.w=w;el.dataset.i=i;
+     if(found.has(w)){el.textContent=ch;el.classList.add("filled");}
+     row.appendChild(el);
    });
    $("#board").appendChild(row);
  });
@@ -336,8 +337,9 @@ function draw(){
  }
  $("#lines").innerHTML=s;
  document.querySelectorAll(".letter").forEach(e=>e.classList.toggle("active",selected.includes(+e.dataset.i)));
+ previewBoard();
 }
-function clearSel(){selected=[];$("#trail").innerHTML="";draw();}
+function clearSel(){selected=[];$("#trail").innerHTML="";document.querySelectorAll(".slot.preview").forEach(s=>{s.textContent="";s.classList.remove("preview")});draw();}
 
 function isDiscoveryWord(word){
   const w=String(word||"").toLocaleUpperCase("tr-TR");
@@ -361,6 +363,22 @@ function isDiscoveryWord(word){
   const cons=(w.match(/[BCÇDFGĞHJKLMNPRSŞTVYZ]/gu)||[]).length;
   if(vowels<1 || cons>vowels*4)return false;
   return true;
+}
+
+function previewBoard(){
+  const word=selected.map(i=>data.letters[i]).join("");
+  // Bulunan kelimeleri koru; yalnızca aktif seçimin eşleştiği kutularda canlı önizleme yap.
+  document.querySelectorAll(".slot").forEach(s=>{
+    if(s.classList.contains("filled")) return;
+    s.textContent="";
+  });
+  if(word.length<1) return;
+  const target=data.words.find(w=>w.startsWith(word) && !found.has(w));
+  if(!target) return;
+  document.querySelectorAll(`.slot[data-w="${CSS.escape(target)}"]`).forEach(s=>{
+    const i=+s.dataset.i;
+    if(i<word.length){ s.textContent=word[i]; s.classList.add("preview"); }
+  });
 }
 
 function submit(){
@@ -388,6 +406,7 @@ function submit(){
    message(attempts>0?"❌ Bu kelime bu bölümde yok.":"⛔ Denemelerin bitti.","bad");
    clearSel();return;
  }
+ document.querySelectorAll(".slot.preview").forEach(s=>s.classList.remove("preview"));
  found.add(target);
  const isNewDiscovery=!globalWords.has(target);
  globalWords.add(target);
