@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#080d1b">
 <link rel="manifest" href="manifest.json">
-<title>ZEKÂ MEYDANI V9.0 • Word Connect</title>
+<title>ZEKÂ MEYDANI V9.1 • Word Connect</title>
 <style>
 :root{--bg:#080d1b;--panel:#172342;--border:#4b68a8;--blue:#8faeff;--text:#fff;--muted:#b6c1da}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -19,7 +19,7 @@ body{display:flex;justify-content:center;touch-action:manipulation}
 .scene{height:190px;border:2px solid #5675bd;border-radius:28px;overflow:hidden;position:relative;background:#355}
 .scene svg{width:100%;height:100%;display:block}.tag{position:absolute;left:16px;bottom:14px;background:#10221fee;padding:10px 16px;border-radius:18px;font-weight:900}
 .board{display:flex;flex-direction:column;align-items:center;gap:8px;margin:18px 0 20px;min-height:50px}
-.row{display:flex;gap:7px;justify-content:center;min-height:47px}.slot{width:42px;height:47px;border:3px solid #728fd6;border-radius:12px;background:#071021;display:grid;place-items:center;font-size:24px;font-weight:900}.slot.filled{background:#304779;border-color:#a9c1ff}
+.row{display:flex;gap:7px;justify-content:center;min-height:47px}.slot{width:42px;height:47px;border:3px solid #728fd6;border-radius:12px;background:#071021;display:grid;place-items:center;font-size:24px;font-weight:900}.slot.filled,.slot.revealed{background:#304779;border-color:#a9c1ff;color:#fff}
 .hint{text-align:center;color:#b9c3dc;font-weight:800;margin-bottom:10px}
 .letters{height:315px;min-height:315px;max-width:560px;margin:auto;position:relative;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .letter{position:absolute;width:78px;height:78px;border-radius:50%;transform:translate(-50%,-50%);display:grid;place-items:center;background:radial-gradient(circle at 35% 28%,#7594e7,#405995);border:5px solid #91adf6;box-shadow:0 12px 26px #0008;font-size:29px;font-weight:900;z-index:5;touch-action:none;user-select:none}
@@ -53,7 +53,7 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
 <button class="btn" id="hintBtn">💎 HARF AÇ • 20</button>
 <button class="btn wide" id="clear">↩ TEMİZLE</button>
 </div>
-<div class="note">V9.0 • Word Connect • 30 temalı bölüm • XP/Elmas • PWA<br>Sonraki aşama: reklam geliri + ödüllü reklam sistemi.</div>
+<div class="note">V9.1 • Word Connect • 30 temalı bölüm • XP/Elmas • PWA<br>Sonraki aşama: reklam geliri + ödüllü reklam sistemi.</div>
 </main>
 </div>
 
@@ -107,10 +107,11 @@ let level=Math.max(1,+(localStorage.getItem("zm_level")||1));
 let xp=Math.max(0,+(localStorage.getItem("zm_xp")||0));
 let gems=Math.max(0,+(localStorage.getItem("zm_gems")||50));
 let score=Math.max(0,+(localStorage.getItem("zm_score")||0));
-let data=null,selected=[],found=new Set(),pos=[],drag=false,pointerId=null,lettersOrder=[];
+let data=null,selected=[],found=new Set(),revealed=new Set(),pos=[],drag=false,pointerId=null,lettersOrder=[];
 
 function save(){
  localStorage.setItem("zm_level",String(level));
+ localStorage.setItem("zm_revealed_"+level,JSON.stringify([...revealed]));
  localStorage.setItem("zm_xp",String(xp));
  localStorage.setItem("zm_gems",String(gems));
  localStorage.setItem("zm_score",String(score));
@@ -136,7 +137,7 @@ function sceneSvg(kind){
 
 function render(){
  data=LEVELS[(level-1)%LEVELS.length];
- selected=[];found=new Set();drag=false;pointerId=null;
+ selected=[];found=new Set();revealed=new Set(JSON.parse(localStorage.getItem("zm_revealed_"+level)||"[]"));drag=false;pointerId=null;
  $("#level").textContent=level;$("#xp").textContent=xp;$("#gems").textContent=gems;$("#score").textContent=score;
  $("#tag").textContent=data.theme;
  const old=$("#scene").querySelector("svg");if(old)old.remove();
@@ -145,7 +146,10 @@ function render(){
  data.words.forEach(w=>{
    const row=document.createElement("div");row.className="row";
    [...w].forEach((ch,i)=>{
-     const s=document.createElement("div");s.className="slot";s.dataset.w=w;s.dataset.i=i;row.appendChild(s);
+     const s=document.createElement("div");s.className="slot";s.dataset.w=w;s.dataset.i=i;
+   const key=w+"|"+i;
+   if(revealed.has(key)){s.textContent=w[i];s.classList.add("revealed");}
+   row.appendChild(s);
    });
    $("#board").appendChild(row);
  });
@@ -249,17 +253,36 @@ $("#shuffle").onclick=()=>{
  build();message("🔀 Harfler karıştırıldı.");
 };
 $("#hintBtn").onclick=()=>{
- const target=data.words.find(w=>!found.has(w));
- if(!target)return;
- if(gems<20){message("💎 Yeterli elmas yok.","bad");return;}
- const idx=[...target].findIndex((_,i)=>{
-   const s=document.querySelector(`.slot[data-w="${CSS.escape(target)}"][data-i="${i}"]`);
-   return s&&!s.classList.contains("filled");
+ // Bulunmamış ve daha önce açılmamış ilk harfi bul.
+ const target=data.words.find(w=>{
+   if(found.has(w)) return false;
+   return [...w].some((_,i)=>{
+     const el=document.querySelector(`.slot[data-w="${CSS.escape(w)}"][data-i="${i}"]`);
+     return el && !el.classList.contains("filled") && !el.classList.contains("revealed");
+   });
  });
- if(idx<0)return;
+ if(!target){message("ℹ️ Açılacak yeni harf kalmadı.","info");return;}
+ if(gems<20){message("💎 Yeterli elmas yok.","bad");return;}
+
+ const idx=[...target].findIndex((_,i)=>{
+   const el=document.querySelector(`.slot[data-w="${CSS.escape(target)}"][data-i="${i}"]`);
+   return el && !el.classList.contains("filled") && !el.classList.contains("revealed");
+ });
+ if(idx<0){message("ℹ️ Bu kelimede açılacak harf kalmadı.","info");return;}
+
  const s=document.querySelector(`.slot[data-w="${CSS.escape(target)}"][data-i="${idx}"]`);
- s.textContent=target[idx];s.classList.add("filled");
- gems-=20;save();$("#gems").textContent=gems;message("💎 Bir harf açıldı.");
+ if(!s){message("⚠️ Harf açılamadı. Tekrar dene.","bad");return;}
+
+ const key=target+"|"+idx;
+ revealed.add(key);
+ s.textContent=target[idx];
+ s.classList.remove("filled");
+ s.classList.add("revealed");
+ s.dataset.revealed="1";
+ gems-=20;
+ save();
+ $("#gems").textContent=gems;
+ message("💎 Harf açıldı: "+target[idx]+" → "+target,"good");
 };
 
 window.addEventListener("resize",()=>{if(data)build()});
