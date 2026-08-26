@@ -1,16 +1,8 @@
-ZEKÂ MEYDANI V10.9
+ZEKÂ MEYDANI V10.9 DÜZELTME
 
-Bu paket index.html güncellemesidir.
-
-Düzeltmeler:
-- Bölüm değişince bölüm kelime havuzu temizlenir.
-- Genel Kelime Hafızası bölümler arasında korunur.
-- Aynı keşif kelimesi ikinci kez genel hafızaya eklenmez.
-- Harf sürüklerken geriye doğru gelindiğinde seçim o noktadan itibaren iptal edilir.
-- Mobil dokunmada harf algılama alanı genişletildi.
-- 30 deneme + reklam sonrası +10 deneme sistemi korunur.
-- Hayvanlar temasında tam ekran dikey kırmızı papağan/orman fotoğrafı kullanılır.
-- Arka plan karartması ve mobil kompozisyon daha okunaklı hale getirildi.
-
-GitHub Pages'te mevcut index.html dosyasının yerine bunu yükleyin.
-Manifest ve mevcut diğer dosyalar aynı kalabilir.
+- Bölüm kelimeleri artık oyuncuya önceden gösterilmez.
+- Kelime havuzu sadece oyuncunun gerçekten bulduğu bölüm kelimelerini ve keşif kelimelerini gösterir.
+- Yeni bölüme geçişte aktif bölüm havuzu sıfırdan başlar.
+- Genel keşif hafızası korunur.
+- Mobil arka planlar dikey kadrajla, konu daha görünür olacak şekilde yenilendi.
+- Mevcut oyun mekanikleri korunmuştur.
