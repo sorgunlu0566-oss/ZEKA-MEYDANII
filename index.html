@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#05050a">
 <link rel="manifest" href="manifest.json">
-<title>ZEKÂ MEYDANI V10.6 • Word Connect</title>
+<title>ZEKÂ MEYDANI V10.7 • Word Connect</title>
 <style>
 :root{--bg:#eaf7ff;--panel:#ffffff;--border:#9bc8ff;--blue:#6b8ff5;--text:#24345d;--muted:#66739a;--accent:#9a63e8;--pink:#ff6f9f;--yellow:#ffc94d;--green:#63c97b}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;min-height:100%;background:#05050a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
 body{display:flex;justify-content:center;touch-action:manipulation}
 .app{width:min(100%,760px);min-height:100vh;padding:0 0 24px}
-.top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;position:relative;z-index:10;background:linear-gradient(180deg,#020207 0%,#05050acc 78%,transparent 100%)}
-.brand{font-weight:900;font-size:28px;letter-spacing:.3px;color:#fff;text-shadow:0 3px 10px #000}.stats{font-size:17px;font-weight:900;display:flex;gap:10px;background:#111827dd;color:#fff;padding:10px 14px;border-radius:20px;box-shadow:0 8px 24px #0007;backdrop-filter:blur(8px)}
-.panel{position:relative;overflow:hidden;background:#05050a;border:0;border-radius:0;padding:18px 16px 30px;box-shadow:none;isolation:isolate;min-height:calc(100vh - 68px)}
-.panel:before{content:"";position:absolute;inset:0;z-index:-3;background-image:var(--theme-photo);background-position:center center;background-size:cover;background-repeat:no-repeat;transform:scale(1.015)}
-.panel:after{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,#02020722 0%,#02020730 34%,#02020762 68%,#020207b8 100%)}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;position:relative;z-index:20;background:linear-gradient(180deg,#020207cc 0%,#02020755 65%,transparent 100%);backdrop-filter:blur(2px)}
+.brand{font-weight:900;font-size:28px;letter-spacing:.3px;color:#fff;text-shadow:0 3px 10px #000,0 1px 2px #000}.stats{font-size:17px;font-weight:900;display:flex;gap:10px;background:#111827b8;color:#fff;padding:10px 14px;border-radius:20px;box-shadow:0 8px 24px #0008;backdrop-filter:blur(10px)}
+.panel{position:relative;overflow:hidden;background:transparent;border:0;border-radius:0;padding:18px 16px 30px;box-shadow:none;isolation:isolate;min-height:calc(100vh - 68px)}
+.panel:before{content:"";position:fixed;inset:0;z-index:-3;background-image:var(--theme-photo);background-position:var(--photo-pos,center center);background-size:cover;background-repeat:no-repeat;transform:none}
+.panel:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,#02030b35 0%,#02030b18 30%,#02030b55 62%,#02030bd8 100%)}
 .meta{text-align:center;color:#fff;font-size:17px;font-weight:900;text-shadow:0 2px 8px #000b}.title{text-align:center;font-size:40px;margin:8px 0 5px;position:relative;z-index:3;font-weight:900;color:#fff;text-shadow:0 3px 12px #000c}.sub{text-align:center;color:#fff;font-size:18px;margin-bottom:16px;position:relative;z-index:3;font-weight:800;text-shadow:0 2px 8px #000b}
 .scene{height:0;overflow:visible;position:relative;background:transparent;border:0;box-shadow:none;z-index:2}
 .scene svg{display:none}.tag{position:absolute;left:50%;top:8px;transform:translateX(-50%);white-space:nowrap;background:#111827cc;color:#fff;padding:10px 18px;border:1px solid #b78cff;border-radius:18px;font-weight:900;box-shadow:0 5px 18px #0008;backdrop-filter:blur(8px)}
@@ -67,7 +67,7 @@ svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-eve
   <div class="progress" style="margin:7px 0 10px"><i id="achievementBar"></i></div>
   <div id="achievementList" style="display:grid;gap:8px"></div>
 </div>
-<div class="note">V10.6 • Word Connect • 2000 bölüm • Kelime Havuzu • Keşif Kelimeleri • Rozetler • XP/Elmas • PWA<br>Temaya göre görseller, keşif kelimeleri ve ölçeklenen zorluk.</div>
+<div class="note">V10.7 • Word Connect • 2000 bölüm • Kelime Havuzu • Keşif Kelimeleri • Rozetler • XP/Elmas • PWA<br>Temaya göre görseller, keşif kelimeleri ve ölçeklenen zorluk.</div>
 </main>
 </div>
 
@@ -249,8 +249,10 @@ function render(){
  $("#tag").textContent=data.theme;
  const old=$("#scene").querySelector("svg");if(old)old.remove();
  $("#scene").insertAdjacentHTML("afterbegin",sceneSvg(data.kind));
- const themePhotos={nature:'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1000&h=1700&q=84',history:'https://images.unsplash.com/photo-1520637836862-4d197d17c42a?auto=format&fit=crop&w=1000&h=1700&q=84',science:'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1000&h=1700&q=84',art:'https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=1000&h=1700&q=84',sea:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&h=1700&q=84',space:'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1000&h=1700&q=84',music:'https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1000&h=1700&q=84',animals:'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=1000&h=1700&q=84',culture:'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1000&h=1700&q=84',geo:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1000&h=1700&q=84'};
+ const themePhotos={nature:'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1000&h=1700&q=84',history:'https://images.unsplash.com/photo-1520637836862-4d197d17c42a?auto=format&fit=crop&w=1000&h=1700&q=84',science:'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1000&h=1700&q=84',art:'https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=1000&h=1700&q=84',sea:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&h=1700&q=84',space:'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1000&h=1700&q=84',music:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Acoustic_guitar_player_in_pale_light_(Unsplash).jpg?width=1600',animals:'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=1000&h=1700&q=84',culture:'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1000&h=1700&q=84',geo:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1000&h=1700&q=84'};
  document.documentElement.style.setProperty('--theme-photo',`url("${themePhotos[data.kind]||themePhotos.nature}")`);
+ const photoPos={nature:'center center',history:'center center',science:'center center',art:'center center',sea:'center center',space:'center center',music:'center 42%',animals:'center center',culture:'center center',geo:'center center'};
+ document.documentElement.style.setProperty('--photo-pos',photoPos[data.kind]||'center center');
  $("#board").innerHTML="";
  data.words.forEach(w=>{
    const row=document.createElement("div");row.className="row";
