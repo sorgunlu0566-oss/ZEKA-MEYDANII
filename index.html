@@ -259,7 +259,7 @@ function point(e){
 }
 function hit(q){
  for(let i=0;i<data.letters.length;i++){
-   if(Math.hypot(q.x-pos[i].x,q.y-pos[i].y)<105)return i;
+   if(Math.hypot(q.x-pos[i].x,q.y-pos[i].y)<54)return i;
  }
  return -1;
 }
@@ -331,7 +331,7 @@ function move(q,e){
  for(let i=0;i<data.letters.length;i++){
    if(selected.includes(i))continue;
    const d=distToSegment(pos[i].x,pos[i].y,prev.x,prev.y,q.x,q.y);
-   if(d<125 && d<bestD){best=i;bestD=d;}
+   if(d<58 && d<bestD){best=i;bestD=d;}
  }
  if(best>=0)addHit(best);
  lastQ=q;
@@ -346,52 +346,82 @@ function end(e){
  drag=false;pointerId=null;lastQ=null;$("#trail").innerHTML="";submit();
 }
 
-/* MOBİL HYBRID INPUT: pointer + touch + tap fallback */
-const lettersEl=$("#letters");
-lettersEl.addEventListener("pointerdown",e=>{
- if(e.pointerType==="mouse" && e.button!==0)return;
- begin(point(e),e);
-},{passive:false});
-lettersEl.addEventListener("pointermove",e=>{ if(drag&&e.pointerId===pointerId) move(point(e),e); },{passive:false});
-lettersEl.addEventListener("pointerup",e=>end(e),{passive:false});
-lettersEl.addEventListener("pointercancel",e=>{
- if(e.pointerId!==pointerId)return;
- drag=false;pointerId=null;lastQ=null;$("#trail").innerHTML="";clearSel();
-},{passive:false});
-lettersEl.addEventListener("lostpointercapture",e=>{
- if(drag&&e.pointerId===pointerId){drag=false;pointerId=null;lastQ=null;$("#trail").innerHTML="";submit();}
-});
+/* ROBUST WORD-CONNECT INPUT — iPhone + Android + mouse */
+const lettersEl=document.getElementById("letters");
+let inputActive=false;
+let inputId=null;
+let ignoreClickUntil=0;
 
-// Eski iPhone/WebKit davranışları için doğrudan touch yedeği.
-let touchActive=false;
-lettersEl.addEventListener("touchstart",e=>{
- if(e.touches.length!==1)return;
- const t=e.touches[0], q=point(t); const i=hit(q); if(i<0)return;
- touchActive=true;drag=true;pointerId=999;selected=[i];lastQ=q;draw();e.preventDefault();
-},{passive:false});
-lettersEl.addEventListener("touchmove",e=>{
- if(!touchActive||e.touches.length!==1)return;
- const t=e.touches[0], q=point(t);
- move(q,{pointerId:pointerId===null?999:pointerId,preventDefault:()=>e.preventDefault()});
- e.preventDefault();
-},{passive:false});
-lettersEl.addEventListener("touchend",e=>{
- if(!touchActive)return;
- touchActive=false;drag=false;pointerId=null;lastQ=null;$("#trail").innerHTML="";submit();e.preventDefault();
-},{passive:false});
-lettersEl.addEventListener("touchcancel",()=>{touchActive=false;drag=false;lastQ=null;$("#trail").innerHTML="";clearSel();},{passive:false});
+function startInput(e){
+  if(levelLocked)return;
+  const src=e.touches ? e.touches[0] : e;
+  if(!src)return;
+  const q=point(src), i=hit(q);
+  if(i<0)return;
+  if(e.cancelable)e.preventDefault();
+  inputActive=true;
+  if(e.touches)ignoreClickUntil=Date.now()+500;
+  inputId=src.identifier ?? "mouse";
+  drag=true;
+  pointerId=inputId;
+  lastQ=q;
+  selected=[i];
+  draw();
+}
 
-// Sürükleme başarısızsa tek tek dokunma da seçim yapabilsin.
-let lastTapIndex=-1,lastTapAt=0;
+function moveInput(e){
+  if(!inputActive || !drag)return;
+  const src=e.touches ? [...e.touches].find(t=>t.identifier===inputId) || e.touches[0] : e;
+  if(!src)return;
+  if(e.cancelable)e.preventDefault();
+  move(point(src),{pointerId:inputId,preventDefault:()=>{}});
+}
+
+function endInput(e){
+  if(!inputActive)return;
+  if(e && e.cancelable)e.preventDefault();
+  const id=inputId;
+  inputActive=false;
+  inputId=null;
+  drag=false;
+  pointerId=null;
+  lastQ=null;
+  $("#trail").innerHTML="";
+  submitSelected();
+}
+
+function submitSelected(){
+  if(selected.length===0)return;
+  submit();
+}
+
+/* Touch: do not mix pointer events with touch events. */
+lettersEl.addEventListener("touchstart",startInput,{passive:false});
+document.addEventListener("touchmove",moveInput,{passive:false});
+document.addEventListener("touchend",endInput,{passive:false});
+document.addEventListener("touchcancel",()=>{
+  if(!inputActive)return;
+  inputActive=false;inputId=null;drag=false;pointerId=null;lastQ=null;clearSel();
+},{passive:false});
+
+/* Mouse fallback for desktop testing. */
+lettersEl.addEventListener("mousedown",startInput);
+document.addEventListener("mousemove",e=>{if(inputActive)moveInput(e)});
+document.addEventListener("mouseup",e=>{if(inputActive)endInput(e)});
+
+/* Tap fallback: select letters one by one without dragging. */
+let lastTapAt=0;
 lettersEl.addEventListener("click",e=>{
- const el=e.target.closest('.letter'); if(!el||drag)return;
- const i=+el.dataset.i, now=Date.now();
- if(now-lastTapAt<650 && lastTapIndex===i)return;
- lastTapAt=now;lastTapIndex=i;addHit(i);
- if(selected.length>=2){
-   const word=selected.map(x=>data.letters[x]).join('').normalize('NFC').toLocaleUpperCase('tr-TR');
-   if(data.words.includes(word))submit();
- }
+  if(inputActive || Date.now()<ignoreClickUntil)return;
+  const el=e.target.closest(".letter");
+  if(!el)return;
+  const now=Date.now();
+  if(now-lastTapAt<180)return;
+  lastTapAt=now;
+  addHit(+el.dataset.i);
+  draw();
+  const word=selected.map(x=>data.letters[x]).join("").normalize("NFC").toLocaleUpperCase("tr-TR");
+  if(data.words.includes(word))submit();
 });
 
 $("#clear").onclick=()=>{clearSel();message("Seçim temizlendi.")};
