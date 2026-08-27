@@ -268,7 +268,7 @@ function safeNum(key, fallback, min=0, max=Infinity){
 }
 function safeJSON(key,fallback=[]){try{const v=JSON.parse(localStorage.getItem(key)||'');return Array.isArray(v)?v:fallback}catch(e){return fallback}}
 const state={level:Math.trunc(safeNum('zm_level',1,1,2000)),gems:safeNum('zm_gems',50,0),score:safeNum('zm_score',0,0),xp:safeNum('zm_xp',0,0,99),attempts:Math.trunc(safeNum('zm_attempts',25,0)),bonus:safeJSON('zm_bonus'),found:safeJSON('zm_found')};
-const BUILD_ID='V19.4';
+const BUILD_ID='V20.0-TOUCH-FREE-SELECT';
 if(localStorage.getItem('zm_build_id')!==BUILD_ID){
   if(state.attempts<=0)state.attempts=25;
   localStorage.setItem('zm_build_id',BUILD_ID);
@@ -644,11 +644,12 @@ function hitAny(x,y){
   return best;
 }
 function canContinueSelection(el){
+  // TOUCH FIX V20: never reject a physically touched letter because the
+  // partial sequence is not a target-word prefix. The player must be able
+  // to freely drag across any wheel letter; validation happens on release.
   if(!el)return false;
   if(selected.includes(el))return true;
-  const candidate=norm(selected.map(e=>e.dataset.letter).join('')+el.dataset.letter);
-  if(!selected.length)return true;
-  return levelData.words.some(w=>norm(w).startsWith(candidate));
+  return true;
 }
 function add(el){
   if(!el)return;
@@ -710,115 +711,143 @@ function submit(){
   save();if(state.attempts<=0&&!finished)setTimeout(showAd,350);
 }
 let lastPointerX=0,lastPointerY=0;
-function letterUnderPointer(x,y){
-  const node=document.elementFromPoint(x,y);
-  const el=node&&node.closest?node.closest('#board .letter'):null;
-  return el&&document.getElementById('board').contains(el)?el:null;
-}
-function physicalHit(x,y){
-  const direct=letterUnderPointer(x,y);
-  if(direct)return direct;
-  const els=[...document.querySelectorAll('#board .letter')];
-  let best=null,bestD=Infinity;
+let activePointerId=null;
+let inputMode=null;
+
+function letterAtXY(x,y){
+  const board=document.getElementById('board');
+  if(!board)return null;
+  const els=[...board.querySelectorAll('.letter')];
+  let nearest=null,nearestD=Infinity;
   for(const el of els){
     const r=el.getBoundingClientRect();
-    const cx=r.left+r.width/2,cy=r.top+r.height/2;
-    const d=Math.hypot(x-cx,y-cy);
-    const radius=Math.min(30,Math.min(r.width,r.height)*0.58);
-    if(d<=radius && d<bestD){best=el;bestD=d;}
+    // First: exact physical hit inside the visible circle/box.
+    const cx=r.left+r.width/2, cy=r.top+r.height/2;
+    const dx=x-cx, dy=y-cy;
+    const rr=Math.min(r.width,r.height)*0.50;
+    if(dx*dx+dy*dy<=rr*rr)return el;
+    // Second: forgiving edge hit for finger movement.
+    const d=Math.hypot(dx,dy);
+    if(d<=38 && d<nearestD){nearest=el;nearestD=d;}
   }
-  return best;
+  return nearest;
 }
-function canContinueSelection(el){
-  if(!el)return false;
-  if(selected.includes(el))return true;
-  const candidate=norm(selected.map(e=>e.dataset.letter).join('')+el.dataset.letter);
-  if(!selected.length)return true;
-  return levelData.words.some(w=>norm(w).startsWith(candidate));
-}
-function add(el){
+
+function addTouchLetter(el){
   if(!el)return;
   const idx=selected.indexOf(el);
   if(idx!==-1){
     selected=selected.slice(0,idx+1);
-    document.querySelectorAll('.letter').forEach(x=>x.classList.toggle('selected',selected.includes(x)));
-    draw();return;
+    document.querySelectorAll('#board .letter').forEach(x=>x.classList.toggle('selected',selected.includes(x)));
+    draw();
+    return;
   }
-  if(!canContinueSelection(el))return;
-  selected.push(el);el.classList.add('selected');draw();
+  selected.push(el);
+  el.classList.add('selected');
+  draw();
 }
-function clearSelection(){selected=[];document.querySelectorAll('.letter').forEach(x=>x.classList.remove('selected'));draw();$('status').textContent='İlk harfe basılı tut, diğer harflerin üzerinden sürükle.';$('status').className='status neutral'}
-function advanceLevel(){ return goToNextLevel(); }
-function openCompletion(){
-  if(state.level>=2000)return;
-  clearTimeout(completionTimer);
-  const modal=$('completion');
-  if(!modal)return;
-  modal.classList.add('show');
-  document.body.classList.add('level-complete');
-}
-function submit(){
-  if(!dragging)return;
-  dragging=false;
-  const word=selected.map(e=>e.dataset.letter).join('');
-  const key=norm(word);
-  if(word.length<2){clearSelection();return;}
-  const foundKey=levelData.words.find(w=>norm(w)===key);
-  const found=safeJSON('zm_found_'+state.level);
-  const bonus=safeJSON('zm_bonus_'+state.level);
-  if(foundKey&&!found.includes(foundKey)){
-    if(state.attempts<=0){showAd();clearSelection();return}
-    state.attempts--;found.push(foundKey);roundScore+=100;state.score+=100;state.xp+=25;
-    while(state.xp>=100)state.xp-=100;
-    localStorage.setItem('zm_found_'+state.level,JSON.stringify(found));showToast('✓ '+foundKey+' bulundu! +100 puan');
-  } else if(!foundKey&&dictionary.has(key)&&!bonus.includes(word)){
-    if(state.attempts<=0){showAd();clearSelection();return}
-    state.attempts--;bonus.push(word);state.score+=isSpecialLevel()?50:25;roundScore+=isSpecialLevel()?50:25;
-    if(isSpecialLevel())state.gems+=5;
-    localStorage.setItem('zm_bonus_'+state.level,JSON.stringify(bonus));showToast('🔎 Bonus kelime: '+word+' +'+(isSpecialLevel()?50:25)+(isSpecialLevel()?' • +5 💎':''));
-  } else {
-    if(state.attempts<=0){showAd();clearSelection();return}
-    state.attempts--;showToast('✕ Bu kelime tanınmıyor.');
+
+function scanTouchPath(x1,y1,x2,y2){
+  // iPhone can coalesce touchmove events. Sample the whole path so a
+  // finger cannot jump over a letter between two browser events.
+  const dist=Math.hypot(x2-x1,y2-y1);
+  const steps=Math.max(1,Math.ceil(dist/7));
+  for(let i=1;i<=steps;i++){
+    const t=i/steps;
+    const x=x1+(x2-x1)*t;
+    const y=y1+(y2-y1)*t;
+    const el=letterAtXY(x,y);
+    if(el && !selected.includes(el)) addTouchLetter(el);
   }
-  clearSelection();
-  const after=safeJSON('zm_found_'+state.level);
-  const finished=after.length===levelData.words.length;
-  render();
-  if(finished){
-    $('status').textContent='🏁 BÖLÜM TAMAMLANDI!';$('status').className='status ok';
-    if(!localStorage.getItem('zm_completion_reward_'+state.level)){
-      state.gems+=10;localStorage.setItem('zm_completion_reward_'+state.level,'10');
-      if(isSpecialLevel()&&!localStorage.getItem('zm_special_reward_'+state.level)){const reward=specialRewardAmount();state.gems+=reward;localStorage.setItem('zm_special_reward_'+state.level,String(reward));}
-    }
-    save();clearTimeout(completionTimer);completionTimer=setTimeout(openCompletion,180);
-  }
-  save();if(state.attempts<=0&&!finished)setTimeout(showAd,350);
 }
-function startPoint(x,y){
-  const el=physicalHit(x,y);
-  if(!el)return;
+
+function startDragInput(x,y,id,mode){
+  if(dragging)return;
   if(state.attempts<=0){showAd();return;}
-  dragging=true;lastPointerX=x;lastPointerY=y;selected=[];
-  document.querySelectorAll('#board .letter').forEach(x=>x.classList.remove('selected'));
-  add(el);
+  const el=letterAtXY(x,y);
+  if(!el)return;
+  inputMode=mode;
+  activePointerId=id ?? null;
+  dragging=true;
+  selected=[];
+  lastPointerX=x;lastPointerY=y;
+  document.querySelectorAll('#board .letter').forEach(e=>e.classList.remove('selected'));
+  addTouchLetter(el);
 }
-function movePoint(x,y){
-  if(!dragging)return;
-  const el=physicalHit(x,y);
-  if(el&&!selected.includes(el)&&canContinueSelection(el))add(el);
+
+function moveDragInput(x,y,id,mode){
+  if(!dragging || inputMode!==mode)return;
+  if(id!==undefined && id!==null && activePointerId!==null && id!==activePointerId)return;
+  scanTouchPath(lastPointerX,lastPointerY,x,y);
   lastPointerX=x;lastPointerY=y;
 }
-function finishPoint(x,y){
-  if(!dragging)return;
-  const el=physicalHit(x,y);
-  if(el&&!selected.includes(el)&&canContinueSelection(el))add(el);
+
+function endDragInput(x,y,id,mode){
+  if(!dragging || inputMode!==mode)return;
+  if(id!==undefined && id!==null && activePointerId!==null && id!==activePointerId)return;
+  scanTouchPath(lastPointerX,lastPointerY,x,y);
+  dragging=false;
+  activePointerId=null;
+  inputMode=null;
   submit();
 }
-$('board').addEventListener('pointerdown',e=>{e.preventDefault();try{$('board').setPointerCapture?.(e.pointerId)}catch(_){ }startPoint(e.clientX,e.clientY)},{passive:false});
-$('board').addEventListener('pointermove',e=>{if(!dragging)return;e.preventDefault();movePoint(e.clientX,e.clientY)},{passive:false});
-$('board').addEventListener('pointerup',e=>{e.preventDefault();finishPoint(e.clientX,e.clientY);try{$('board').releasePointerCapture?.(e.pointerId)}catch(_){ }},{passive:false});
-$('board').addEventListener('pointercancel',e=>{e.preventDefault();dragging=false;clearSelection();try{$('board').releasePointerCapture?.(e.pointerId)}catch(_){ }},{passive:false});
-$('board').addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'&&dragging)finishPoint(e.clientX,e.clientY)});
+
+const boardEl=$('board');
+
+// POINTER EVENTS: primary path for iPhone/iPad/Android and desktop.
+boardEl.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse' && e.button!==0)return;
+  e.preventDefault();
+  startDragInput(e.clientX,e.clientY,e.pointerId,'pointer');
+},{passive:false,capture:true});
+
+boardEl.addEventListener('pointermove',e=>{
+  if(!dragging || inputMode!=='pointer')return;
+  e.preventDefault();
+  moveDragInput(e.clientX,e.clientY,e.pointerId,'pointer');
+},{passive:false,capture:true});
+
+boardEl.addEventListener('pointerup',e=>{
+  if(!dragging || inputMode!=='pointer')return;
+  e.preventDefault();
+  endDragInput(e.clientX,e.clientY,e.pointerId,'pointer');
+},{passive:false,capture:true});
+
+boardEl.addEventListener('pointercancel',e=>{
+  if(inputMode!=='pointer')return;
+  e.preventDefault();
+  dragging=false;activePointerId=null;inputMode=null;clearSelection();
+},{passive:false,capture:true});
+
+// TOUCH EVENTS: explicit fallback. A short delay/flag prevents duplicate
+// pointer+touch processing on browsers that expose both event families.
+boardEl.addEventListener('touchstart',e=>{
+  if(e.touches.length!==1)return;
+  if(dragging)return;
+  e.preventDefault();
+  const t=e.touches[0];
+  startDragInput(t.clientX,t.clientY,t.identifier,'touch');
+},{passive:false,capture:true});
+
+boardEl.addEventListener('touchmove',e=>{
+  if(!dragging || inputMode!=='touch' || e.touches.length!==1)return;
+  e.preventDefault();
+  const t=e.touches[0];
+  moveDragInput(t.clientX,t.clientY,t.identifier,'touch');
+},{passive:false,capture:true});
+
+boardEl.addEventListener('touchend',e=>{
+  if(!dragging || inputMode!=='touch')return;
+  e.preventDefault();
+  const t=e.changedTouches[0];
+  endDragInput(t.clientX,t.clientY,t.identifier,'touch');
+},{passive:false,capture:true});
+
+boardEl.addEventListener('touchcancel',e=>{
+  if(inputMode!=='touch')return;
+  e.preventDefault();
+  dragging=false;activePointerId=null;inputMode=null;clearSelection();
+},{passive:false,capture:true});
 
 $('shuffle').onclick=()=>{if(!tiles.length){tiles=buildTiles(levelData.words);tilesLevel=state.level;}tiles=shuffleArray(tiles);buildBoard(tiles);clearSelection();showToast('🔀 Harfler karıştırıldı')};
 $('hintBtn').onclick=()=>{
