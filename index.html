@@ -268,7 +268,7 @@ function safeNum(key, fallback, min=0, max=Infinity){
 }
 function safeJSON(key,fallback=[]){try{const v=JSON.parse(localStorage.getItem(key)||'');return Array.isArray(v)?v:fallback}catch(e){return fallback}}
 const state={level:Math.trunc(safeNum('zm_level',1,1,2000)),gems:safeNum('zm_gems',50,0),score:safeNum('zm_score',0,0),xp:safeNum('zm_xp',0,0,99),attempts:Math.trunc(safeNum('zm_attempts',25,0)),bonus:safeJSON('zm_bonus'),found:safeJSON('zm_found')};
-const BUILD_ID='V27-TOUCH-STABLE';
+const BUILD_ID='V28-LEVEL-COMPLETE-FIX';
 if(localStorage.getItem('zm_build_id')!==BUILD_ID){
   if(state.attempts<=0)state.attempts=25;
   localStorage.setItem('zm_build_id',BUILD_ID);
@@ -641,7 +641,7 @@ function openCompletion(){
  yaptığında, iki nokta arasındaki doğru parçasını tarar ve aradaki harfi kaçırmaz.
 */
 function submit(){
-  if(!dragging)return;
+  /* V28: submission must not depend on the touch gesture still being active. */
   dragging=false;
   const word=selected.map(e=>e.dataset.letter).join('');
   const key=norm(word);
@@ -672,6 +672,9 @@ function submit(){
   if(finished){
     $('status').textContent='🏁 BÖLÜM TAMAMLANDI!';
     $('status').className='status ok';
+    /* Make the next-level action explicit and immediately available. */
+    $('nextBtn').classList.add('show');
+    $('nextBtn').disabled=false;
     if(!localStorage.getItem('zm_completion_reward_'+state.level)){
       state.gems+=10;
       localStorage.setItem('zm_completion_reward_'+state.level,'10');
@@ -683,7 +686,11 @@ function submit(){
     }
     save();
     clearTimeout(completionTimer);
-    completionTimer=setTimeout(openCompletion,180);
+    completionTimer=setTimeout(()=>{
+      openCompletion();
+      $('nextBtn').classList.add('show');
+      $('nextBtn').disabled=false;
+    },180);
   }
   save();
   if(state.attempts<=0&&!finished)setTimeout(showAd,350);
