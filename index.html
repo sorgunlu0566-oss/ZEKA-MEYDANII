@@ -268,7 +268,7 @@ function safeNum(key, fallback, min=0, max=Infinity){
 }
 function safeJSON(key,fallback=[]){try{const v=JSON.parse(localStorage.getItem(key)||'');return Array.isArray(v)?v:fallback}catch(e){return fallback}}
 const state={level:Math.trunc(safeNum('zm_level',1,1,2000)),gems:safeNum('zm_gems',50,0),score:safeNum('zm_score',0,0),xp:safeNum('zm_xp',0,0,99),attempts:Math.trunc(safeNum('zm_attempts',25,0)),bonus:safeJSON('zm_bonus'),found:safeJSON('zm_found')};
-const BUILD_ID='V20.1-TOUCH-TAP-DRAG-FIX';
+const BUILD_ID='V20.2-TOUCH-ENGINE-FIX';
 if(localStorage.getItem('zm_build_id')!==BUILD_ID){
   if(state.attempts<=0)state.attempts=25;
   localStorage.setItem('zm_build_id',BUILD_ID);
@@ -692,14 +692,16 @@ let lastPointerX=0,lastPointerY=0;
 let gestureStartX=0,gestureStartY=0;
 let gestureMoved=false;
 let letterHitCache=[];
+let drawQueued=false;
 
-/* V20.1 TOUCH FIX
-   - Tap-to-build now really works: every tap adds exactly one letter.
-   - A short tap no longer scans the whole line from the first letter.
-   - Drag mode still scans the path between pointer events, so iPhone can skip
-     intermediate move events without losing letters.
-   - The current chain is preserved between taps until a word is submitted
-     or the player deliberately starts a new chain.
+/* V20.2 TOUCH ENGINE
+   iPhone için sade ve deterministik seçim:
+   - TAP: her dokunuş tam olarak bir harf ekler.
+   - DRAG: parmağın gerçekten geçtiği harf eklenir; büyük hit alanları
+     küçültüldü, böylece yakın harfler yanlışlıkla seçilmez.
+   - Render/DOM ölçümü hareket sırasında yapılmaz.
+   - Çizim requestAnimationFrame ile birleştirilir; telefon gereksiz yere
+     sürekli yeniden çizilmez.
 */
 function refreshLetterHitCache(){
   const board=$('board');
@@ -711,12 +713,12 @@ function refreshLetterHitCache(){
     return {
       el,cx,cy,
       rx:cx-br.left,ry:cy-br.top,
-      radius:Math.max(30,Math.min(50,r.width*0.66))
+      radius:Math.max(24,Math.min(32,r.width*0.52))
     };
   });
 }
 
-function pointToLetter(x,y,allowSelected=false){
+function nearestLetter(x,y,allowSelected=false){
   let best=null,bestD=Infinity;
   for(const item of letterHitCache){
     if(!allowSelected && selected.includes(item.el))continue;
@@ -724,6 +726,10 @@ function pointToLetter(x,y,allowSelected=false){
     if(d<=item.radius && d<bestD){best=item.el;bestD=d;}
   }
   return best;
+}
+
+function pointToLetter(x,y,allowSelected=false){
+  return nearestLetter(x,y,allowSelected);
 }
 
 function segmentHitCandidates(x1,y1,x2,y2){
@@ -742,13 +748,22 @@ function segmentHitCandidates(x1,y1,x2,y2){
   return hits;
 }
 
+function queueDraw(){
+  if(drawQueued)return;
+  drawQueued=true;
+  requestAnimationFrame(()=>{
+    drawQueued=false;
+    draw();
+  });
+}
+
 function processPointerPath(x,y){
   const hits=segmentHitCandidates(lastPointerX,lastPointerY,x,y);
   for(const h of hits)add(h.item.el);
   const direct=pointToLetter(x,y);
   if(direct)add(direct);
   lastPointerX=x;lastPointerY=y;
-  draw();
+  queueDraw();
 }
 
 function startDragInput(x,y,id){
@@ -766,10 +781,27 @@ function startDragInput(x,y,id){
   lastPointerX=x;
   lastPointerY=y;
   gestureMoved=false;
-
-  // IMPORTANT: do NOT clear an existing selection here.
-  // This makes tap-by-tap word building possible on iPhone.
   add(el);
+}
+
+function finishSelection(){
+  const word=norm(selected.map(e=>e.dataset.letter).join(''));
+  if(!word || word.length<2)return;
+  const exact=levelData.words.some(w=>norm(w)===word);
+  const prefix=levelData.words.some(w=>norm(w).startsWith(word));
+  if(exact){
+    submit();
+  }else if(prefix){
+    $('status').textContent='🔤 '+selected.map(e=>e.dataset.letter).join('');
+    $('status').className='status neutral';
+    queueDraw();
+  }else{
+    const last=selected[selected.length-1];
+    clearSelection();
+    if(last)add(last);
+    $('status').textContent='🔤 '+(last?last.dataset.letter:'');
+    $('status').className='status neutral';
+  }
 }
 
 function endDragInput(x,y,id,cancel){
@@ -783,32 +815,13 @@ function endDragInput(x,y,id,cancel){
     return;
   }
 
-  const totalMoved=Math.hypot(x-gestureStartX,y-gestureStartY);
-  if(totalMoved>=10)gestureMoved=true;
-
-  // Only a real drag processes the path. A tap must add ONLY the tapped letter.
   if(gestureMoved)processPointerPath(x,y);
-  else { lastPointerX=x; lastPointerY=y; }
-
-  const word=norm(selected.map(e=>e.dataset.letter).join(''));
-  const exact=levelData.words.some(w=>norm(w)===word);
-  const prefix=levelData.words.some(w=>norm(w).startsWith(word));
-
-  if(exact){
-    submit();
-  }else if(prefix){
-    $('status').textContent='🔤 '+selected.map(e=>e.dataset.letter).join('');
-    $('status').className='status neutral';
-    draw();
-  }else{
-    // Invalid chain: keep the last tapped letter as the start of a new word.
-    const last=selected[selected.length-1];
-    clearSelection();
-    if(last)add(last);
-    $('status').textContent='🔤 '+(last?last.dataset.letter:'');
-    $('status').className='status neutral';
+  else {
+    lastPointerX=x;
+    lastPointerY=y;
   }
 
+  finishSelection();
   dragging=false;
   activePointerId=null;
   gestureMoved=false;
@@ -821,7 +834,6 @@ boardEl.style.userSelect='none';
 
 window.addEventListener('resize',()=>{
   letterHitCache=[];
-  if(!dragging)selected=[];
 },{passive:true});
 
 window.addEventListener('scroll',()=>{
@@ -838,15 +850,9 @@ boardEl.addEventListener('pointerdown',e=>{
 boardEl.addEventListener('pointermove',e=>{
   if(!dragging || e.pointerId!==activePointerId)return;
   e.preventDefault();
-
-  if(Math.hypot(e.clientX-gestureStartX,e.clientY-gestureStartY)>=10){
-    gestureMoved=true;
-  }
+  const moved=Math.hypot(e.clientX-gestureStartX,e.clientY-gestureStartY);
+  if(moved>=10)gestureMoved=true;
   if(gestureMoved)processPointerPath(e.clientX,e.clientY);
-  else{
-    lastPointerX=e.clientX;
-    lastPointerY=e.clientY;
-  }
 },{passive:false});
 
 boardEl.addEventListener('pointerup',e=>{
