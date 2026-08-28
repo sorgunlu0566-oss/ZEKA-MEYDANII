@@ -1,11 +1,5 @@
 
-      if(!placed){
-        const y=wi*2; const coords=[]; for(let i=0;i<w.length;i++){const x=fx+i,c={x,y,i};coords.push(c);g.set(cellKey(x,y),{letter:w[i],words:[w]});} pm.set(w,coords);
-      }
-    }
-    const all=[...g.keys()].map(k=>k.split(',').map(Number));
-    crossword={cells:g,words:pm,minX:Math.min(...all.map(a=>a[0])),maxX:Math.max(...all.map(a=>a[0])),minY:Math.min(...all.map(a=>a[1])),maxY:Math.max(...all.map(a=>a[1]))};
-  }
+      
   const grid=$('wordGrid');grid.innerHTML='';
   const cols=crossword.maxX-crossword.minX+1,rows=crossword.maxY-crossword.minY+1;
   const area=$('wordArea');
